@@ -4,13 +4,22 @@ import { StyleSheet } from 'react-native';
 // React navigator
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 // Screens
 import WelcomeLocationModal from './Screens/WelcomeLocationModal';
 import HomeComponent from './Screens/Home';
+import TripsComponent from './Screens/Trips';
 
+// Tab bar
+import BottomNavBar from './Components/Navbar';
+
+// Navigation - Stack
 const RootStack = createStackNavigator();
 const MainStack = createStackNavigator();
+
+// Navigation - Bottom tabs
+const Tab = createBottomTabNavigator();
 
 const App = () => {
   return (
@@ -36,10 +45,15 @@ const App = () => {
 // Main stack
 const MainStackScreen = () => {
   return (
-    <MainStack.Navigator>
-      {/* Home screen */}
-      <MainStack.Screen name="Home" component={HomeComponent} />
-    </MainStack.Navigator>
+    <Tab.Navigator tabBar={(props) => <BottomNavBar {...props} />}>
+      <Tab.Screen name="Home" component={HomeComponent} />
+      <Tab.Screen name="Trips" component={TripsComponent} />
+      {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
+    </Tab.Navigator>
+    // <MainStack.Navigator>
+    //   {/* Home screen */}
+    //   <MainStack.Screen name="Home" component={HomeComponent} />
+    // </MainStack.Navigator>
   );
 };
 

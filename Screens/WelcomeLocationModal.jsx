@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-// npm i react-native-location
+// expo install expo-location
 // LOCATION
 import * as Location from 'expo-location';
 

@@ -2,14 +2,14 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const Home = () => {
+const Trips = () => {
   return (
     <SafeAreaView>
       <View>
-        <Text>HOMEPAGE</Text>
+        <Text>Trips screen</Text>
       </View>
     </SafeAreaView>
   );
 };
 
-export default Home;
+export default Trips;
