@@ -2,6 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+// Redux
+import { useSelector, useDispatch } from 'react-redux';
+import changeDataOne from '../actionCreators/changeDataOne';
+
 // expo install expo-location
 // LOCATION
 import * as Location from 'expo-location';
@@ -11,15 +15,22 @@ const LocationComponent = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
+  // Redux location from store
+  const reduxLocationValue = useSelector((state) => state.dataOneProperty);
+
+  // dispatches actions to redux
+  const dispatch = useDispatch();
+
   // CALL TO LOCATION API
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
       setErrorMsg('Permission to access location was denied');
-      return;
+      return console.error(errorMsg);
     }
-    let location = await Location.getCurrentPositionAsync({});
-    setLocation(location);
+    let locationResult = await Location.getCurrentPositionAsync({});
+    setLocation(locationResult);
+    dispatch(changeDataOne(locationResult));
   };
 
   return (
@@ -27,10 +38,20 @@ const LocationComponent = ({ navigation }) => {
       <TouchableOpacity style={styles.button} onPress={() => getLocation()}>
         <Text>Touch to get location</Text>
       </TouchableOpacity>
-      <Text>Latitude = {location ? location.coords.latitude : 'pending'}</Text>
       <Text>
-        Longitude = {location ? location.coords.longitude : 'pending'}
+        Latitude ={' '}
+        {reduxLocationValue ? reduxLocationValue.coords.latitude : 'pending'}
       </Text>
+      <Text>
+        Longitude ={' '}
+        {reduxLocationValue ? reduxLocationValue.coords.longitude : 'pending'}
+      </Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => console.log(reduxLocationValue)}
+      >
+        <Text>get redux data</Text>
+      </TouchableOpacity>
     </View>
   );
 };

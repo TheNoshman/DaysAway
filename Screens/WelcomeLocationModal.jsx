@@ -1,28 +1,38 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-// expo install expo-location
+// Redux
+import { useSelector, useDispatch } from 'react-redux';
+import changeDataOne from '../actionCreators/changeDataOne';
+
 // LOCATION
 import * as Location from 'expo-location';
 
 const WelcomeLocationModal = ({ navigation }) => {
   // LOCATION STATE
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
+  let [location, setLocation] = useState(null);
+  let [errorMsg, setErrorMsg] = useState(null);
+
+  // Redux location from store
+  const reduxLocationValue = useSelector((state) => state.dataOneProperty);
+
+  // dispatches actions to redux
+  const dispatch = useDispatch();
 
   // CALL TO LOCATION API
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
       setErrorMsg('Permission to access location was denied');
-      return;
+      return console.error(errorMsg);
     }
-    let location = await Location.getCurrentPositionAsync({});
-    setLocation(location);
+    let locationResult = await Location.getCurrentPositionAsync({});
+    setLocation(locationResult);
+    dispatch(changeDataOne(locationResult));
   };
 
-  // OnPress handler - closes modal and navs to Home page
+  // 'Enter' navigation handler - closes modal and navs to Home page
   const handleSubmit = useCallback(() => {
     navigation.navigate('Main');
   }, []);
@@ -32,12 +42,22 @@ const WelcomeLocationModal = ({ navigation }) => {
       <TouchableOpacity style={styles.button} onPress={() => getLocation()}>
         <Text>Touch to get location</Text>
       </TouchableOpacity>
-      <Text>Latitude = {location ? location.coords.latitude : 'pending'}</Text>
       <Text>
-        Longitude = {location ? location.coords.longitude : 'pending'}
+        Latitude ={' '}
+        {reduxLocationValue ? reduxLocationValue.coords.latitude : 'pending'}
+      </Text>
+      <Text>
+        Longitude ={' '}
+        {reduxLocationValue ? reduxLocationValue.coords.longitude : 'pending'}
       </Text>
       <TouchableOpacity style={styles.button} onPress={() => handleSubmit()}>
         <Text>Touch to enter</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => console.log(reduxLocationValue)}
+      >
+        <Text>get redux data</Text>
       </TouchableOpacity>
     </View>
   );

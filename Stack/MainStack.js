@@ -1,5 +1,4 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Button } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -34,7 +33,7 @@ function MainStack({ navigation }) {
         },
       })}
       tabBarOptions={{
-        activeTintColor: 'cornflowerblue',
+        activeTintColor: 'orange',
         inactiveTintColor: 'gray',
       }}
       initialRouteName={'Home'}
