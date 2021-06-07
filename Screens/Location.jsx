@@ -11,9 +11,8 @@ import changeUserLocation from '../actionCreators/changeUserLocation';
 import * as Location from 'expo-location';
 
 const LocationComponent = ({ navigation }) => {
-  // LOCATION STATE
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
+  // LOCATION API ERROR STATE
+  let [errorMsg, setErrorMsg] = useState(null);
 
   // Redux location from store
   const reduxLocationValue = useSelector((state) => state.reduxUserLocation);
@@ -29,7 +28,6 @@ const LocationComponent = ({ navigation }) => {
       return console.error(errorMsg);
     }
     let locationResult = await Location.getCurrentPositionAsync({});
-    setLocation(locationResult);
     dispatch(changeUserLocation(locationResult));
   };
 
