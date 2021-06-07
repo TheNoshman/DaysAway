@@ -32,7 +32,8 @@ const WelcomeLocationModal = ({ navigation }) => {
     let locationResult = await Location.getCurrentPositionAsync({});
     dispatch(changeUserLocationAction(locationResult));
 
-    console.log('get user stations = ', findLocalTrainStations(locationResult));
+    const stationList = await findLocalTrainStations(locationResult);
+    console.log('station list in modal = ', stationList.member);
   };
 
   // 'Enter' navigation handler - closes modal and navs to Home page
