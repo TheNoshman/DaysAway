@@ -13,7 +13,7 @@ import MainStack from './Stack/MainStack';
 
 // Redux
 import { Provider } from 'react-redux';
-import store from './store';
+import store from './reduxStore';
 
 // Navigation - Stack
 const RootStack = createStackNavigator();
