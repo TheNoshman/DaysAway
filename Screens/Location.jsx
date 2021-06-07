@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -8,32 +8,26 @@ import changeUserLocationAction from '../actionCreators/changeUserLocationAction
 
 // expo install expo-location
 // LOCATION
-import * as Location from 'expo-location';
+import { getLocationAPI } from '../serviceAPI';
 
 // SERVICE API
 import { findLocalTrainStations } from '../serviceAPI';
+import changeLocalTrainStationsAction from '../actionCreators/changeLocalTrainStationsAction';
 
 const LocationComponent = ({ navigation }) => {
-  // LOCATION API ERROR STATE
-  let [errorMsg, setErrorMsg] = useState(null);
-
-  // Redux location from store
+  // Redux values from store
   const reduxLocationValue = useSelector((state) => state.reduxUserLocation);
+  const reduxStationList = useSelector((state) => state.reduxTrainStationList);
 
   // dispatches actions to redux
   const dispatch = useDispatch();
 
   // CALL TO LOCATION API
   const getLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') {
-      setErrorMsg('Permission to access location was denied');
-      return console.error(errorMsg);
-    }
-    let locationResult = await Location.getCurrentPositionAsync({});
+    const locationResult = await getLocationAPI();
     dispatch(changeUserLocationAction(locationResult));
-
-    console.log('get user stations = ', findLocalTrainStations(locationResult));
+    const stationList = await findLocalTrainStations(locationResult);
+    dispatch(changeLocalTrainStationsAction(stationList));
   };
 
   return (
@@ -54,6 +48,12 @@ const LocationComponent = ({ navigation }) => {
         onPress={() => console.log(reduxLocationValue)}
       >
         <Text>get redux data</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => console.log(reduxStationList.member)}
+      >
+        <Text>get station data</Text>
       </TouchableOpacity>
     </View>
   );

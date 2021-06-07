@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -7,31 +7,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import changeUserLocationAction from '../actionCreators/changeUserLocationAction';
 
 // LOCATION
-import * as Location from 'expo-location';
+import { getLocationAPI } from '../serviceAPI';
 
 // SERVICE API
 import { findLocalTrainStations } from '../serviceAPI';
 import changeLocalTrainStationsAction from '../actionCreators/changeLocalTrainStationsAction';
 
 const WelcomeLocationModal = ({ navigation }) => {
-  // LOCATION API ERROR STATE
-  let [errorMsg, setErrorMsg] = useState(null);
-
-  // Redux location from store
+  // Redux values from store
   const reduxLocationValue = useSelector((state) => state.reduxUserLocation);
-  const reduxStationData = useSelector((state) => state.reduxTrainStationList);
+  const reduxStationList = useSelector((state) => state.reduxTrainStationList);
 
   // dispatches actions to redux
   const dispatch = useDispatch();
 
   // CALL TO LOCATION API
   const getLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') {
-      setErrorMsg('Permission to access location was denied');
-      return console.error(errorMsg);
-    }
-    let locationResult = await Location.getCurrentPositionAsync({});
+    const locationResult = await getLocationAPI();
     dispatch(changeUserLocationAction(locationResult));
     const stationList = await findLocalTrainStations(locationResult);
     dispatch(changeLocalTrainStationsAction(stationList));
@@ -48,7 +40,8 @@ const WelcomeLocationModal = ({ navigation }) => {
         [{ text: 'Lets go!' }],
       );
     }
-  }, [reduxLocationValue]);
+    // Added dependency, might cause issues later
+  }, [reduxLocationValue, navigation]);
 
   return (
     <View style={styles.container}>
@@ -74,7 +67,7 @@ const WelcomeLocationModal = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => console.log(reduxStationData.member)}
+        onPress={() => console.log(reduxStationList.member)}
       >
         <Text>get station data</Text>
       </TouchableOpacity>

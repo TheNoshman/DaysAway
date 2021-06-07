@@ -1,8 +1,19 @@
+import * as Location from 'expo-location';
+
 // npm install babel-plugin-inline-dotenv
 // .ENV VARIABLES
 const { API_KEY } = process.env;
 const { API_ID } = process.env;
 const { TRANSPORT_TRAIN_STATION_URL } = process.env;
+
+export const getLocationAPI = async () => {
+  let { status } = await Location.requestForegroundPermissionsAsync();
+  if (status !== 'granted') {
+    return console.error('Permission to access location was denied');
+  }
+  const locationResult = await Location.getCurrentPositionAsync({});
+  return locationResult;
+};
 
 // LOCAL TRAIN STATIONS GET REQUEST
 export const findLocalTrainStations = (userLocationData) => {
