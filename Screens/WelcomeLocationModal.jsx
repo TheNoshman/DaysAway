@@ -1,5 +1,5 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // REDUX
@@ -37,8 +37,16 @@ const WelcomeLocationModal = ({ navigation }) => {
 
   // 'Enter' navigation handler - closes modal and navs to Home page
   const handleSubmit = useCallback(() => {
-    navigation.navigate('Main');
-  }, []);
+    if (reduxLocationValue.timestamp !== 0) {
+      navigation.navigate('Main');
+    } else {
+      Alert.alert(
+        'No location found',
+        'Please pinpoint your current location',
+        [{ text: 'Lets go!' }],
+      );
+    }
+  }, [reduxLocationValue]);
 
   return (
     <View style={styles.container}>

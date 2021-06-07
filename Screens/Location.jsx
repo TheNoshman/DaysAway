@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -9,6 +9,9 @@ import changeUserLocationAction from '../actionCreators/changeUserLocationAction
 // expo install expo-location
 // LOCATION
 import * as Location from 'expo-location';
+
+// SERVICE API
+import { findLocalTrainStations } from '../serviceAPI';
 
 const LocationComponent = ({ navigation }) => {
   // LOCATION API ERROR STATE
@@ -29,6 +32,8 @@ const LocationComponent = ({ navigation }) => {
     }
     let locationResult = await Location.getCurrentPositionAsync({});
     dispatch(changeUserLocationAction(locationResult));
+
+    console.log('get user stations = ', findLocalTrainStations(locationResult));
   };
 
   return (
