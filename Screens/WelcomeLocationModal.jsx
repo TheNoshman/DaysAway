@@ -11,6 +11,7 @@ import * as Location from 'expo-location';
 
 // SERVICE API
 import { findLocalTrainStations } from '../serviceAPI';
+import changeLocalTrainStationsAction from '../actionCreators/changeLocalTrainStationsAction';
 
 const WelcomeLocationModal = ({ navigation }) => {
   // LOCATION API ERROR STATE
@@ -18,6 +19,7 @@ const WelcomeLocationModal = ({ navigation }) => {
 
   // Redux location from store
   const reduxLocationValue = useSelector((state) => state.reduxUserLocation);
+  const reduxStationData = useSelector((state) => state.reduxTrainStationList);
 
   // dispatches actions to redux
   const dispatch = useDispatch();
@@ -31,9 +33,8 @@ const WelcomeLocationModal = ({ navigation }) => {
     }
     let locationResult = await Location.getCurrentPositionAsync({});
     dispatch(changeUserLocationAction(locationResult));
-
     const stationList = await findLocalTrainStations(locationResult);
-    console.log('station list in modal = ', stationList.member);
+    dispatch(changeLocalTrainStationsAction(stationList));
   };
 
   // 'Enter' navigation handler - closes modal and navs to Home page
@@ -70,6 +71,12 @@ const WelcomeLocationModal = ({ navigation }) => {
         onPress={() => console.log(reduxLocationValue)}
       >
         <Text>get redux data</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => console.log(reduxStationData.member)}
+      >
+        <Text>get station data</Text>
       </TouchableOpacity>
     </View>
   );
