@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import dataOneReducer from './dataOne';
+import userLocationReducer from './userLocationReducer';
 
 export default combineReducers({
-  dataOneProperty: dataOneReducer,
+  reduxUserLocation: userLocationReducer,
 });

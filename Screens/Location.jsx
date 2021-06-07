@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import changeDataOne from '../actionCreators/changeDataOne';
+import changeUserLocation from '../actionCreators/changeUserLocation';
 
 // expo install expo-location
 // LOCATION
@@ -16,7 +16,7 @@ const LocationComponent = ({ navigation }) => {
   const [errorMsg, setErrorMsg] = useState(null);
 
   // Redux location from store
-  const reduxLocationValue = useSelector((state) => state.dataOneProperty);
+  const reduxLocationValue = useSelector((state) => state.reduxUserLocation);
 
   // dispatches actions to redux
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const LocationComponent = ({ navigation }) => {
     }
     let locationResult = await Location.getCurrentPositionAsync({});
     setLocation(locationResult);
-    dispatch(changeDataOne(locationResult));
+    dispatch(changeUserLocation(locationResult));
   };
 
   return (

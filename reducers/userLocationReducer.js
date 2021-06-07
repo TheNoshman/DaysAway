@@ -1,6 +1,7 @@
 // REDUCER
 
-export default function dataOneReducer(
+export default function userLocationReducer(
+  // Default state
   state = {
     timestamp: 0,
     mocked: false,
@@ -17,7 +18,7 @@ export default function dataOneReducer(
   action,
 ) {
   switch (action.type) {
-    case 'CHANGE_DATA':
+    case 'CHANGE_USER_LOCATION':
       console.log('in case, payload = ', action.payload);
 
       return action.payload;
