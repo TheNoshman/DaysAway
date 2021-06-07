@@ -2,12 +2,15 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-// Redux
+// REDUX
 import { useSelector, useDispatch } from 'react-redux';
 import changeUserLocationAction from '../actionCreators/changeUserLocationAction';
 
 // LOCATION
 import * as Location from 'expo-location';
+
+// SERVICE API
+import { findLocalTrainStations } from '../serviceAPI';
 
 const WelcomeLocationModal = ({ navigation }) => {
   // LOCATION API ERROR STATE
@@ -28,6 +31,8 @@ const WelcomeLocationModal = ({ navigation }) => {
     }
     let locationResult = await Location.getCurrentPositionAsync({});
     dispatch(changeUserLocationAction(locationResult));
+
+    console.log('get user stations = ', findLocalTrainStations(locationResult));
   };
 
   // 'Enter' navigation handler - closes modal and navs to Home page
