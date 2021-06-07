@@ -19,8 +19,7 @@ export default function userLocationReducer(
 ) {
   switch (action.type) {
     case 'CHANGE_USER_LOCATION':
-      console.log('in case, payload = ', action.payload);
-
+      console.log('in reducer, case triggered, payload = ', action.payload);
       return action.payload;
     default:
       // If nothing changes, still return state

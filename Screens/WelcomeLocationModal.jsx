@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import changeUserLocation from '../actionCreators/changeUserLocation';
+import changeUserLocationAction from '../actionCreators/changeUserLocationAction';
 
 // LOCATION
 import * as Location from 'expo-location';
@@ -27,7 +27,7 @@ const WelcomeLocationModal = ({ navigation }) => {
       return console.error(errorMsg);
     }
     let locationResult = await Location.getCurrentPositionAsync({});
-    dispatch(changeUserLocation(locationResult));
+    dispatch(changeUserLocationAction(locationResult));
   };
 
   // 'Enter' navigation handler - closes modal and navs to Home page
