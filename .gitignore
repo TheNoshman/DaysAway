@@ -66,6 +66,8 @@ node_modules
 /bots/node_modules/
 package-lock.json
 .env
+.env.production
+.env.development
 
 # OS X
 .DS_Store
