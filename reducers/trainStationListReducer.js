@@ -2,7 +2,7 @@
 
 export default function trainStationListReducer(
   // Default state
-  state = [{ label: 'station name', value: 'tiploc_code' }],
+  state = [{ label: 'station name', value: 'station_code' }],
   action,
 ) {
   switch (action.type) {

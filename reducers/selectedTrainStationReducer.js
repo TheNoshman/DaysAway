@@ -2,7 +2,7 @@
 
 export default function selectedTrainStationReducer(
   // Default state
-  state = 'tiploc_code',
+  state = 'station_code',
   action,
 ) {
   switch (action.type) {

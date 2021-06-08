@@ -36,7 +36,7 @@ const LocationComponent = ({ navigation }) => {
     dispatch(changeUserLocationAction(locationResult));
     const stationAPIResult = await findLocalTrainStations(locationResult);
     const stationList = stationAPIResult.member.map((el) => {
-      return { label: el.name, value: el.tiploc_code };
+      return { label: el.name, value: el.station_code };
     });
     dispatch(changeLocalTrainStationsAction(stationList));
   };
