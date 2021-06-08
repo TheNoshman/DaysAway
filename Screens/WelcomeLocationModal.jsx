@@ -13,21 +13,23 @@ import { getLocationAPI } from '../serviceAPI';
 // SERVICE API
 import { findLocalTrainStations } from '../serviceAPI';
 import changeLocalTrainStationsAction from '../actionCreators/changeLocalTrainStationsAction';
+import changeSelectedTrainStationAction from '../actionCreators/changeSelectedTrainStationAction';
 
 // STATION PICKER SELECT
 import RNPickerSelect from 'react-native-picker-select';
 
 const WelcomeLocationModal = ({ navigation }) => {
+  // ################## VARIABLES ##################
   // Redux values from store
   const reduxLocationValue = useSelector((state) => state.reduxUserLocation);
   const reduxStationList = useSelector((state) => state.reduxTrainStationList);
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
   );
-
   // dispatches actions to redux
   const dispatch = useDispatch();
 
+  // ################## FUNCTIONS ##################
   // CALL TO LOCATION API, SAVES LOCATION AND STATION LIST TO REDUX
   const getLocation = async () => {
     const locationResult = await getLocationAPI();
@@ -38,21 +40,27 @@ const WelcomeLocationModal = ({ navigation }) => {
     });
     dispatch(changeLocalTrainStationsAction(stationList));
   };
-
   // 'Enter' navigation handler - closes modal and navs to Home page
   const handleSubmit = useCallback(() => {
-    if (reduxLocationValue.timestamp !== 0) {
-      navigation.navigate('Main');
-    } else {
+    if (reduxLocationValue.timestamp === 0) {
       Alert.alert(
         'No location found',
         'Please pinpoint your current location',
         [{ text: 'Lets go!' }],
       );
+    } else if (reduxSelectedStation === 'tiploc_code') {
+      Alert.alert(
+        'No station selected',
+        'Please select the train station you would like to depart from.',
+        [{ text: 'Lets go!' }],
+      );
+    } else {
+      navigation.navigate('Main');
     }
     // Added dependency, might cause issues later
-  }, [reduxLocationValue, navigation]);
+  }, [reduxLocationValue, navigation, reduxSelectedStation]);
 
+  // ################## RENDER COMPONENT ##################
   return (
     <View style={styles.container}>
       {/* GET LOCATION TOUCHABLE */}
@@ -78,7 +86,9 @@ const WelcomeLocationModal = ({ navigation }) => {
               right: 18,
             },
           }}
-          onValueChange={(value) => console.log(value)}
+          onValueChange={(value) =>
+            dispatch(changeSelectedTrainStationAction(value))
+          }
           useNativeAndroidPickerStyle={false}
           placeholder={{ label: 'Select a station...', value: null }}
           Icon={() => {
@@ -116,6 +126,7 @@ const WelcomeLocationModal = ({ navigation }) => {
   );
 };
 
+// ################## STYLES ##################
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -142,9 +153,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     color: 'black',
     paddingRight: 30, // to ensure the text is never behind the icon
-  },
-  disabled: {
-    backgroundColor: 'grey',
   },
 });
 
