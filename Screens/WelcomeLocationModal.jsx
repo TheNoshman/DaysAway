@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // REDUX
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,6 +13,9 @@ import { getLocationAPI } from '../serviceAPI';
 // SERVICE API
 import { findLocalTrainStations } from '../serviceAPI';
 import changeLocalTrainStationsAction from '../actionCreators/changeLocalTrainStationsAction';
+
+// STATION PICKER SELECT
+import RNPickerSelect from 'react-native-picker-select';
 
 const WelcomeLocationModal = ({ navigation }) => {
   // Redux values from store
@@ -56,6 +60,32 @@ const WelcomeLocationModal = ({ navigation }) => {
         Longitude ={' '}
         {reduxLocationValue ? reduxLocationValue.coords.longitude : 'pending'}
       </Text>
+
+      <Text>Choose a station:</Text>
+      <RNPickerSelect
+        style={{
+          ...styles,
+          iconContainer: {
+            top: 18,
+            right: 18,
+          },
+        }}
+        onValueChange={(value) => console.log(value)}
+        useNativeAndroidPickerStyle={false}
+        placeholder={{ label: 'Select your favourite language', value: null }}
+        Icon={() => {
+          return <Ionicons name="md-arrow-down" size={24} color="gray" />;
+        }}
+        items={[
+          { label: 'JavaScript', value: 'JavaScript' },
+          { label: 'TypeStript', value: 'TypeStript' },
+          { label: 'Python', value: 'Python' },
+          { label: 'Java', value: 'Java' },
+          { label: 'C++', value: 'C++' },
+          { label: 'C', value: 'C' },
+        ]}
+      />
+
       <TouchableOpacity style={styles.button} onPress={() => handleSubmit()}>
         <Text>Touch to enter</Text>
       </TouchableOpacity>
@@ -89,6 +119,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
+  },
+  inputAndroid: {
+    width: 300,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginHorizontal: 10,
+    marginVertical: 10,
+    borderWidth: 2,
+    borderColor: 'black',
+    borderRadius: 5,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
 
