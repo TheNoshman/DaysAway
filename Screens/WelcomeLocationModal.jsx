@@ -19,8 +19,6 @@ import RNPickerSelect from 'react-native-picker-select';
 import { useState } from 'react/cjs/react.development';
 
 const WelcomeLocationModal = ({ navigation }) => {
-  const [localStationListState, setLocalStationListState] = useState([]);
-
   // Redux values from store
   const reduxLocationValue = useSelector((state) => state.reduxUserLocation);
   const reduxStationList = useSelector((state) => state.reduxTrainStationList);
@@ -32,9 +30,14 @@ const WelcomeLocationModal = ({ navigation }) => {
   const getLocation = async () => {
     const locationResult = await getLocationAPI();
     dispatch(changeUserLocationAction(locationResult));
-    const stationList = await findLocalTrainStations(locationResult);
+    const stationAPIResult = await findLocalTrainStations(locationResult);
+
+    const stationList = stationAPIResult.member.map((el) => {
+      return { label: el.name, value: el.tiploc_code };
+    });
+    console.log('lst = ', stationList);
+
     dispatch(changeLocalTrainStationsAction(stationList));
-    selectStationDropdown(stationList);
   };
 
   // 'Enter' navigation handler - closes modal and navs to Home page
@@ -50,20 +53,6 @@ const WelcomeLocationModal = ({ navigation }) => {
     }
     // Added dependency, might cause issues later
   }, [reduxLocationValue, navigation]);
-
-  // Creates list of stations for use with dropdown selector
-  const selectStationDropdown = useCallback((stationList) => {
-    setLocalStationListState([]);
-    stationList.member.forEach((el) => {
-      setLocalStationListState((state) => [
-        ...state,
-        {
-          label: el.name,
-          value: el.tiploc_code,
-        },
-      ]);
-    });
-  }, []);
 
   // Handles station selection
 
@@ -81,7 +70,8 @@ const WelcomeLocationModal = ({ navigation }) => {
         {reduxLocationValue ? reduxLocationValue.coords.longitude : 'pending'}
       </Text>
 
-      {localStationListState.length ? (
+      {/* STATION PICKER */}
+      {reduxStationList.length > 1 ? (
         <RNPickerSelect
           style={{
             ...styles,
@@ -96,7 +86,7 @@ const WelcomeLocationModal = ({ navigation }) => {
           Icon={() => {
             return <Ionicons name="md-arrow-down" size={24} color="red" />;
           }}
-          items={localStationListState}
+          items={reduxStationList}
         />
       ) : null}
 
@@ -109,17 +99,11 @@ const WelcomeLocationModal = ({ navigation }) => {
         style={styles.button}
         onPress={() => console.log(reduxLocationValue)}
       >
-        <Text>get redux data</Text>
+        <Text>get redux station data</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => console.log(reduxStationList.member)}
-      >
-        <Text>get station data</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log(localStationListState)}
+        onPress={() => console.log(reduxStationList)}
       >
         <Text>get state</Text>
       </TouchableOpacity>
