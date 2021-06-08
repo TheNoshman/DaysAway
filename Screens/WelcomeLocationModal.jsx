@@ -16,8 +16,11 @@ import changeLocalTrainStationsAction from '../actionCreators/changeLocalTrainSt
 
 // STATION PICKER SELECT
 import RNPickerSelect from 'react-native-picker-select';
+import { useState } from 'react/cjs/react.development';
 
 const WelcomeLocationModal = ({ navigation }) => {
+  const [localStationListState, setLocalStationListState] = useState([]);
+
   // Redux values from store
   const reduxLocationValue = useSelector((state) => state.reduxUserLocation);
   const reduxStationList = useSelector((state) => state.reduxTrainStationList);
@@ -31,6 +34,7 @@ const WelcomeLocationModal = ({ navigation }) => {
     dispatch(changeUserLocationAction(locationResult));
     const stationList = await findLocalTrainStations(locationResult);
     dispatch(changeLocalTrainStationsAction(stationList));
+    selectStationDropdown(stationList);
   };
 
   // 'Enter' navigation handler - closes modal and navs to Home page
@@ -47,6 +51,22 @@ const WelcomeLocationModal = ({ navigation }) => {
     // Added dependency, might cause issues later
   }, [reduxLocationValue, navigation]);
 
+  // Creates list of stations for use with dropdown selector
+  const selectStationDropdown = useCallback((stationList) => {
+    setLocalStationListState([]);
+    stationList.member.forEach((el) => {
+      setLocalStationListState((state) => [
+        ...state,
+        {
+          label: el.name,
+          value: el.tiploc_code,
+        },
+      ]);
+    });
+  }, []);
+
+  // Handles station selection
+
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.button} onPress={() => getLocation()}>
@@ -61,34 +81,30 @@ const WelcomeLocationModal = ({ navigation }) => {
         {reduxLocationValue ? reduxLocationValue.coords.longitude : 'pending'}
       </Text>
 
-      <Text>Choose a station:</Text>
-      <RNPickerSelect
-        style={{
-          ...styles,
-          iconContainer: {
-            top: 18,
-            right: 18,
-          },
-        }}
-        onValueChange={(value) => console.log(value)}
-        useNativeAndroidPickerStyle={false}
-        placeholder={{ label: 'Select your favourite language', value: null }}
-        Icon={() => {
-          return <Ionicons name="md-arrow-down" size={24} color="gray" />;
-        }}
-        items={[
-          { label: 'JavaScript', value: 'JavaScript' },
-          { label: 'TypeStript', value: 'TypeStript' },
-          { label: 'Python', value: 'Python' },
-          { label: 'Java', value: 'Java' },
-          { label: 'C++', value: 'C++' },
-          { label: 'C', value: 'C' },
-        ]}
-      />
+      {localStationListState.length ? (
+        <RNPickerSelect
+          style={{
+            ...styles,
+            iconContainer: {
+              top: 18,
+              right: 18,
+            },
+          }}
+          onValueChange={(value) => console.log(value)}
+          useNativeAndroidPickerStyle={false}
+          placeholder={{ label: 'Select a station...', value: null }}
+          Icon={() => {
+            return <Ionicons name="md-arrow-down" size={24} color="red" />;
+          }}
+          items={localStationListState}
+        />
+      ) : null}
 
       <TouchableOpacity style={styles.button} onPress={() => handleSubmit()}>
         <Text>Touch to enter</Text>
       </TouchableOpacity>
+
+      {/* ############ TESTING ############# */}
       <TouchableOpacity
         style={styles.button}
         onPress={() => console.log(reduxLocationValue)}
@@ -100,6 +116,12 @@ const WelcomeLocationModal = ({ navigation }) => {
         onPress={() => console.log(reduxStationList.member)}
       >
         <Text>get station data</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => console.log(localStationListState)}
+      >
+        <Text>get state</Text>
       </TouchableOpacity>
     </View>
   );
@@ -131,6 +153,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     color: 'black',
     paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  disabled: {
+    backgroundColor: 'grey',
   },
 });
 
