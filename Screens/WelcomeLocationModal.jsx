@@ -16,27 +16,26 @@ import changeLocalTrainStationsAction from '../actionCreators/changeLocalTrainSt
 
 // STATION PICKER SELECT
 import RNPickerSelect from 'react-native-picker-select';
-import { useState } from 'react/cjs/react.development';
 
 const WelcomeLocationModal = ({ navigation }) => {
   // Redux values from store
   const reduxLocationValue = useSelector((state) => state.reduxUserLocation);
   const reduxStationList = useSelector((state) => state.reduxTrainStationList);
+  const reduxSelectedStation = useSelector(
+    (state) => state.reduxSelectedTrainStation,
+  );
 
   // dispatches actions to redux
   const dispatch = useDispatch();
 
-  // CALL TO LOCATION API
+  // CALL TO LOCATION API, SAVES LOCATION AND STATION LIST TO REDUX
   const getLocation = async () => {
     const locationResult = await getLocationAPI();
     dispatch(changeUserLocationAction(locationResult));
     const stationAPIResult = await findLocalTrainStations(locationResult);
-
     const stationList = stationAPIResult.member.map((el) => {
       return { label: el.name, value: el.tiploc_code };
     });
-    console.log('lst = ', stationList);
-
     dispatch(changeLocalTrainStationsAction(stationList));
   };
 
@@ -54,10 +53,9 @@ const WelcomeLocationModal = ({ navigation }) => {
     // Added dependency, might cause issues later
   }, [reduxLocationValue, navigation]);
 
-  // Handles station selection
-
   return (
     <View style={styles.container}>
+      {/* GET LOCATION TOUCHABLE */}
       <TouchableOpacity style={styles.button} onPress={() => getLocation()}>
         <Text>Touch to get location</Text>
       </TouchableOpacity>
@@ -90,6 +88,7 @@ const WelcomeLocationModal = ({ navigation }) => {
         />
       ) : null}
 
+      {/* ENTER APP TOUCHABLE */}
       <TouchableOpacity style={styles.button} onPress={() => handleSubmit()}>
         <Text>Touch to enter</Text>
       </TouchableOpacity>
@@ -99,13 +98,19 @@ const WelcomeLocationModal = ({ navigation }) => {
         style={styles.button}
         onPress={() => console.log(reduxLocationValue)}
       >
-        <Text>get redux station data</Text>
+        <Text>get redux location</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
         onPress={() => console.log(reduxStationList)}
       >
-        <Text>get state</Text>
+        <Text>get redux station list</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => console.log(reduxSelectedStation)}
+      >
+        <Text>get redux selected station</Text>
       </TouchableOpacity>
     </View>
   );
