@@ -8,7 +8,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import changeUserLocationAction from '../actionCreators/changeUserLocationAction';
 
 // LOCATION
-import { getLocationAPI, getStationTimetable } from '../serviceAPI';
+import {
+  distanceCalculator,
+  getLocationAPI,
+  getStationTimetable,
+} from '../serviceAPI';
 
 // SERVICE API
 import { findLocalTrainStations } from '../serviceAPI';
@@ -36,7 +40,17 @@ const WelcomeLocationModal = ({ navigation }) => {
     dispatch(changeUserLocationAction(locationResult));
     const stationAPIResult = await findLocalTrainStations(locationResult);
     const stationList = stationAPIResult.member.map((el) => {
-      return { label: el.name, value: el.station_code };
+      const distance = distanceCalculator(
+        locationResult.coords.latitude.toFixed(3),
+        locationResult.coords.longitude.toFixed(3),
+        el.latitude.toFixed(3),
+        el.longitude.toFixed(3),
+      ).toFixed(1);
+
+      return {
+        label: `${el.name}, ${distance} miles away`,
+        value: el.station_code,
+      };
     });
     dispatch(changeLocalTrainStationsAction(stationList));
   };
@@ -55,7 +69,6 @@ const WelcomeLocationModal = ({ navigation }) => {
         [{ text: 'Lets go!' }],
       );
     } else {
-      getStationTimetable(reduxSelectedStation);
       navigation.navigate('Main');
     }
     // Added dependency, might cause issues later
