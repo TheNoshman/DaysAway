@@ -42,22 +42,21 @@ export const getStationTimetable = (stnCode) => {
   )
     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
     .then((result) => result.json())
-    .then((result) => console.log('timetable= ', result))
     .catch((err) => {
       console.log(`${err.message}`);
     });
 };
 
 // DISTANCE CALC BETWEEN TWO COORDS
-export const distanceCalculator = (lat1, lon1, lat2, lon2, unit) => {
+export const distanceCalculator = (lat1, lon1, lat2, lon2) => {
   if (lat1 === lat2 && lon1 === lon2) {
     return 0;
   } else {
-    var radlat1 = (Math.PI * lat1) / 180;
-    var radlat2 = (Math.PI * lat2) / 180;
-    var theta = lon1 - lon2;
-    var radtheta = (Math.PI * theta) / 180;
-    var dist =
+    const radlat1 = (Math.PI * lat1) / 180;
+    const radlat2 = (Math.PI * lat2) / 180;
+    const theta = lon1 - lon2;
+    const radtheta = (Math.PI * theta) / 180;
+    let dist =
       Math.sin(radlat1) * Math.sin(radlat2) +
       Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
     if (dist > 1) {
@@ -66,12 +65,6 @@ export const distanceCalculator = (lat1, lon1, lat2, lon2, unit) => {
     dist = Math.acos(dist);
     dist = (dist * 180) / Math.PI;
     dist = dist * 60 * 1.1515;
-    if (unit === 'K') {
-      dist = dist * 1.609344;
-    }
-    if (unit === 'N') {
-      dist = dist * 0.8684;
-    }
     return dist;
   }
 };

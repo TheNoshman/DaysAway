@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -35,27 +35,29 @@ const WelcomeLocationModal = ({ navigation }) => {
 
   // ################## FUNCTIONS ##################
   // CALL TO LOCATION API, SAVES LOCATION AND STATION LIST TO REDUX
-  const getLocation = async () => {
-    const locationResult = await getLocationAPI();
-    dispatch(changeUserLocationAction(locationResult));
-    const stationAPIResult = await findLocalTrainStations(locationResult);
-    const stationList = stationAPIResult.member.map((el) => {
-      const distance = distanceCalculator(
-        locationResult.coords.latitude.toFixed(3),
-        locationResult.coords.longitude.toFixed(3),
-        el.latitude.toFixed(3),
-        el.longitude.toFixed(3),
-      ).toFixed(1);
+  useEffect(() => {
+    (async () => {
+      const locationResult = await getLocationAPI();
+      dispatch(changeUserLocationAction(locationResult));
+      const stationAPIResult = await findLocalTrainStations(locationResult);
+      const stationList = stationAPIResult.member.map((el) => {
+        const distance = distanceCalculator(
+          locationResult.coords.latitude.toFixed(3),
+          locationResult.coords.longitude.toFixed(3),
+          el.latitude.toFixed(3),
+          el.longitude.toFixed(3),
+        ).toFixed(1);
+        return {
+          label: `${el.name}, ${distance} miles away`,
+          value: el.station_code,
+        };
+      });
+      dispatch(changeLocalTrainStationsAction(stationList));
+    })();
+  }, []);
 
-      return {
-        label: `${el.name}, ${distance} miles away`,
-        value: el.station_code,
-      };
-    });
-    dispatch(changeLocalTrainStationsAction(stationList));
-  };
   // 'Enter' navigation handler - closes modal and navs to Home page
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback(async () => {
     if (reduxLocationValue.timestamp === 0) {
       Alert.alert(
         'No location found',
@@ -69,6 +71,7 @@ const WelcomeLocationModal = ({ navigation }) => {
         [{ text: 'Lets go!' }],
       );
     } else {
+      const timetable = await getStationTimetable(reduxSelectedStation);
       navigation.navigate('Main');
     }
     // Added dependency, might cause issues later
@@ -78,9 +81,9 @@ const WelcomeLocationModal = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {/* GET LOCATION TOUCHABLE */}
-      <TouchableOpacity style={styles.button} onPress={() => getLocation()}>
-        <Text>Touch to get location</Text>
-      </TouchableOpacity>
+      {/* <TouchableOpacity style={styles.button} onPress={() => getLocation()}> */}
+      {/* <Text>Touch to get location</Text> */}
+      {/* </TouchableOpacity> */}
       <Text>
         Latitude ={' '}
         {reduxLocationValue ? reduxLocationValue.coords.latitude : 'pending'}
@@ -89,34 +92,31 @@ const WelcomeLocationModal = ({ navigation }) => {
         Longitude ={' '}
         {reduxLocationValue ? reduxLocationValue.coords.longitude : 'pending'}
       </Text>
-
       {/* STATION PICKER */}
-      {reduxStationList.length > 1 ? (
-        <RNPickerSelect
-          style={{
-            ...styles,
-            iconContainer: {
-              top: 18,
-              right: 18,
-            },
-          }}
-          onValueChange={(value) =>
-            dispatch(changeSelectedTrainStationAction(value))
-          }
-          useNativeAndroidPickerStyle={false}
-          placeholder={{ label: 'Select a station...', value: null }}
-          Icon={() => {
-            return <Ionicons name="md-arrow-down" size={24} color="red" />;
-          }}
-          items={reduxStationList}
-        />
-      ) : null}
+      <RNPickerSelect
+        style={{
+          ...styles,
+          iconContainer: {
+            top: 18,
+            right: 18,
+          },
+        }}
+        onValueChange={(value) =>
+          dispatch(changeSelectedTrainStationAction(value))
+        }
+        disabled={reduxStationList.length > 1 ? false : true}
+        useNativeAndroidPickerStyle={false}
+        placeholder={{ label: 'Select a station...', value: null }}
+        Icon={() => {
+          return <Ionicons name="md-arrow-down" size={24} color="red" />;
+        }}
+        items={reduxStationList}
+      />
 
       {/* ENTER APP TOUCHABLE */}
       <TouchableOpacity style={styles.button} onPress={() => handleSubmit()}>
         <Text>Touch to enter</Text>
       </TouchableOpacity>
-
       {/* ############ TESTING ############# */}
       <TouchableOpacity
         style={styles.button}
