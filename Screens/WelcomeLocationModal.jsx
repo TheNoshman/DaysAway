@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import changeUserLocationAction from '../actionCreators/changeUserLocationAction';
 
 // LOCATION
-import { getLocationAPI } from '../serviceAPI';
+import { getLocationAPI, getStationTimetable } from '../serviceAPI';
 
 // SERVICE API
 import { findLocalTrainStations } from '../serviceAPI';
@@ -55,6 +55,7 @@ const WelcomeLocationModal = ({ navigation }) => {
         [{ text: 'Lets go!' }],
       );
     } else {
+      getStationTimetable(reduxSelectedStation);
       navigation.navigate('Main');
     }
     // Added dependency, might cause issues later
