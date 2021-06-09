@@ -4,7 +4,8 @@ import * as Location from 'expo-location';
 // .ENV VARIABLES
 const { API_KEY } = process.env;
 const { API_ID } = process.env;
-const { TRANSPORT_TRAIN_STATION_URL } = process.env;
+const getStationsListAPI = 'http://transportapi.com/v3/uk/places.json?';
+const getTimetableAPI = 'https://transportapi.com/v3/uk/train/station/';
 
 export const getLocationAPI = async () => {
   let { status } = await Location.requestForegroundPermissionsAsync();
@@ -28,7 +29,7 @@ export const findLocalTrainStations = (userLocationData) => {
   return (
     // API CALL
     fetch(
-      `${TRANSPORT_TRAIN_STATION_URL}min_lat=${min_lat}&min_lon=${min_lon}&max_lat=${max_lat}&max_lon=${max_lon}&type=${searchType}&app_id=${API_ID}&app_key=${API_KEY}`,
+      `${getStationsListAPI}min_lat=${min_lat}&min_lon=${min_lon}&max_lat=${max_lat}&max_lon=${max_lon}&type=${searchType}&app_id=${API_ID}&app_key=${API_KEY}`,
     )
       .then((result) =>
         result.status <= 400 ? result : Promise.reject(result),
