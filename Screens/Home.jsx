@@ -1,15 +1,32 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
+
+// COMPONENTS
+import Destination from '../Components/Destination';
 
 const Home = () => {
+  const reduxTimetable = useSelector((state) => state.reduxStationTimetable);
+
   return (
     <SafeAreaView>
       <View>
-        <Text>HOMEPAGE</Text>
+        {reduxTimetable === null ? (
+          <Text>Loading...</Text>
+        ) : (
+          <FlatList
+            style={styles.list}
+            data={reduxTimetable.departures.all}
+            keyExtractor={(item) => item.train_uid}
+            renderItem={({ item }) => <Destination dest={item} />}
+          />
+        )}
       </View>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({});
 
 export default Home;

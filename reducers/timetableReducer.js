@@ -2,7 +2,7 @@
 
 export default function timetableReducer(
   // Default state
-  state = {},
+  state = null,
   action,
 ) {
   switch (action.type) {

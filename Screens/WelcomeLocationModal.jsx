@@ -104,11 +104,7 @@ const WelcomeLocationModal = ({ navigation }) => {
         }}
         disabled={reduxStationList.length > 1 ? false : true}
         useNativeAndroidPickerStyle={false}
-        placeholder={
-          reduxStationList.length > 1
-            ? { label: 'Loading...', value: null }
-            : { label: 'Select a station...', value: null }
-        }
+        placeholder={{}}
         Icon={() => {
           if (reduxStationList.length > 1) {
             return <Ionicons name="md-arrow-down" size={24} color="red" />;
