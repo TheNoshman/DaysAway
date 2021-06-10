@@ -80,8 +80,6 @@ const LocationComponent = ({ navigation }) => {
           }}
           onValueChange={async (value) => {
             dispatch(changeSelectedTrainStationAction(value));
-            const timetable = await getStationTimetable(reduxSelectedStation);
-            dispatch(changeTimetableAction(timetable));
           }}
           useNativeAndroidPickerStyle={false}
           // placeholder={{ label: 'Select a station...', value: null }}

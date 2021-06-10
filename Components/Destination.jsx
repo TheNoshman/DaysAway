@@ -10,7 +10,7 @@ export default function Destination({ train }) {
     <View style={styles.container}>
       <Text>From: {reduxSelectedStation.name}</Text>
       <Text>To: {train.destination_name}</Text>
-      <Text>Time: {train.aimed_departure_time}</Text>
+      <Text>Departing at: {train.aimed_departure_time}</Text>
       <Text>Platform: {train.platform}</Text>
     </View>
   );

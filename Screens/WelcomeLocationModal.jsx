@@ -100,7 +100,9 @@ const WelcomeLocationModal = ({ navigation }) => {
             return;
           }
           const { payload } = dispatch(changeSelectedTrainStationAction(value));
-          const timetable = await getStationTimetable(payload);
+          console.log('payload', payload);
+
+          const timetable = await getStationTimetable(payload.code);
           dispatch(changeTimetableAction(timetable));
         }}
         disabled={reduxStationList.length > 1 ? false : true}

@@ -35,13 +35,8 @@ export const findLocalTrainStations = async (userLocationData) => {
 };
 
 // GET TRAIN STATION TIMETABLE REQUEST
-export const getStationTimetable = async (station) => {
-  const stationCode = `${station.code}/live.json?`;
-  console.log(
-    'url',
-    `${getTimetableAPI}${stationCode}app_id=${API_ID}&app_key=${API_KEY}&darwin=false&train_status=passenger`,
-  );
-
+export const getStationTimetable = async (code) => {
+  const stationCode = `${code}/live.json?`;
   return fetch(
     `${getTimetableAPI}${stationCode}app_id=${API_ID}&app_key=${API_KEY}&darwin=false&train_status=passenger`,
   )
