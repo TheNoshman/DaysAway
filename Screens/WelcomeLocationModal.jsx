@@ -75,7 +75,7 @@ const WelcomeLocationModal = ({ navigation }) => {
       navigation.navigate('Main');
     }
     // Added dependency, might cause issues later
-  }, [reduxLocationValue, navigation, reduxSelectedStation]);
+  }, [reduxLocationValue]);
 
   // ################## RENDER COMPONENT ##################
   return (
@@ -95,13 +95,10 @@ const WelcomeLocationModal = ({ navigation }) => {
           },
         }}
         onValueChange={async (value) => {
-          console.log('value', value);
           if (value === null) {
             return;
           }
           const { payload } = dispatch(changeSelectedTrainStationAction(value));
-          console.log('payload', payload);
-
           const timetable = await getStationTimetable(payload.code);
           dispatch(changeTimetableAction(timetable));
         }}

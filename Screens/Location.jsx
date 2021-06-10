@@ -68,28 +68,27 @@ const LocationComponent = ({ navigation }) => {
         {reduxLocationValue ? reduxLocationValue.coords.longitude : 'pending'}
       </Text>
       {/* STATION PICKER */}
-      {reduxStationList.length > 1 ? (
-        <RNPickerSelect
-          value={reduxSelectedStation}
-          style={{
-            ...styles,
-            iconContainer: {
-              top: 18,
-              right: 18,
-            },
-          }}
-          onValueChange={async (value) => {
-            dispatch(changeSelectedTrainStationAction(value));
-          }}
-          useNativeAndroidPickerStyle={false}
-          // placeholder={{ label: 'Select a station...', value: null }}
-          placeholder={{}}
-          Icon={() => {
-            return <Ionicons name="md-arrow-down" size={24} color="red" />;
-          }}
-          items={reduxStationList}
-        />
-      ) : null}
+
+      <RNPickerSelect
+        style={{
+          ...styles,
+          iconContainer: {
+            top: 18,
+            right: 18,
+          },
+        }}
+        onValueChange={async (value) => {
+          const { payload } = dispatch(changeSelectedTrainStationAction(value));
+          const timetable = await getStationTimetable(payload.code);
+          dispatch(changeTimetableAction(timetable));
+        }}
+        useNativeAndroidPickerStyle={false}
+        placeholder={{}}
+        Icon={() => {
+          return <Ionicons name="md-arrow-down" size={24} color="red" />;
+        }}
+        items={reduxStationList}
+      />
       {/* ############ TESTING ############# */}
       <TouchableOpacity
         style={styles.button}
