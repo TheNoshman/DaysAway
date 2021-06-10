@@ -81,12 +81,9 @@ const WelcomeLocationModal = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text>
-        Latitude ={' '}
-        {reduxLocationValue ? reduxLocationValue.coords.latitude : 'pending'}
-      </Text>
-      <Text>
-        Longitude ={' '}
-        {reduxLocationValue ? reduxLocationValue.coords.longitude : 'pending'}
+        {reduxLocationValue.coords.latitude !== 0
+          ? 'Location success'
+          : 'pending'}
       </Text>
       {/* STATION PICKER */}
       <RNPickerSelect
