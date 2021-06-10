@@ -50,7 +50,7 @@ const WelcomeLocationModal = ({ navigation }) => {
         ).toFixed(1);
         return {
           label: `${el.name}, ${distance} miles away`,
-          value: el.station_code,
+          value: { code: el.station_code, name: el.name },
         };
       });
       dispatch(changeLocalTrainStationsAction(stationList));
@@ -95,6 +95,7 @@ const WelcomeLocationModal = ({ navigation }) => {
           },
         }}
         onValueChange={async (value) => {
+          console.log('value', value);
           if (value === null) {
             return;
           }
@@ -104,7 +105,7 @@ const WelcomeLocationModal = ({ navigation }) => {
         }}
         disabled={reduxStationList.length > 1 ? false : true}
         useNativeAndroidPickerStyle={false}
-        placeholder={{}}
+        placeholder={{ label: 'Select a station...', value: null }}
         Icon={() => {
           if (reduxStationList.length > 1) {
             return <Ionicons name="md-arrow-down" size={24} color="red" />;

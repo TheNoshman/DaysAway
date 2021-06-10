@@ -2,7 +2,7 @@
 
 export default function selectedTrainStationReducer(
   // Default state
-  state = 'station_code',
+  state = { code: null, name: 'name' },
   action,
 ) {
   switch (action.type) {

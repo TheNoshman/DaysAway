@@ -48,7 +48,7 @@ const LocationComponent = ({ navigation }) => {
       ).toFixed(1);
       return {
         label: `${el.name}, ${distance} miles away`,
-        value: el.station_code,
+        value: { code: el.station_code, name: el.name },
       };
     });
     dispatch(changeLocalTrainStationsAction(stationList));

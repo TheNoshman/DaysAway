@@ -19,7 +19,7 @@ const Home = () => {
             style={styles.list}
             data={reduxTimetable.departures.all}
             keyExtractor={(item) => item.train_uid}
-            renderItem={({ item }) => <Destination dest={item} />}
+            renderItem={({ item }) => <Destination train={item} />}
           />
         )}
       </View>

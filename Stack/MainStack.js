@@ -38,9 +38,9 @@ function MainStack({ navigation }) {
       }}
       initialRouteName={'Home'}
     >
-      <Tab.Screen name="Trips" component={TripsScreen} />
-      <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Location" component={LocationComponent} />
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Trips" component={TripsScreen} />
     </Tab.Navigator>
   );
 }
