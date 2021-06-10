@@ -6,8 +6,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 // REDUX
 import { useSelector, useDispatch } from 'react-redux';
 import changeUserLocationAction from '../actionCreators/changeUserLocationAction';
+import changeLocalTrainStationsAction from '../actionCreators/changeLocalTrainStationsAction';
+import changeSelectedTrainStationAction from '../actionCreators/changeSelectedTrainStationAction';
+import changeTimetableAction from '../actionCreators/changeTimetableAction';
 
-// LOCATION
+// SERVICE API FUNCTIONS
 import {
   distanceCalculator,
   getLocationAPI,
@@ -16,8 +19,6 @@ import {
 
 // SERVICE API
 import { findLocalTrainStations } from '../serviceAPI';
-import changeLocalTrainStationsAction from '../actionCreators/changeLocalTrainStationsAction';
-import changeSelectedTrainStationAction from '../actionCreators/changeSelectedTrainStationAction';
 
 // STATION PICKER SELECT
 import RNPickerSelect from 'react-native-picker-select';
@@ -30,7 +31,7 @@ const WelcomeLocationModal = ({ navigation }) => {
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
   );
-  // dispatches actions to redux
+  const reduxTimetable = useSelector((state) => state.reduxStationTimetable);
   const dispatch = useDispatch();
 
   // ################## FUNCTIONS ##################
@@ -54,7 +55,7 @@ const WelcomeLocationModal = ({ navigation }) => {
       });
       dispatch(changeLocalTrainStationsAction(stationList));
     })();
-  }, []);
+  }, [dispatch]);
 
   // 'Enter' navigation handler - closes modal and navs to Home page
   const handleSubmit = useCallback(async () => {
@@ -71,7 +72,6 @@ const WelcomeLocationModal = ({ navigation }) => {
         [{ text: 'Lets go!' }],
       );
     } else {
-      const timetable = await getStationTimetable(reduxSelectedStation);
       navigation.navigate('Main');
     }
     // Added dependency, might cause issues later
@@ -80,10 +80,6 @@ const WelcomeLocationModal = ({ navigation }) => {
   // ################## RENDER COMPONENT ##################
   return (
     <View style={styles.container}>
-      {/* GET LOCATION TOUCHABLE */}
-      {/* <TouchableOpacity style={styles.button} onPress={() => getLocation()}> */}
-      {/* <Text>Touch to get location</Text> */}
-      {/* </TouchableOpacity> */}
       <Text>
         Latitude ={' '}
         {reduxLocationValue ? reduxLocationValue.coords.latitude : 'pending'}
@@ -101,14 +97,27 @@ const WelcomeLocationModal = ({ navigation }) => {
             right: 18,
           },
         }}
-        onValueChange={(value) =>
-          dispatch(changeSelectedTrainStationAction(value))
-        }
+        onValueChange={async (value) => {
+          if (value === null) {
+            return;
+          }
+          const { payload } = dispatch(changeSelectedTrainStationAction(value));
+          const timetable = await getStationTimetable(payload);
+          dispatch(changeTimetableAction(timetable));
+        }}
         disabled={reduxStationList.length > 1 ? false : true}
         useNativeAndroidPickerStyle={false}
-        placeholder={{ label: 'Select a station...', value: null }}
+        placeholder={
+          reduxStationList.length > 1
+            ? { label: 'Loading...', value: null }
+            : { label: 'Select a station...', value: null }
+        }
         Icon={() => {
-          return <Ionicons name="md-arrow-down" size={24} color="red" />;
+          if (reduxStationList.length > 1) {
+            return <Ionicons name="md-arrow-down" size={24} color="red" />;
+          } else {
+            return <Ionicons name="md-arrow-down" size={24} color="gray" />;
+          }
         }}
         items={reduxStationList}
       />
@@ -135,6 +144,12 @@ const WelcomeLocationModal = ({ navigation }) => {
         onPress={() => console.log(reduxSelectedStation)}
       >
         <Text>get redux selected station</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => console.log(reduxTimetable)}
+      >
+        <Text>get redux timetable</Text>
       </TouchableOpacity>
     </View>
   );
