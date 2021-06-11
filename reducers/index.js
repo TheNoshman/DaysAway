@@ -8,5 +8,5 @@ export default combineReducers({
   reduxUserLocation: userLocationReducer,
   reduxTrainStationList: trainStationListReducer,
   reduxSelectedTrainStation: selectedTrainStationReducer,
-  reduxStationTimetable: timetableReducer,
+  reduxTimetableCache: timetableReducer,
 });

@@ -31,35 +31,35 @@ const LocationComponent = ({ navigation }) => {
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
   );
-  const reduxTimetables = useSelector((state) => state.reduxStationTimetable);
+  const reduxTimetableCache = useSelector((state) => state.reduxTimetableCache);
   const dispatch = useDispatch();
 
   // ################## FUNCTIONS ##################
   // CALL TO LOCATION API, SAVES LOCATION AND STATION LIST TO REDUX
-  const getLocation = async () => {
-    const locationResult = await getLocationAPI();
-    dispatch(changeUserLocationAction(locationResult));
-    const stationAPIResult = await findLocalTrainStations(locationResult);
-    const stationList = stationAPIResult.member.map((el) => {
-      const distance = distanceCalculator(
-        locationResult.coords.latitude.toFixed(3),
-        locationResult.coords.longitude.toFixed(3),
-        el.latitude.toFixed(3),
-        el.longitude.toFixed(3),
-      ).toFixed(1);
-      return {
-        label: `${el.name}, ${distance} miles away`,
-        value: { code: el.station_code, name: el.name },
-      };
-    });
-    dispatch(changeLocalTrainStationsAction(stationList));
-  };
+  // const getLocation = async () => {
+  //   const locationResult = await getLocationAPI();
+  //   dispatch(changeUserLocationAction(locationResult));
+  //   const stationAPIResult = await findLocalTrainStations(locationResult);
+  //   const stationList = stationAPIResult.member.map((el) => {
+  //     const distance = distanceCalculator(
+  //       locationResult.coords.latitude.toFixed(3),
+  //       locationResult.coords.longitude.toFixed(3),
+  //       el.latitude.toFixed(3),
+  //       el.longitude.toFixed(3),
+  //     ).toFixed(1);
+  //     return {
+  //       label: `${el.name}, ${distance} miles away`,
+  //       value: { code: el.station_code, name: el.name },
+  //     };
+  //   });
+  //   dispatch(changeLocalTrainStationsAction(stationList));
+  // };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={() => getLocation()}>
+      {/* <TouchableOpacity style={styles.button} onPress={() => getLocation()}>
         <Text>Touch to get location</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <Text>
         Latitude ={' '}
         {reduxLocationValue ? reduxLocationValue.coords.latitude : 'pending'}
@@ -84,7 +84,7 @@ const LocationComponent = ({ navigation }) => {
           }
           const { payload } = dispatch(changeSelectedTrainStationAction(value));
           const cachedTimetable = getCachedTimetable(
-            reduxTimetables,
+            reduxTimetableCache,
             value.code,
           );
           console.log('cached tt', cachedTimetable);
@@ -125,7 +125,7 @@ const LocationComponent = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => console.log(reduxTimetables)}
+        onPress={() => console.log(reduxTimetableCache)}
       >
         <Text>get redux timetable</Text>
       </TouchableOpacity>

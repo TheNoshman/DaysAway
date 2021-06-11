@@ -54,7 +54,7 @@ const getStops = async (timetable) => {
   return timetable;
 };
 
-// CHECK CACHE FOR TIMETABLE
+// CHECKS CACHE FOR TIMETABLE
 export const getCachedTimetable = (reduxStore, selectedStation) => {
   return reduxStore.filter(
     (timetable) => timetable.station_code === selectedStation,

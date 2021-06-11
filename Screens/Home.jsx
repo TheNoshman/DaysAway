@@ -6,34 +6,44 @@ import changeTimetableAction from '../actionCreators/changeTimetableAction';
 
 // COMPONENTS
 import Destination from '../Components/Destination';
-import { getStationTimetable } from '../serviceAPI';
+import { getCachedTimetable, getStationTimetable } from '../serviceAPI';
 
 const Home = () => {
   // STATE FOR REFRESH
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const reduxTimetable = useSelector((state) => state.reduxStationTimetable);
+  const reduxTimetableCache = useSelector((state) => state.reduxTimetableCache);
+  const reduxSelectedStation = useSelector(
+    (state) => state.reduxSelectedTrainStation,
+  );
   const dispatch = useDispatch();
 
-  const handleRefresh = async () => {
-    setIsRefreshing(true);
-    const timetable = await getStationTimetable(reduxTimetable.station_code);
-    dispatch(changeTimetableAction(timetable));
-    setIsRefreshing(false);
-  };
+  // const handleRefresh = async () => {
+  //   setIsRefreshing(true);
+  //   const timetable = await getStationTimetable(reduxTimetableCache.station_code);
+  //   // Need to update, not just add to
+  //   dispatch(changeTimetableAction(timetable));
+  //   setIsRefreshing(false);
+  // };
+
+  // GRABS TIMETABLE FROM THE CACHE
+  const timetable = getCachedTimetable(
+    reduxTimetableCache,
+    reduxSelectedStation.code,
+  );
 
   return (
     <SafeAreaView>
       <View>
-        {reduxTimetable === null ? (
+        {!timetable.length ? (
           <Text>Loading...</Text>
         ) : (
           <FlatList
             style={styles.list}
-            data={reduxTimetable.departures.all}
+            data={timetable[0].departures.all}
             keyExtractor={(item) => item.train_uid}
             renderItem={({ item }) => <Destination train={item} />}
             refreshing={isRefreshing}
-            onRefresh={() => handleRefresh()}
+            // onRefresh={() => handleRefresh()}
           />
         )}
       </View>

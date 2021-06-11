@@ -32,7 +32,7 @@ const WelcomeLocationModal = ({ navigation }) => {
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
   );
-  const reduxTimetables = useSelector((state) => state.reduxStationTimetable);
+  const reduxTimetables = useSelector((state) => state.reduxTimetableCache);
   const dispatch = useDispatch();
 
   // ################## FUNCTIONS ##################
