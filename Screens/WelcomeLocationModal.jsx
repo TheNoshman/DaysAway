@@ -13,6 +13,7 @@ import changeTimetableAction from '../actionCreators/changeTimetableAction';
 // SERVICE API FUNCTIONS
 import {
   distanceCalculator,
+  getCachedTimetable,
   getLocationAPI,
   getStationTimetable,
 } from '../serviceAPI';
@@ -31,7 +32,7 @@ const WelcomeLocationModal = ({ navigation }) => {
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
   );
-  const reduxTimetable = useSelector((state) => state.reduxStationTimetable);
+  const reduxTimetables = useSelector((state) => state.reduxStationTimetable);
   const dispatch = useDispatch();
 
   // ################## FUNCTIONS ##################
@@ -65,7 +66,7 @@ const WelcomeLocationModal = ({ navigation }) => {
         'Please pinpoint your current location',
         [{ text: 'Lets go!' }],
       );
-    } else if (reduxSelectedStation === 'station_code') {
+    } else if (reduxSelectedStation.code === null) {
       Alert.alert(
         'No station selected',
         'Please select the train station you would like to depart from.',
@@ -83,7 +84,7 @@ const WelcomeLocationModal = ({ navigation }) => {
       <Text>
         {reduxLocationValue.coords.latitude !== 0
           ? 'Location success'
-          : 'pending'}
+          : 'Locating...'}
       </Text>
       {/* STATION PICKER */}
       <RNPickerSelect
@@ -99,8 +100,18 @@ const WelcomeLocationModal = ({ navigation }) => {
             return;
           }
           const { payload } = dispatch(changeSelectedTrainStationAction(value));
-          const timetable = await getStationTimetable(payload.code);
-          dispatch(changeTimetableAction(timetable));
+          const cachedTimetable = getCachedTimetable(
+            reduxTimetables,
+            value.code,
+          );
+          console.log('cached tt', cachedTimetable);
+
+          if (cachedTimetable.length) {
+            dispatch(changeTimetableAction(cachedTimetable));
+          } else {
+            const timetable = await getStationTimetable(payload.code);
+            dispatch(changeTimetableAction(timetable));
+          }
         }}
         disabled={reduxStationList.length > 1 ? false : true}
         useNativeAndroidPickerStyle={false}
@@ -140,7 +151,7 @@ const WelcomeLocationModal = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => console.log(reduxTimetable)}
+        onPress={() => console.log(reduxTimetables)}
       >
         <Text>get redux timetable</Text>
       </TouchableOpacity>

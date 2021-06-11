@@ -13,6 +13,7 @@ import changeTimetableAction from '../actionCreators/changeTimetableAction';
 // SERVICE API FUNCTIONS
 import {
   distanceCalculator,
+  getCachedTimetable,
   getLocationAPI,
   getStationTimetable,
 } from '../serviceAPI';
@@ -30,7 +31,7 @@ const LocationComponent = ({ navigation }) => {
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
   );
-  const reduxTimetable = useSelector((state) => state.reduxStationTimetable);
+  const reduxTimetables = useSelector((state) => state.reduxStationTimetable);
   const dispatch = useDispatch();
 
   // ################## FUNCTIONS ##################
@@ -82,8 +83,18 @@ const LocationComponent = ({ navigation }) => {
             return;
           }
           const { payload } = dispatch(changeSelectedTrainStationAction(value));
-          const timetable = await getStationTimetable(payload.code);
-          dispatch(changeTimetableAction(timetable));
+          const cachedTimetable = getCachedTimetable(
+            reduxTimetables,
+            value.code,
+          );
+          console.log('cached tt', cachedTimetable);
+
+          if (cachedTimetable.length) {
+            dispatch(changeTimetableAction(cachedTimetable));
+          } else {
+            const timetable = await getStationTimetable(payload.code);
+            dispatch(changeTimetableAction(timetable));
+          }
         }}
         useNativeAndroidPickerStyle={false}
         placeholder={{}}
@@ -114,7 +125,7 @@ const LocationComponent = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => console.log(reduxTimetable)}
+        onPress={() => console.log(reduxTimetables)}
       >
         <Text>get redux timetable</Text>
       </TouchableOpacity>

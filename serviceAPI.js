@@ -49,10 +49,16 @@ export const getStationTimetable = async (code) => {
 };
 
 // GET TRAIN STOPS
-
 const getStops = async (timetable) => {
   console.log('in get stops, timetable', timetable.departures.all);
   return timetable;
+};
+
+// CHECK CACHE FOR TIMETABLE
+export const getCachedTimetable = (reduxStore, selectedStation) => {
+  return reduxStore.filter(
+    (timetable) => timetable.station_code === selectedStation,
+  );
 };
 
 // DISTANCE CALC BETWEEN TWO COORDS
