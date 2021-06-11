@@ -67,8 +67,8 @@ const LocationComponent = ({ navigation }) => {
         Longitude ={' '}
         {reduxLocationValue ? reduxLocationValue.coords.longitude : 'pending'}
       </Text>
-      {/* STATION PICKER */}
 
+      {/* STATION PICKER */}
       <RNPickerSelect
         style={{
           ...styles,
@@ -78,12 +78,16 @@ const LocationComponent = ({ navigation }) => {
           },
         }}
         onValueChange={async (value) => {
+          if (value === reduxSelectedStation) {
+            return;
+          }
           const { payload } = dispatch(changeSelectedTrainStationAction(value));
           const timetable = await getStationTimetable(payload.code);
           dispatch(changeTimetableAction(timetable));
         }}
         useNativeAndroidPickerStyle={false}
         placeholder={{}}
+        value={reduxSelectedStation}
         Icon={() => {
           return <Ionicons name="md-arrow-down" size={24} color="red" />;
         }}
