@@ -42,9 +42,17 @@ export const getStationTimetable = async (code) => {
   )
     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
     .then((result) => result.json())
+    .then((result) => getStops(result))
     .catch((err) => {
       console.log(`${err.message}`);
     });
+};
+
+// GET TRAIN STOPS
+
+const getStops = async (timetable) => {
+  console.log('in get stops, timetable', timetable.departures.all);
+  return timetable;
 };
 
 // DISTANCE CALC BETWEEN TWO COORDS

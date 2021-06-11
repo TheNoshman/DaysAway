@@ -2,7 +2,7 @@
 
 export default function timetableReducer(
   // Default state
-  state = null,
+  state = [],
   action,
 ) {
   switch (action.type) {
@@ -11,7 +11,11 @@ export default function timetableReducer(
         'in timetableReducer, case triggered, payload = ',
         action.payload,
       );
-      return action.payload;
+      console.log('payload', [action.payload]);
+      console.log('state ', state);
+
+      return [...state, action.payload];
+    // [state, action.payload];
     default:
       // If nothing changes, still return state
       return state;

@@ -75,7 +75,7 @@ const WelcomeLocationModal = ({ navigation }) => {
       navigation.navigate('Main');
     }
     // Added dependency, might cause issues later
-  }, [reduxLocationValue]);
+  }, [navigation, reduxLocationValue.timestamp, reduxSelectedStation]);
 
   // ################## RENDER COMPONENT ##################
   return (
