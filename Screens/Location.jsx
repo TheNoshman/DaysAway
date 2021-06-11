@@ -5,21 +5,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // REDUX
 import { useSelector, useDispatch } from 'react-redux';
-import changeUserLocationAction from '../actionCreators/changeUserLocationAction';
-import changeLocalTrainStationsAction from '../actionCreators/changeLocalTrainStationsAction';
 import changeSelectedTrainStationAction from '../actionCreators/changeSelectedTrainStationAction';
-import changeTimetableAction from '../actionCreators/changeTimetableAction';
+import addTimetableToCacheAction from '../actionCreators/addTimetableToCacheAction';
 
 // SERVICE API FUNCTIONS
-import {
-  distanceCalculator,
-  getCachedTimetable,
-  getLocationAPI,
-  getStationTimetable,
-} from '../serviceAPI';
-
-// SERVICE API
-import { findLocalTrainStations } from '../serviceAPI';
+import { getCachedTimetable, getStationTimetable } from '../serviceAPI';
 
 // STATION PICKER SELECT
 import RNPickerSelect from 'react-native-picker-select';
@@ -34,32 +24,8 @@ const LocationComponent = ({ navigation }) => {
   const reduxTimetableCache = useSelector((state) => state.reduxTimetableCache);
   const dispatch = useDispatch();
 
-  // ################## FUNCTIONS ##################
-  // CALL TO LOCATION API, SAVES LOCATION AND STATION LIST TO REDUX
-  // const getLocation = async () => {
-  //   const locationResult = await getLocationAPI();
-  //   dispatch(changeUserLocationAction(locationResult));
-  //   const stationAPIResult = await findLocalTrainStations(locationResult);
-  //   const stationList = stationAPIResult.member.map((el) => {
-  //     const distance = distanceCalculator(
-  //       locationResult.coords.latitude.toFixed(3),
-  //       locationResult.coords.longitude.toFixed(3),
-  //       el.latitude.toFixed(3),
-  //       el.longitude.toFixed(3),
-  //     ).toFixed(1);
-  //     return {
-  //       label: `${el.name}, ${distance} miles away`,
-  //       value: { code: el.station_code, name: el.name },
-  //     };
-  //   });
-  //   dispatch(changeLocalTrainStationsAction(stationList));
-  // };
-
   return (
     <View style={styles.container}>
-      {/* <TouchableOpacity style={styles.button} onPress={() => getLocation()}>
-        <Text>Touch to get location</Text>
-      </TouchableOpacity> */}
       <Text>
         Latitude ={' '}
         {reduxLocationValue ? reduxLocationValue.coords.latitude : 'pending'}
@@ -90,10 +56,10 @@ const LocationComponent = ({ navigation }) => {
           console.log('cached tt', cachedTimetable);
 
           if (cachedTimetable.length) {
-            dispatch(changeTimetableAction(cachedTimetable));
+            dispatch(addTimetableToCacheAction(cachedTimetable));
           } else {
             const timetable = await getStationTimetable(payload.code);
-            dispatch(changeTimetableAction(timetable));
+            dispatch(addTimetableToCacheAction(timetable));
           }
         }}
         useNativeAndroidPickerStyle={false}

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import changeTimetableAction from '../actionCreators/changeTimetableAction';
+import updateTimetableCacheAction from '../actionCreators/updateTimetableCacheAction';
 
 // COMPONENTS
 import Destination from '../Components/Destination';
@@ -17,13 +17,15 @@ const Home = () => {
   );
   const dispatch = useDispatch();
 
-  // const handleRefresh = async () => {
-  //   setIsRefreshing(true);
-  //   const timetable = await getStationTimetable(reduxTimetableCache.station_code);
-  //   // Need to update, not just add to
-  //   dispatch(changeTimetableAction(timetable));
-  //   setIsRefreshing(false);
-  // };
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    const timetable = await getStationTimetable(reduxSelectedStation.code);
+
+    // Need to update, not just add to
+    dispatch(updateTimetableCacheAction(timetable));
+
+    setIsRefreshing(false);
+  };
 
   // GRABS TIMETABLE FROM THE CACHE
   const timetable = getCachedTimetable(
@@ -43,7 +45,7 @@ const Home = () => {
             keyExtractor={(item) => item.train_uid}
             renderItem={({ item }) => <Destination train={item} />}
             refreshing={isRefreshing}
-            // onRefresh={() => handleRefresh()}
+            onRefresh={() => handleRefresh()}
           />
         )}
       </View>

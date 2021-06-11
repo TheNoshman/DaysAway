@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import changeUserLocationAction from '../actionCreators/changeUserLocationAction';
 import changeLocalTrainStationsAction from '../actionCreators/changeLocalTrainStationsAction';
 import changeSelectedTrainStationAction from '../actionCreators/changeSelectedTrainStationAction';
-import changeTimetableAction from '../actionCreators/changeTimetableAction';
+import addTimetableToCacheAction from '../actionCreators/addTimetableToCacheAction';
 
 // SERVICE API FUNCTIONS
 import {
@@ -107,10 +107,10 @@ const WelcomeLocationModal = ({ navigation }) => {
           console.log('cached tt', cachedTimetable);
 
           if (cachedTimetable.length) {
-            dispatch(changeTimetableAction(cachedTimetable));
+            dispatch(addTimetableToCacheAction(cachedTimetable));
           } else {
             const timetable = await getStationTimetable(payload.code);
-            dispatch(changeTimetableAction(timetable));
+            dispatch(addTimetableToCacheAction(timetable));
           }
         }}
         disabled={reduxStationList.length > 1 ? false : true}
