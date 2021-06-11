@@ -106,9 +106,7 @@ const WelcomeLocationModal = ({ navigation }) => {
           );
           console.log('cached tt', cachedTimetable);
 
-          if (cachedTimetable.length) {
-            dispatch(addTimetableToCacheAction(cachedTimetable));
-          } else {
+          if (!cachedTimetable.length) {
             const timetable = await getStationTimetable(payload.code);
             dispatch(addTimetableToCacheAction(timetable));
           }

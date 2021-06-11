@@ -20,10 +20,7 @@ const Home = () => {
   const handleRefresh = async () => {
     setIsRefreshing(true);
     const timetable = await getStationTimetable(reduxSelectedStation.code);
-
-    // Need to update, not just add to
     dispatch(updateTimetableCacheAction(timetable));
-
     setIsRefreshing(false);
   };
 

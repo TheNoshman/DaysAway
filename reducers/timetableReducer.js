@@ -29,10 +29,3 @@ export default function timetableReducer(
 //   type: "CHANGE_DATA,
 //   payload: {location json}
 // }
-
-// console.log(
-//   'in timetableReducer, case triggered, payload = ',
-//   action.payload,
-// );
-// console.log('payload', [action.payload]);
-// console.log('state ', state);
