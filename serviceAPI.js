@@ -45,13 +45,13 @@ export const getStationTimetable = async (code) => {
     .catch((err) => {
       console.log(`${err.message}`);
     });
-  const stoppingAt = await getStops(res);
-  return res;
+  const withStops = await getStops(res);
+  return withStops;
 };
 
 // GET TRAIN STOPS
 const getStops = async (timetable) => {
-  // DROPS DUPLICATE SERVICES FOR API CALL
+  // REMOVES DUPLICATE SERVICES FOR API CALL
   let uniqueServices = [];
   for (const trainService of timetable.departures.all) {
     if (
@@ -68,7 +68,6 @@ const getStops = async (timetable) => {
       });
     }
   }
-
   // API CALL TO GET STOPS
   const promises = uniqueServices.map(async (service) => {
     const callingAtResult = await fetch(service.timetableURL)
@@ -83,7 +82,7 @@ const getStops = async (timetable) => {
     const remainingStops = callingAtResult.stops.slice(
       callingAtResult.stops.findIndex(
         (el) => el.station_code === timetable.station_code,
-      ),
+      ) + 1,
     );
     return {
       service: service.serviceCode,
@@ -92,7 +91,6 @@ const getStops = async (timetable) => {
     };
   });
   const stopsArray = await Promise.all(promises);
-
   // ASSIGNS API RESULTS TO SERVICES IN TIMETABLE
   timetable.departures.all.forEach((train, index) => {
     const stopsIndex = stopsArray.findIndex(
@@ -103,8 +101,6 @@ const getStops = async (timetable) => {
     timetable.departures.all[index].callingAt =
       stopsArray[stopsIndex].callingAtResult;
   });
-  console.log('timetable after mod =', timetable);
-
   return timetable;
 };
 
