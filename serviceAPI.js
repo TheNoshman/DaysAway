@@ -37,20 +37,74 @@ export const findLocalTrainStations = async (userLocationData) => {
 // GET TRAIN STATION TIMETABLE REQUEST
 export const getStationTimetable = async (code) => {
   const stationCode = `${code}/live.json?`;
-  return fetch(
+  const res = await fetch(
     `${getTimetableAPI}${stationCode}app_id=${API_ID}&app_key=${API_KEY}&darwin=false&train_status=passenger`,
   )
     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
     .then((result) => result.json())
-    .then((result) => getStops(result))
     .catch((err) => {
       console.log(`${err.message}`);
     });
+  const stoppingAt = await getStops(res);
+  return res;
 };
 
 // GET TRAIN STOPS
 const getStops = async (timetable) => {
-  console.log('in get stops, timetable', timetable.departures.all);
+  // DROPS DUPLICATE SERVICES FOR API CALL
+  let uniqueServices = [];
+  for (const trainService of timetable.departures.all) {
+    if (
+      !uniqueServices.some(
+        (serv) =>
+          serv.destination === trainService.destination_name &&
+          serv.serviceCode === trainService.service,
+      )
+    ) {
+      uniqueServices.push({
+        serviceCode: trainService.service,
+        destination: trainService.destination_name,
+        timetableURL: trainService.service_timetable.id,
+      });
+    }
+  }
+
+  // API CALL TO GET STOPS
+  const promises = uniqueServices.map(async (service) => {
+    const callingAtResult = await fetch(service.timetableURL)
+      .then((result) =>
+        result.status <= 400 ? result : Promise.reject(result),
+      )
+      .then((result) => result.json())
+      .catch((err) => {
+        console.log(`${err.message}`);
+      });
+    // REMOVES STOPS FROM THE PAST
+    const remainingStops = callingAtResult.stops.slice(
+      callingAtResult.stops.findIndex(
+        (el) => el.station_code === timetable.station_code,
+      ),
+    );
+    return {
+      service: service.serviceCode,
+      destination: service.destination,
+      callingAtResult: remainingStops,
+    };
+  });
+  const stopsArray = await Promise.all(promises);
+
+  // ASSIGNS API RESULTS TO SERVICES IN TIMETABLE
+  timetable.departures.all.forEach((train, index) => {
+    const stopsIndex = stopsArray.findIndex(
+      (obj) =>
+        obj.service === train.service &&
+        obj.destination === train.destination_name,
+    );
+    timetable.departures.all[index].callingAt =
+      stopsArray[stopsIndex].callingAtResult;
+  });
+  console.log('timetable after mod =', timetable);
+
   return timetable;
 };
 
