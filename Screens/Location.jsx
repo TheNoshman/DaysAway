@@ -1,18 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // REDUX
 import { useSelector, useDispatch } from 'react-redux';
-import changeSelectedTrainStationAction from '../actionCreators/changeSelectedTrainStationAction';
-import addTimetableToCacheAction from '../actionCreators/addTimetableToCacheAction';
-
-// SERVICE API FUNCTIONS
-import { getCachedTimetable, getStationTimetable } from '../serviceAPI';
 
 // STATION PICKER SELECT
-import RNPickerSelect from 'react-native-picker-select';
+import DropDownPicker from '../Components/DropDownPicker';
 
 const LocationComponent = ({ navigation }) => {
   // Redux values from store
@@ -22,7 +16,6 @@ const LocationComponent = ({ navigation }) => {
     (state) => state.reduxSelectedTrainStation,
   );
   const reduxTimetableCache = useSelector((state) => state.reduxTimetableCache);
-  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
@@ -36,40 +29,8 @@ const LocationComponent = ({ navigation }) => {
       </Text>
 
       {/* STATION PICKER */}
-      <RNPickerSelect
-        style={{
-          ...styles,
-          iconContainer: {
-            top: 18,
-            right: 18,
-          },
-        }}
-        onValueChange={async (value) => {
-          if (value === reduxSelectedStation) {
-            return;
-          }
-          const { payload } = dispatch(changeSelectedTrainStationAction(value));
-          const cachedTimetable = getCachedTimetable(
-            reduxTimetableCache,
-            value.code,
-          );
-          console.log('cached tt', cachedTimetable);
+      <DropDownPicker />
 
-          if (cachedTimetable.length) {
-            dispatch(addTimetableToCacheAction(cachedTimetable));
-          } else {
-            const timetable = await getStationTimetable(payload.code);
-            dispatch(addTimetableToCacheAction(timetable));
-          }
-        }}
-        useNativeAndroidPickerStyle={false}
-        placeholder={{}}
-        value={reduxSelectedStation}
-        Icon={() => {
-          return <Ionicons name="md-arrow-down" size={24} color="red" />;
-        }}
-        items={reduxStationList}
-      />
       {/* ############ TESTING ############# */}
       <TouchableOpacity
         style={styles.button}

@@ -1,28 +1,21 @@
 import React, { useCallback, useEffect } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // REDUX
 import { useSelector, useDispatch } from 'react-redux';
 import changeUserLocationAction from '../actionCreators/changeUserLocationAction';
 import changeLocalTrainStationsAction from '../actionCreators/changeLocalTrainStationsAction';
-import changeSelectedTrainStationAction from '../actionCreators/changeSelectedTrainStationAction';
-import addTimetableToCacheAction from '../actionCreators/addTimetableToCacheAction';
 
 // SERVICE API FUNCTIONS
-import {
-  distanceCalculator,
-  getCachedTimetable,
-  getLocationAPI,
-  getStationTimetable,
-} from '../serviceAPI';
+import { distanceCalculator, getLocationAPI } from '../serviceAPI';
 
 // SERVICE API
 import { findLocalTrainStations } from '../serviceAPI';
 
-// STATION PICKER SELECT
-import RNPickerSelect from 'react-native-picker-select';
+// PICKERS SELECT
+import DropDownPicker from '../Components/DropDownPicker';
+import TimePicker from '../Components/TimePicker';
 
 const WelcomeLocationModal = ({ navigation }) => {
   // ################## VARIABLES ##################
@@ -86,43 +79,12 @@ const WelcomeLocationModal = ({ navigation }) => {
           ? 'Location success'
           : 'Locating...'}
       </Text>
-      {/* STATION PICKER */}
-      <RNPickerSelect
-        style={{
-          ...styles,
-          iconContainer: {
-            top: 18,
-            right: 18,
-          },
-        }}
-        onValueChange={async (value) => {
-          if (value === null) {
-            return;
-          }
-          const { payload } = dispatch(changeSelectedTrainStationAction(value));
-          const cachedTimetable = getCachedTimetable(
-            reduxTimetables,
-            value.code,
-          );
-          console.log('cached tt', cachedTimetable);
 
-          if (!cachedTimetable.length) {
-            const timetable = await getStationTimetable(payload.code);
-            dispatch(addTimetableToCacheAction(timetable));
-          }
-        }}
-        disabled={reduxStationList.length > 1 ? false : true}
-        useNativeAndroidPickerStyle={false}
-        placeholder={{ label: 'Select a station...', value: null }}
-        Icon={() => {
-          if (reduxStationList.length > 1) {
-            return <Ionicons name="md-arrow-down" size={24} color="red" />;
-          } else {
-            return <Ionicons name="md-arrow-down" size={24} color="gray" />;
-          }
-        }}
-        items={reduxStationList}
-      />
+      {/* STATION DROPDOWN PICKER */}
+      <DropDownPicker />
+
+      {/* TIME PICKER */}
+      <TimePicker />
 
       {/* ENTER APP TOUCHABLE */}
       <TouchableOpacity style={styles.button} onPress={() => handleSubmit()}>
