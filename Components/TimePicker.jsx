@@ -9,20 +9,12 @@ import changeTravelTimeAction from '../actionCreators/changeTravelTimeAction';
 // TIME PICKER SELECT
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useEffect } from 'react';
 
 export default function TimePicker() {
   const [openTimePicker, setOpenTimePicker] = useState(false);
   const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
   const dispatch = useDispatch();
   let fullTime;
-
-  // SETS VALUE OF REDUX TIME TO MIDNIGHT LAST NIGHT
-  useEffect(() => {
-    fullTime = new Date();
-    fullTime.setHours(0, 0, 0, 0);
-    dispatch(changeTravelTimeAction({ fullTime, hours: 0, mins: 0 }));
-  }, []);
 
   const handleTimeChange = (event) => {
     setOpenTimePicker(false);

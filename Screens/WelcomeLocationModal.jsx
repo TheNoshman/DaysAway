@@ -16,6 +16,7 @@ import { findLocalTrainStations } from '../serviceAPI';
 // PICKERS SELECT
 import DropDownPicker from '../Components/DropDownPicker';
 import TimePicker from '../Components/TimePicker';
+import changeTravelTimeAction from '../actionCreators/changeTravelTimeAction';
 
 const WelcomeLocationModal = ({ navigation }) => {
   // ################## VARIABLES ##################
@@ -48,6 +49,10 @@ const WelcomeLocationModal = ({ navigation }) => {
         };
       });
       dispatch(changeLocalTrainStationsAction(stationList));
+      // SETS VALUE OF REDUX USER TIME TO MIDNIGHT LAST NIGHT
+      const fullTime = new Date();
+      fullTime.setHours(0, 0, 0, 0);
+      dispatch(changeTravelTimeAction({ fullTime, hours: 0, mins: 0 }));
     })();
   }, [dispatch]);
 
@@ -82,14 +87,13 @@ const WelcomeLocationModal = ({ navigation }) => {
 
       {/* STATION DROPDOWN PICKER */}
       <DropDownPicker />
-
       {/* TIME PICKER */}
       <TimePicker />
-
       {/* ENTER APP TOUCHABLE */}
       <TouchableOpacity style={styles.button} onPress={() => handleSubmit()}>
         <Text>Touch to enter</Text>
       </TouchableOpacity>
+
       {/* ############ TESTING ############# */}
       <TouchableOpacity
         style={styles.button}
