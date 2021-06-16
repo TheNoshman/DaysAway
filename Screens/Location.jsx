@@ -3,10 +3,11 @@ import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // REDUX
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // STATION PICKER SELECT
 import DropDownPicker from '../Components/DropDownPicker';
+import TimePicker from '../Components/TimePicker';
 
 const LocationComponent = ({ navigation }) => {
   // Redux values from store
@@ -30,6 +31,9 @@ const LocationComponent = ({ navigation }) => {
 
       {/* STATION PICKER */}
       <DropDownPicker />
+
+      {/* TIME PICKER */}
+      <TimePicker />
 
       {/* ############ TESTING ############# */}
       <TouchableOpacity

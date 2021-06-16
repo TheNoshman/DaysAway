@@ -9,19 +9,33 @@ import changeTravelTimeAction from '../actionCreators/changeTravelTimeAction';
 // TIME PICKER SELECT
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useEffect } from 'react';
 
 export default function TimePicker() {
   const [openTimePicker, setOpenTimePicker] = useState(false);
   const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
   const dispatch = useDispatch();
-  const midnight = new Date();
-  midnight.setHours(0, 0, 0, 0);
+  let fullTime;
+
+  // SETS VALUE OF REDUX TIME TO MIDNIGHT LAST NIGHT
+  useEffect(() => {
+    fullTime = new Date();
+    fullTime.setHours(0, 0, 0, 0);
+    dispatch(changeTravelTimeAction({ fullTime, hours: 0, mins: 0 }));
+  }, []);
 
   const handleTimeChange = (event) => {
+    setOpenTimePicker(false);
+    if (
+      event.type === 'dismissed' ||
+      event.nativeEvent.timestamp === reduxUserTravelTime.fullTime
+    ) {
+      return;
+    }
     const hours = event.nativeEvent.timestamp.getHours();
     const mins = event.nativeEvent.timestamp.getMinutes();
-    dispatch(changeTravelTimeAction({ hours, mins }));
-    setOpenTimePicker(false);
+    fullTime = event.nativeEvent.timestamp;
+    dispatch(changeTravelTimeAction({ fullTime, hours, mins }));
   };
 
   return (
@@ -40,8 +54,7 @@ export default function TimePicker() {
       ) : null}
       {openTimePicker ? (
         <DateTimePicker
-          testID="dateTimePicker"
-          value={midnight}
+          value={reduxUserTravelTime.fullTime}
           mode="time"
           is24Hour={true}
           display="spinner"
