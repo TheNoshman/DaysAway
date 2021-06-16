@@ -13,6 +13,9 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 export default function TimePicker() {
   const [openTimePicker, setOpenTimePicker] = useState(false);
   const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
+  const reduxSelectedStation = useSelector(
+    (state) => state.reduxSelectedTrainStation,
+  );
   const dispatch = useDispatch();
   let fullTime;
 
@@ -32,12 +35,23 @@ export default function TimePicker() {
 
   return (
     <View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => setOpenTimePicker(true)}
-      >
-        <Text>Select travel duration</Text>
-      </TouchableOpacity>
+      {reduxSelectedStation.code ? (
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => setOpenTimePicker(true)}
+        >
+          <Text style={styles.textEnabled}>Select travel duration</Text>
+          <Ionicons name="timer" size={24} color="red" />
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => setOpenTimePicker(true)}
+        >
+          <Text style={styles.textDisabled}>Select travel duration</Text>
+          <Ionicons name="timer" size={24} color="gray" />
+        </TouchableOpacity>
+      )}
       {reduxUserTravelTime ? (
         <Text>
           Travel time: {reduxUserTravelTime.hours} hours,{' '}
@@ -66,23 +80,20 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 40,
-    width: 150,
+    width: 300,
     borderRadius: 5,
     borderWidth: 2,
-    justifyContent: 'center',
+    paddingLeft: 10,
+    paddingRight: 6,
+    justifyContent: 'space-between',
     alignItems: 'center',
+    flexDirection: 'row',
     marginTop: 20,
   },
-  inputAndroid: {
-    width: 300,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    marginHorizontal: 10,
-    marginVertical: 10,
-    borderWidth: 2,
-    borderColor: 'black',
-    borderRadius: 5,
+  textDisabled: {
+    color: '#c3c3c3',
+  },
+  textEnabled: {
     color: 'black',
-    paddingRight: 30, // to ensure the text is never behind the icon
   },
 });

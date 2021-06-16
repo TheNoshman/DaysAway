@@ -38,7 +38,7 @@ export default function DropDownPicker() {
         const { payload } = dispatch(changeSelectedTrainStationAction(value));
         const cachedTimetable = getCachedTimetable(reduxTimetables, value.code);
         if (cachedTimetable.length) {
-          console.log('cached has length, dispatching to ');
+          console.log('cached has length ');
           dispatch(updateTimetableCacheAction(cachedTimetable));
         } else {
           const timetable = await getStationTimetable(payload.code);
