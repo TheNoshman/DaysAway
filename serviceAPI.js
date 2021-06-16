@@ -1,4 +1,8 @@
 import * as Location from 'expo-location';
+import {
+  assignStopsToTrain,
+  removeDuplicateServices,
+} from './ServiceFunctions';
 
 // npm install babel-plugin-inline-dotenv
 // .ENV VARIABLES
@@ -52,22 +56,8 @@ export const getStationTimetable = async (code) => {
 // GET TRAIN STOPS
 const getStops = async (timetable) => {
   // REMOVES DUPLICATE SERVICES FOR API CALL
-  let uniqueServices = [];
-  for (const trainService of timetable.departures.all) {
-    if (
-      !uniqueServices.some(
-        (serv) =>
-          serv.destination === trainService.destination_name &&
-          serv.serviceCode === trainService.service,
-      )
-    ) {
-      uniqueServices.push({
-        serviceCode: trainService.service,
-        destination: trainService.destination_name,
-        timetableURL: trainService.service_timetable.id,
-      });
-    }
-  }
+  let uniqueServices = removeDuplicateServices(timetable);
+
   // API CALL TO GET STOPS
   const promises = uniqueServices.map(async (service) => {
     const callingAtResult = await fetch(service.timetableURL)
@@ -91,17 +81,7 @@ const getStops = async (timetable) => {
     };
   });
   const stopsArray = await Promise.all(promises);
-  // ASSIGNS API RESULTS TO SERVICES IN TIMETABLE
-  timetable.departures.all.forEach((train, index) => {
-    const stopsIndex = stopsArray.findIndex(
-      (obj) =>
-        obj.service === train.service &&
-        obj.destination === train.destination_name,
-    );
-    timetable.departures.all[index].callingAt =
-      stopsArray[stopsIndex].callingAtResult;
-  });
-  return timetable;
+  return assignStopsToTrain(timetable, stopsArray);
 };
 
 // CHECKS CACHE FOR TIMETABLE
