@@ -2,6 +2,7 @@ import * as Location from 'expo-location';
 import {
   assignStopsToTrain,
   removeDuplicateServices,
+  uniqueServicesOnly,
 } from './ServiceFunctions';
 
 // npm install babel-plugin-inline-dotenv
@@ -50,7 +51,8 @@ export const getStationTimetable = async (code) => {
       console.log(`${err.message}`);
     });
   const withStops = await getStops(res);
-  return withStops;
+  const withUnique = uniqueServicesOnly(withStops);
+  return withUnique;
 };
 
 // GET TRAIN STOPS

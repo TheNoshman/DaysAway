@@ -20,8 +20,6 @@ export default function TimePicker() {
   let fullTime;
 
   const handleTimeChange = (event) => {
-    console.log('event', event);
-
     setOpenTimePicker(false);
     if (
       event.type === 'dismissed' ||

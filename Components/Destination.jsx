@@ -7,7 +7,6 @@ export default function Destination({ train }) {
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
   );
-  console.log('train in dest = ', train);
 
   return (
     <View style={styles.container}>
