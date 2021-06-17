@@ -75,13 +75,13 @@ export const uniqueServicesOnly = (timetable) => {
 // CALCULATE DIFFERENCE BETWEEN DEPARTURE TIME AND ARRIVAL TIME
 // IF TRUE, JOURNEY OK. IF FALSE, JOURNEY TOO LONG
 export const calculateLastStop = (timetable) => {
-  console.log('timetable', timetable);
+  console.log('timetable in calculatelaststop', timetable);
 
-  // timetable.departures.unique.forEach((train) => {
-  //   const lastStop = train.callingAt[train.callingAt.length - 1];
-  //   console.log('last stop', lastStop);
+  timetable.departures.unique.forEach((train) => {
+    const lastStop = train.callingAt[train.callingAt.length - 1];
+    console.log('last stop', lastStop.station_name);
 
-  // if (train.callingAt[train.callingAt.length - 1]) {
-  // }
-  // });
+    // if (train.callingAt[train.callingAt.length - 1]) {
+    // }
+  });
 };
