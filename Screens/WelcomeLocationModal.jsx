@@ -79,6 +79,7 @@ const WelcomeLocationModal = ({ navigation }) => {
       navigation.navigate('Main');
     }
     // Added dependency, might cause issues later
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation, reduxUserTravelTime.hours, reduxUserTravelTime.mins]);
 
   // ################## RENDER COMPONENT ##################

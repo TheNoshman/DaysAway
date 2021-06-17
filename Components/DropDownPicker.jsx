@@ -32,7 +32,7 @@ export default function DropDownPicker() {
         },
       }}
       onValueChange={async (value) => {
-        if (value === null || value === reduxSelectedStation) {
+        if (value === null || value.code === reduxSelectedStation.code) {
           return;
         }
         const { payload } = dispatch(changeSelectedTrainStationAction(value));

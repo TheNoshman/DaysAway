@@ -49,3 +49,29 @@ export const uniqueServicesOnly = (timetable) => {
   });
   return timetable;
 };
+
+// TIME
+// Convert a time in hh:mm format to minutes
+const timeToMins = (time) => {
+  const b = time.split(':');
+  return b[0] * 60 + +b[1];
+};
+
+const timeFromMins = (mins) => {
+  function z(n) {
+    return (n < 10 ? '0' : '') + n;
+  }
+  // eslint-disable-next-line no-bitwise
+  const h = ((mins / 60) | 0) % 24;
+  const m = mins % 60;
+  return z(h) + ':' + z(m);
+};
+
+// Add two times in hh:mm format
+function getJourneyTime(departureTime, arrivalTime) {
+  return timeFromMins(timeToMins(arrivalTime) - timeToMins(departureTime));
+}
+
+console.log(getJourneyTime('15:05', '15:35')); // 13:55
+// console.log(addTimes('12:13', '13:42')); // 01:55
+// console.log(addTimes('02:43', '03:42')); // 06:25
