@@ -9,6 +9,7 @@ import changeTravelTimeAction from '../actionCreators/changeTravelTimeAction';
 // TIME PICKER SELECT
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import dayjs from 'dayjs';
 
 export default function TimePicker() {
   const [openTimePicker, setOpenTimePicker] = useState(false);
@@ -17,20 +18,20 @@ export default function TimePicker() {
     (state) => state.reduxSelectedTrainStation,
   );
   const dispatch = useDispatch();
-  let fullTime;
 
   const handleTimeChange = (event) => {
+    console.log('event', event);
+
     setOpenTimePicker(false);
     if (
       event.type === 'dismissed' ||
-      event.nativeEvent.timestamp === reduxUserTravelTime.fullTime
+      dayjs(event.nativeEvent.timestamp) === reduxUserTravelTime.fullTime
     ) {
       return;
     }
-    const hours = event.nativeEvent.timestamp.getHours();
-    const mins = event.nativeEvent.timestamp.getMinutes();
-    fullTime = event.nativeEvent.timestamp;
-    dispatch(changeTravelTimeAction({ fullTime, hours, mins }));
+    const fullTime = event.nativeEvent.timestamp;
+    const dayjsTime = dayjs(event.nativeEvent.timestamp);
+    dispatch(changeTravelTimeAction({ fullTime, dayjsTime }));
   };
 
   return (
@@ -39,15 +40,14 @@ export default function TimePicker() {
         style={styles.button}
         onPress={() => setOpenTimePicker(true)}
       >
-        {reduxUserTravelTime.hours === 0 && reduxUserTravelTime.mins === 0 ? (
-          <Text style={styles.textDisabled}>Select travel duration</Text>
-        ) : (
+        {reduxUserTravelTime.dayjsTime ? (
           <Text style={styles.textEnabled}>
-            {reduxUserTravelTime.hours} hours, {reduxUserTravelTime.mins}{' '}
-            minutes
+            {reduxUserTravelTime.dayjsTime.hour()} hours{' '}
+            {reduxUserTravelTime.dayjsTime.minute()} minutes
           </Text>
+        ) : (
+          <Text style={styles.textDisabled}>Select travel duration</Text>
         )}
-
         {reduxSelectedStation.code ? (
           <Ionicons name="timer" size={24} color="red" />
         ) : (

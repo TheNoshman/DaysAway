@@ -8,10 +8,10 @@ import changeUserLocationAction from '../actionCreators/changeUserLocationAction
 import changeLocalTrainStationsAction from '../actionCreators/changeLocalTrainStationsAction';
 
 // SERVICE API FUNCTIONS
-import { distanceCalculator, getLocationAPI } from '../serviceAPI';
+import { distanceCalculator } from '../serviceFunctions';
+import { findLocalTrainStations, getLocationAPI } from '../serviceAPI';
 
 // SERVICE API
-import { findLocalTrainStations } from '../serviceAPI';
 
 // PICKERS SELECT
 import DropDownPicker from '../Components/DropDownPicker';
@@ -34,10 +34,12 @@ const WelcomeLocationModal = ({ navigation }) => {
   // CALL TO LOCATION API, SAVES LOCATION AND STATION LIST TO REDUX
   useEffect(() => {
     (async () => {
+      console.log('useeffect');
+
       // SETS VALUE OF REDUX USER TIME TO MIDNIGHT LAST NIGHT
       const fullTime = new Date();
       fullTime.setHours(0, 0, 0, 0);
-      dispatch(changeTravelTimeAction({ fullTime, hours: 0, mins: 0 }));
+      dispatch(changeTravelTimeAction({ fullTime }));
       // LOCATION
       const locationResult = await getLocationAPI();
       dispatch(changeUserLocationAction(locationResult));
@@ -56,7 +58,8 @@ const WelcomeLocationModal = ({ navigation }) => {
       });
       dispatch(changeLocalTrainStationsAction(stationList));
     })();
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // 'Enter' navigation handler - closes modal and navs to Home page
   const handleSubmit = useCallback(async () => {
@@ -80,7 +83,7 @@ const WelcomeLocationModal = ({ navigation }) => {
     }
     // Added dependency, might cause issues later
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigation, reduxUserTravelTime.hours, reduxUserTravelTime.mins]);
+  }, [reduxUserTravelTime.hours, reduxUserTravelTime.mins]);
 
   // ################## RENDER COMPONENT ##################
   return (

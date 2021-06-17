@@ -1,3 +1,27 @@
+const dayjs = require('dayjs');
+
+// DISTANCE CALC BETWEEN TWO COORDS
+export const distanceCalculator = (lat1, lon1, lat2, lon2) => {
+  if (lat1 === lat2 && lon1 === lon2) {
+    return 0;
+  } else {
+    const radlat1 = (Math.PI * lat1) / 180;
+    const radlat2 = (Math.PI * lat2) / 180;
+    const theta = lon1 - lon2;
+    const radtheta = (Math.PI * theta) / 180;
+    let dist =
+      Math.sin(radlat1) * Math.sin(radlat2) +
+      Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    if (dist > 1) {
+      dist = 1;
+    }
+    dist = Math.acos(dist);
+    dist = (dist * 180) / Math.PI;
+    dist = dist * 60 * 1.1515;
+    return dist;
+  }
+};
+
 // REMOVES DUPLICATE SERVICES FOR API CALL IN SERVICE API
 export const removeDuplicateServices = (timetable) => {
   let uniqueServices = [];
@@ -50,28 +74,28 @@ export const uniqueServicesOnly = (timetable) => {
   return timetable;
 };
 
-// TIME
-// Convert a time in hh:mm format to minutes
-const timeToMins = (time) => {
-  const b = time.split(':');
-  return b[0] * 60 + +b[1];
+// CALCULATE DIFFERENCE BETWEEN DEPARTURE TIME AND ARRIVAL TIME
+// IF TRUE, JOURNEY OK. IF FALSE, JOURNEY TOO LONG
+export const getJourneyTime = (departureTime, arrivalTime, userTime) => {
+  const timeToMins = (time) => {
+    const b = time.split(':');
+    return b[0] * 60 + +b[1];
+  };
+  const timeFromMins = (mins) => {
+    function z(n) {
+      return (n < 10 ? '0' : '') + n;
+    }
+    // eslint-disable-next-line no-bitwise
+    const h = ((mins / 60) | 0) % 24;
+    const m = mins % 60;
+    return z(h) + '.' + z(m);
+  };
+  const journeyTime =
+    +timeFromMins(timeToMins(arrivalTime) - timeToMins(departureTime)) * 100;
+  userTime = +userTime.replace(':', '.') * 100;
+  return userTime > journeyTime;
 };
 
-const timeFromMins = (mins) => {
-  function z(n) {
-    return (n < 10 ? '0' : '') + n;
-  }
-  // eslint-disable-next-line no-bitwise
-  const h = ((mins / 60) | 0) % 24;
-  const m = mins % 60;
-  return z(h) + ':' + z(m);
-};
-
-// Add two times in hh:mm format
-function getJourneyTime(departureTime, arrivalTime) {
-  return timeFromMins(timeToMins(arrivalTime) - timeToMins(departureTime));
-}
-
-console.log(getJourneyTime('15:05', '15:35')); // 13:55
-// console.log(addTimes('12:13', '13:42')); // 01:55
-// console.log(addTimes('02:43', '03:42')); // 06:25
+// console.log(getJourneyTime('15:05', '15:35', '00:20')); // 13:55
+// console.log(getJourneyTime('12:13', '13:42', '01.50')); // 01:55
+// console.log(getJourneyTime('02:43', '03:42', '02.10')); // 06:25

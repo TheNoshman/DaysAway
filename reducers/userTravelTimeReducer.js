@@ -2,7 +2,7 @@
 
 export default function userTravelTimeReducer(
   // Default state
-  state = {},
+  state = { fullTime: 0, dayjsTime: 0 },
   action,
 ) {
   switch (action.type) {
