@@ -17,6 +17,7 @@ const LocationComponent = ({ navigation }) => {
     (state) => state.reduxSelectedTrainStation,
   );
   const reduxTimetableCache = useSelector((state) => state.reduxTimetableCache);
+  const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
 
   return (
     <View style={styles.container}>
@@ -59,6 +60,12 @@ const LocationComponent = ({ navigation }) => {
         onPress={() => console.log(reduxTimetableCache)}
       >
         <Text>get redux timetable</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => console.log(reduxUserTravelTime)}
+      >
+        <Text>get user time</Text>
       </TouchableOpacity>
     </View>
   );

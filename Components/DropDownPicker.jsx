@@ -22,6 +22,21 @@ export default function DropDownPicker() {
   );
   const dispatch = useDispatch();
 
+  const handleValueChange = async (value) => {
+    if (value === null || value.code === reduxSelectedStation.code) {
+      return;
+    }
+    const { payload } = dispatch(changeSelectedTrainStationAction(value));
+    const cachedTimetable = getCachedTimetable(reduxTimetables, value.code);
+    if (cachedTimetable.length) {
+      console.log('cached has length ');
+      dispatch(updateTimetableCacheAction(cachedTimetable));
+    } else {
+      const timetable = await getStationTimetable(payload.code);
+      dispatch(addTimetableToCacheAction(timetable));
+    }
+  };
+
   return (
     <RNPickerSelect
       style={{
@@ -31,20 +46,7 @@ export default function DropDownPicker() {
           right: 18,
         },
       }}
-      onValueChange={async (value) => {
-        if (value === null || value.code === reduxSelectedStation.code) {
-          return;
-        }
-        const { payload } = dispatch(changeSelectedTrainStationAction(value));
-        const cachedTimetable = getCachedTimetable(reduxTimetables, value.code);
-        if (cachedTimetable.length) {
-          console.log('cached has length ');
-          dispatch(updateTimetableCacheAction(cachedTimetable));
-        } else {
-          const timetable = await getStationTimetable(payload.code);
-          dispatch(addTimetableToCacheAction(timetable));
-        }
-      }}
+      onValueChange={(value) => handleValueChange(value)}
       disabled={reduxStationList.length > 1 ? false : true}
       useNativeAndroidPickerStyle={false}
       placeholder={{ label: 'Select a station...', value: null }}

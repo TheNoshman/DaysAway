@@ -3,7 +3,6 @@ import {
   assignStopsToTrain,
   removeDuplicateServices,
   uniqueServicesOnly,
-  getJourneyTime,
 } from './serviceFunctions';
 
 // npm install babel-plugin-inline-dotenv
@@ -53,8 +52,6 @@ export const getStationTimetable = async (code) => {
     });
   const withStops = await getStops(res);
   const withUnique = uniqueServicesOnly(withStops);
-  console.log('with uni', withUnique);
-  getJourneyTime();
   return withUnique;
 };
 

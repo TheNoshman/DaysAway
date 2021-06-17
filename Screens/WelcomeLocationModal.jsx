@@ -8,10 +8,8 @@ import changeUserLocationAction from '../actionCreators/changeUserLocationAction
 import changeLocalTrainStationsAction from '../actionCreators/changeLocalTrainStationsAction';
 
 // SERVICE API FUNCTIONS
-import { distanceCalculator } from '../serviceFunctions';
+import { calculateLastStop, distanceCalculator } from '../serviceFunctions';
 import { findLocalTrainStations, getLocationAPI } from '../serviceAPI';
-
-// SERVICE API
 
 // PICKERS SELECT
 import DropDownPicker from '../Components/DropDownPicker';
@@ -34,8 +32,6 @@ const WelcomeLocationModal = ({ navigation }) => {
   // CALL TO LOCATION API, SAVES LOCATION AND STATION LIST TO REDUX
   useEffect(() => {
     (async () => {
-      console.log('useeffect');
-
       // SETS VALUE OF REDUX USER TIME TO MIDNIGHT LAST NIGHT
       const fullTime = new Date();
       fullTime.setHours(0, 0, 0, 0);
@@ -61,7 +57,15 @@ const WelcomeLocationModal = ({ navigation }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 'Enter' navigation handler - closes modal and navs to Home page
+  // TRIGGERS JOURNEY ALGORITHM -> MAKES SURE USER HAS PICKED A TIME AND A STATION
+  useCallback(() => {
+    if (reduxTimetables.length && reduxUserTravelTime.dayjsTime) {
+      console.log('laststop triggered in modal ', reduxTimetables);
+      calculateLastStop(reduxTimetables);
+    }
+  }, [reduxTimetables, reduxUserTravelTime.dayjsTime])();
+
+  // NAVIGATION HANDLER -> ENTERS THE MAIN STACK
   const handleSubmit = useCallback(async () => {
     if (reduxSelectedStation.code === null) {
       Alert.alert(
@@ -69,10 +73,7 @@ const WelcomeLocationModal = ({ navigation }) => {
         'Please select the train station you would like to depart from.',
         [{ text: 'Lets go!' }],
       );
-    } else if (
-      reduxUserTravelTime.hours === 0 &&
-      reduxUserTravelTime.mins === 0
-    ) {
+    } else if (!reduxUserTravelTime.dayjsTime) {
       Alert.alert(
         'No journey time selected',
         'Please select the amount of time you would like to spend travelling',
@@ -83,7 +84,7 @@ const WelcomeLocationModal = ({ navigation }) => {
     }
     // Added dependency, might cause issues later
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reduxUserTravelTime.hours, reduxUserTravelTime.mins]);
+  }, [reduxSelectedStation, reduxUserTravelTime.dayjsTime]);
 
   // ################## RENDER COMPONENT ##################
   return (
@@ -124,9 +125,15 @@ const WelcomeLocationModal = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => console.log(reduxTimetables)}
+        onPress={() => console.log(reduxTimetables[0])}
       >
         <Text>get redux timetable</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => console.log(reduxUserTravelTime)}
+      >
+        <Text>get user time</Text>
       </TouchableOpacity>
     </View>
   );

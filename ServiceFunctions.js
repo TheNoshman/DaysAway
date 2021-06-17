@@ -1,5 +1,3 @@
-const dayjs = require('dayjs');
-
 // DISTANCE CALC BETWEEN TWO COORDS
 export const distanceCalculator = (lat1, lon1, lat2, lon2) => {
   if (lat1 === lat2 && lon1 === lon2) {
@@ -76,26 +74,14 @@ export const uniqueServicesOnly = (timetable) => {
 
 // CALCULATE DIFFERENCE BETWEEN DEPARTURE TIME AND ARRIVAL TIME
 // IF TRUE, JOURNEY OK. IF FALSE, JOURNEY TOO LONG
-export const getJourneyTime = (departureTime, arrivalTime, userTime) => {
-  const timeToMins = (time) => {
-    const b = time.split(':');
-    return b[0] * 60 + +b[1];
-  };
-  const timeFromMins = (mins) => {
-    function z(n) {
-      return (n < 10 ? '0' : '') + n;
-    }
-    // eslint-disable-next-line no-bitwise
-    const h = ((mins / 60) | 0) % 24;
-    const m = mins % 60;
-    return z(h) + '.' + z(m);
-  };
-  const journeyTime =
-    +timeFromMins(timeToMins(arrivalTime) - timeToMins(departureTime)) * 100;
-  userTime = +userTime.replace(':', '.') * 100;
-  return userTime > journeyTime;
-};
+export const calculateLastStop = (timetable) => {
+  console.log('timetable', timetable);
 
-// console.log(getJourneyTime('15:05', '15:35', '00:20')); // 13:55
-// console.log(getJourneyTime('12:13', '13:42', '01.50')); // 01:55
-// console.log(getJourneyTime('02:43', '03:42', '02.10')); // 06:25
+  // timetable.departures.unique.forEach((train) => {
+  //   const lastStop = train.callingAt[train.callingAt.length - 1];
+  //   console.log('last stop', lastStop);
+
+  // if (train.callingAt[train.callingAt.length - 1]) {
+  // }
+  // });
+};

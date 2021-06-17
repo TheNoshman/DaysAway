@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { StyleSheet, Text, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // REDUX
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,20 +9,21 @@ import changeTravelTimeAction from '../actionCreators/changeTravelTimeAction';
 
 // TIME PICKER SELECT
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+
+// DATE FRAMEWORK
 import dayjs from 'dayjs';
 
 export default function TimePicker() {
   const [openTimePicker, setOpenTimePicker] = useState(false);
+
   const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
   );
+
   const dispatch = useDispatch();
 
   const handleTimeChange = (event) => {
-    console.log('event', event);
-
     setOpenTimePicker(false);
     if (
       event.type === 'dismissed' ||
