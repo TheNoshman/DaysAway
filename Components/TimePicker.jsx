@@ -20,6 +20,8 @@ export default function TimePicker() {
   let fullTime;
 
   const handleTimeChange = (event) => {
+    console.log('event', event);
+
     setOpenTimePicker(false);
     if (
       event.type === 'dismissed' ||
@@ -35,29 +37,25 @@ export default function TimePicker() {
 
   return (
     <View>
-      {reduxSelectedStation.code ? (
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => setOpenTimePicker(true)}
-        >
-          <Text style={styles.textEnabled}>Select travel duration</Text>
-          <Ionicons name="timer" size={24} color="red" />
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => setOpenTimePicker(true)}
-        >
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => setOpenTimePicker(true)}
+      >
+        {reduxUserTravelTime.hours === 0 && reduxUserTravelTime.mins === 0 ? (
           <Text style={styles.textDisabled}>Select travel duration</Text>
+        ) : (
+          <Text style={styles.textEnabled}>
+            {reduxUserTravelTime.hours} hours, {reduxUserTravelTime.mins}{' '}
+            minutes
+          </Text>
+        )}
+
+        {reduxSelectedStation.code ? (
+          <Ionicons name="timer" size={24} color="red" />
+        ) : (
           <Ionicons name="timer" size={24} color="gray" />
-        </TouchableOpacity>
-      )}
-      {reduxUserTravelTime ? (
-        <Text>
-          Travel time: {reduxUserTravelTime.hours} hours,{' '}
-          {reduxUserTravelTime.mins} mins
-        </Text>
-      ) : null}
+        )}
+      </TouchableOpacity>
       {openTimePicker ? (
         <DateTimePicker
           value={reduxUserTravelTime.fullTime}

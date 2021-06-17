@@ -27,12 +27,18 @@ const WelcomeLocationModal = ({ navigation }) => {
     (state) => state.reduxSelectedTrainStation,
   );
   const reduxTimetables = useSelector((state) => state.reduxTimetableCache);
+  const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
   const dispatch = useDispatch();
 
   // ################## FUNCTIONS ##################
   // CALL TO LOCATION API, SAVES LOCATION AND STATION LIST TO REDUX
   useEffect(() => {
     (async () => {
+      // SETS VALUE OF REDUX USER TIME TO MIDNIGHT LAST NIGHT
+      const fullTime = new Date();
+      fullTime.setHours(0, 0, 0, 0);
+      dispatch(changeTravelTimeAction({ fullTime, hours: 0, mins: 0 }));
+      // LOCATION
       const locationResult = await getLocationAPI();
       dispatch(changeUserLocationAction(locationResult));
       const stationAPIResult = await findLocalTrainStations(locationResult);
@@ -49,32 +55,31 @@ const WelcomeLocationModal = ({ navigation }) => {
         };
       });
       dispatch(changeLocalTrainStationsAction(stationList));
-      // SETS VALUE OF REDUX USER TIME TO MIDNIGHT LAST NIGHT
-      const fullTime = new Date();
-      fullTime.setHours(0, 0, 0, 0);
-      dispatch(changeTravelTimeAction({ fullTime, hours: 0, mins: 0 }));
     })();
   }, [dispatch]);
 
   // 'Enter' navigation handler - closes modal and navs to Home page
   const handleSubmit = useCallback(async () => {
-    if (reduxLocationValue.timestamp === 0) {
-      Alert.alert(
-        'No location found',
-        'Please pinpoint your current location',
-        [{ text: 'Lets go!' }],
-      );
-    } else if (reduxSelectedStation.code === null) {
+    if (reduxSelectedStation.code === null) {
       Alert.alert(
         'No station selected',
         'Please select the train station you would like to depart from.',
+        [{ text: 'Lets go!' }],
+      );
+    } else if (
+      reduxUserTravelTime.hours === 0 &&
+      reduxUserTravelTime.mins === 0
+    ) {
+      Alert.alert(
+        'No journey time selected',
+        'Please select the amount of time you would like to spend travelling',
         [{ text: 'Lets go!' }],
       );
     } else {
       navigation.navigate('Main');
     }
     // Added dependency, might cause issues later
-  }, [navigation, reduxLocationValue.timestamp, reduxSelectedStation]);
+  }, [navigation, reduxSelectedStation.code, reduxUserTravelTime.fullTime]);
 
   // ################## RENDER COMPONENT ##################
   return (
