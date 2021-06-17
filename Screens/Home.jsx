@@ -38,7 +38,7 @@ const Home = () => {
         ) : (
           <FlatList
             style={styles.list}
-            data={timetable[0].departures.all}
+            data={timetable[0].departures.unique}
             keyExtractor={(item) => item.train_uid}
             renderItem={({ item }) => <Destination train={item} />}
             refreshing={isRefreshing}

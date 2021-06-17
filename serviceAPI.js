@@ -52,6 +52,7 @@ export const getStationTimetable = async (code) => {
     });
   const withStops = await getStops(res);
   const withUnique = uniqueServicesOnly(withStops);
+  console.log('with uni', withUnique);
   return withUnique;
 };
 
