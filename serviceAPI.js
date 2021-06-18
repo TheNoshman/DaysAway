@@ -1,9 +1,5 @@
 import * as Location from 'expo-location';
-import {
-  assignStopsToTrain,
-  removeDuplicateServices,
-  uniqueServicesOnly,
-} from './serviceFunctions';
+import { removeDuplicateServices } from './serviceFunctions';
 
 // npm install babel-plugin-inline-dotenv
 // .ENV VARIABLES
@@ -40,7 +36,7 @@ export const findLocalTrainStations = async (userLocationData) => {
 };
 
 // GET TRAIN STATION TIMETABLE REQUEST
-export const getStationTimetable = async (code, connecting = false) => {
+export const getStationTimetable = async (code) => {
   const stationCode = `${code}/live.json?`;
   const res = await fetch(
     `${getTimetableAPI}${stationCode}app_id=${API_ID}&app_key=${API_KEY}&darwin=false&train_status=passenger`,
@@ -50,54 +46,37 @@ export const getStationTimetable = async (code, connecting = false) => {
     .catch((err) => {
       console.log(`${err.message}`);
     });
-  const withStops = await getStops(res, connecting);
-  const withUnique = uniqueServicesOnly(withStops);
-  return withUnique;
+  const withStops = await getStops(res);
+
+  console.log('withStops', withStops);
+
+  return withStops;
 };
 
 // GET TRAIN STOPS
-const getStops = async (timetable, connecting) => {
+const getStops = async (timetable) => {
   // REMOVES DUPLICATE SERVICES FOR API CALL
   let uniqueServices = removeDuplicateServices(timetable);
-  console.log('unique services = ', uniqueServices);
-  console.log('timetable', timetable);
-
-  if (connecting) {
-    console.log('connecting service = true');
-    const index = Math.floor(Math.random() * uniqueServices.length);
-    uniqueServices = [uniqueServices[index]];
-    console.log('uniq serv after one selected = ', uniqueServices);
-    timetable.departures.all = uniqueServices;
-  }
+  const index = Math.floor(Math.random() * uniqueServices.length);
+  timetable.departures.all = [uniqueServices[index]];
 
   // API CALL TO GET STOPS
-  const promises = uniqueServices.map(async (service) => {
-    const callingAtResult = await fetch(service.timetableURL)
-      .then((result) =>
-        result.status <= 400 ? result : Promise.reject(result),
-      )
-      .then((result) => result.json())
-      .catch((err) => {
-        console.log(`${err.message}`);
-      });
-    console.log('callingat result = ', callingAtResult);
+  const callingAtResult = await fetch(timetable.departures.all[0].timetableURL)
+    .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
+    .then((result) => result.json())
+    .catch((err) => {
+      console.log(`${err.message}`);
+    });
 
-    // REMOVES STOPS FROM THE PAST
-    const remainingStops = callingAtResult.stops.slice(
-      callingAtResult.stops.findIndex(
-        (el) => el.station_code === timetable.station_code,
-      ) + 1,
-    );
-    return {
-      service: service.serviceCode,
-      destination: service.destination,
-      callingAtResult: remainingStops,
-    };
-  });
-  const stopsArray = await Promise.all(promises);
-  console.log('stops array promises = ', stopsArray);
+  // REMOVES STOPS FROM THE PAST
+  const remainingStops = callingAtResult.stops.slice(
+    callingAtResult.stops.findIndex(
+      (el) => el.station_code === timetable.station_code,
+    ),
+  );
 
-  return assignStopsToTrain(timetable, stopsArray);
+  timetable.departures.all[0].callingAt = remainingStops;
+  return timetable;
 };
 
 // CHECKS CACHE FOR TIMETABLE

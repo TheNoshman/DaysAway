@@ -61,6 +61,8 @@ const WelcomeLocationModal = ({ navigation }) => {
 
   // TRIGGERS JOURNEY ALGORITHM -> MAKES SURE USER HAS PICKED A TIME AND A STATION
   useCallback(() => {
+    console.log('indesi');
+
     if (
       reduxTimetables.findIndex(
         (timetable) => timetable.station_code === reduxSelectedStation.code,

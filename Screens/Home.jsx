@@ -7,6 +7,7 @@ import updateTimetableCacheAction from '../actionCreators/updateTimetableCacheAc
 // COMPONENTS
 import Destination from '../Components/Destination';
 import { getCachedTimetable, getStationTimetable } from '../serviceAPI';
+import { calculateLastStop } from '../serviceFunctions';
 
 const Home = () => {
   // STATE FOR REFRESH
@@ -15,12 +16,22 @@ const Home = () => {
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
   );
+  const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
+
   const dispatch = useDispatch();
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
     const timetable = await getStationTimetable(reduxSelectedStation.code);
     dispatch(updateTimetableCacheAction(timetable));
+
+    const timetableIndex = reduxTimetableCache.findIndex(
+      (tt) => tt.station_code === reduxSelectedStation.code,
+    );
+    calculateLastStop(
+      reduxTimetableCache[timetableIndex],
+      reduxUserTravelTime.dayjsTime,
+    );
     setIsRefreshing(false);
   };
 
@@ -38,8 +49,8 @@ const Home = () => {
         ) : (
           <FlatList
             style={styles.list}
-            data={timetable[0].departures.unique}
-            keyExtractor={(item) => item.train_uid}
+            data={timetable[0].departures.all}
+            keyExtractor={(item) => item.serviceCode}
             renderItem={({ item }) => <Destination train={item} />}
             refreshing={isRefreshing}
             onRefresh={() => handleRefresh()}

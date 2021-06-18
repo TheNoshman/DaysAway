@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import { getStationTimetable } from './serviceAPI';
 
 // DISTANCE CALC BETWEEN TWO COORDS
 export const distanceCalculator = (lat1, lon1, lat2, lon2) => {
@@ -44,46 +43,6 @@ export const removeDuplicateServices = (timetable) => {
   return uniqueServices;
 };
 
-// ASSIGNS API 'CALLING AT' RESULTS TO SERVICES IN TIMETABLE
-export const assignStopsToTrain = (timetable, stopsArray) => {
-  console.log('assign stops timetable = ', timetable);
-  console.log('assign stops stopsarray = ', stopsArray);
-
-  timetable.departures.all.forEach((train, index) => {
-    if (stopsArray.length === 1) {
-      console.log('indide length 1 in assign');
-
-      timetable.departures.all[0].callingAt = stopsArray[0].callingAtResult;
-    } else {
-      const stopsIndex = stopsArray.findIndex(
-        (obj) =>
-          obj.service === train.service &&
-          obj.destination === train.destination_name,
-      );
-      timetable.departures.all[index].callingAt =
-        stopsArray[stopsIndex].callingAtResult;
-    }
-  });
-  return timetable;
-};
-
-// FILTERS OUT SAME SERVICES AT DIFFERENT TIMES FOR HOME DISPLAY
-export const uniqueServicesOnly = (timetable) => {
-  timetable.departures.unique = [];
-  timetable.departures.all.forEach((train) => {
-    if (
-      timetable.departures.unique.findIndex(
-        (serv) =>
-          train.destination_name === serv.destination_name &&
-          train.service === serv.service,
-      ) === -1
-    ) {
-      timetable.departures.unique.push(train);
-    }
-  });
-  return timetable;
-};
-
 // CALCULATE DIFFERENCE BETWEEN DEPARTURE TIME AND ARRIVAL TIME
 // IF TRUE, JOURNEY OK. IF FALSE, JOURNEY TOO LONG
 export const calculateLastStop = async (timetable, userTime) => {
@@ -92,44 +51,39 @@ export const calculateLastStop = async (timetable, userTime) => {
     dayjs().hour(0).minute(0).second(0),
     'minutes',
   );
-  console.log('user travel time = ', userTravelTime);
+  const callingAtArray = timetable.departures.all[0].callingAt;
 
-  timetable.departures.unique.forEach(async (train) => {
-    const departure = train.aimed_departure_time.split(':');
-    const stationDepartureTime = dayjs()
-      .hour(departure[0])
-      .minute(departure[1])
-      .second(0);
+  const departure = callingAtArray[0].aimed_departure_time.split(':');
+  const stationDepartureTime = dayjs()
+    .hour(departure[0])
+    .minute(departure[1])
+    .second(0);
 
-    const arrival =
-      train.callingAt[train.callingAt.length - 1].aimed_arrival_time.split(':');
-    const stationArrivalTime = dayjs()
-      .hour(arrival[0])
-      .minute(arrival[1])
-      .second(0);
+  const arrival =
+    callingAtArray[callingAtArray.length - 1].aimed_arrival_time.split(':');
+  const stationArrivalTime = dayjs()
+    .hour(arrival[0])
+    .minute(arrival[1])
+    .second(0);
 
-    // console.log('arr', stationArrivalTime);
-    // console.log('dep', stationDepartureTime);
-    // console.log('usr', userTravelTime);
-    const journeyTime = stationArrivalTime.diff(
-      stationDepartureTime,
-      'minutes',
-    );
+  // console.log('arr', stationArrivalTime);
+  // console.log('dep', stationDepartureTime);
+  // console.log('usr', userTravelTime);
+  const journeyTime = stationArrivalTime.diff(stationDepartureTime, 'minutes');
 
-    if (journeyTime < userTravelTime) {
-      const nextTimetable = await getStationTimetable(
-        train.callingAt[train.callingAt.length - 1].station_code,
-        true,
-      );
+  if (journeyTime < userTravelTime) {
+    // const nextTimetable = await getStationTimetable(
+    //   train.callingAt[train.callingAt.length - 1].station_code,
+    //   true,
+    // );
 
-      console.log('remaining journey time = ', userTravelTime - journeyTime);
-      console.log('next timetable = ', nextTimetable);
-      return;
+    console.log('remaining journey time = ', userTravelTime - journeyTime);
+    // console.log('next timetable = ', nextTimetable);
+    return;
 
-      // calculateLastStop(nextTimetable, userTime - journeyTime);
-    } else {
-      console.log('end');
-      return;
-    }
-  });
+    // calculateLastStop(nextTimetable, userTime - journeyTime);
+  } else {
+    console.log('end');
+    return;
+  }
 };
