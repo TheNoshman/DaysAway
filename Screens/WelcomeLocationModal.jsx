@@ -33,9 +33,11 @@ const WelcomeLocationModal = ({ navigation }) => {
   useEffect(() => {
     (async () => {
       // SETS VALUE OF REDUX USER TIME TO MIDNIGHT LAST NIGHT
-      const fullTime = new Date();
-      fullTime.setHours(0, 0, 0, 0);
-      dispatch(changeTravelTimeAction({ fullTime }));
+      if (reduxUserTravelTime.fullTime === 0) {
+        const fullTime = new Date();
+        fullTime.setHours(0, 0, 0, 0);
+        dispatch(changeTravelTimeAction({ fullTime }));
+      }
       // LOCATION
       const locationResult = await getLocationAPI();
       dispatch(changeUserLocationAction(locationResult));
@@ -69,7 +71,10 @@ const WelcomeLocationModal = ({ navigation }) => {
       const timetableIndex = reduxTimetables.findIndex(
         (timetable) => timetable.station_code === reduxSelectedStation.code,
       );
-      calculateLastStop(reduxTimetables[timetableIndex]);
+      calculateLastStop(
+        reduxTimetables[timetableIndex],
+        reduxUserTravelTime.dayjsTime,
+      );
     }
   }, [reduxTimetables, reduxUserTravelTime.dayjsTime, reduxSelectedStation])();
 

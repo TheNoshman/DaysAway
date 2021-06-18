@@ -40,7 +40,7 @@ export const findLocalTrainStations = async (userLocationData) => {
 };
 
 // GET TRAIN STATION TIMETABLE REQUEST
-export const getStationTimetable = async (code) => {
+export const getStationTimetable = async (code, connecting = false) => {
   const stationCode = `${code}/live.json?`;
   const res = await fetch(
     `${getTimetableAPI}${stationCode}app_id=${API_ID}&app_key=${API_KEY}&darwin=false&train_status=passenger`,
@@ -50,15 +50,26 @@ export const getStationTimetable = async (code) => {
     .catch((err) => {
       console.log(`${err.message}`);
     });
-  const withStops = await getStops(res);
+  const withStops = await getStops(res, connecting);
   const withUnique = uniqueServicesOnly(withStops);
   return withUnique;
 };
 
 // GET TRAIN STOPS
-const getStops = async (timetable) => {
+const getStops = async (timetable, connecting) => {
   // REMOVES DUPLICATE SERVICES FOR API CALL
   let uniqueServices = removeDuplicateServices(timetable);
+  console.log('unique services = ', uniqueServices);
+  console.log('timetable', timetable);
+
+  if (connecting) {
+    console.log('connecting service = true');
+    const index = Math.floor(Math.random() * uniqueServices.length);
+    uniqueServices = [uniqueServices[index]];
+    console.log('uniq serv after one selected = ', uniqueServices);
+    timetable.departures.all = uniqueServices;
+  }
+
   // API CALL TO GET STOPS
   const promises = uniqueServices.map(async (service) => {
     const callingAtResult = await fetch(service.timetableURL)
@@ -69,6 +80,8 @@ const getStops = async (timetable) => {
       .catch((err) => {
         console.log(`${err.message}`);
       });
+    console.log('callingat result = ', callingAtResult);
+
     // REMOVES STOPS FROM THE PAST
     const remainingStops = callingAtResult.stops.slice(
       callingAtResult.stops.findIndex(
@@ -82,6 +95,8 @@ const getStops = async (timetable) => {
     };
   });
   const stopsArray = await Promise.all(promises);
+  console.log('stops array promises = ', stopsArray);
+
   return assignStopsToTrain(timetable, stopsArray);
 };
 
