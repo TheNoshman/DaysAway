@@ -37,7 +37,7 @@ export const findLocalTrainStations = async (userLocationData) => {
     });
 };
 
-// GET TRAIN STATION TIMETABLE REQUEST
+// GET TRAIN STATION TIMETABLE
 export const getStationTimetable = async (code) => {
   console.log('API CALL - GET STATION TIMETABLE');
   const stationCode = `${code}/live.json?`;
@@ -50,43 +50,43 @@ export const getStationTimetable = async (code) => {
       console.log(`${err.message}`);
     });
   // const withStops = await getStops(res);
+  res.departures.calculatedJourneys = [];
   return res;
 };
 
 // GET TRAIN STOPS
 export const getStops = async (timetable) => {
-  console.log('API CALL - GET DEPARTURES FROM STATION');
+  console.log('API CALL - GET STATION STOPS FOR TRAIN');
+
   // REMOVES DUPLICATE SERVICES FOR API CALL
-  let uniqueServices = removeDuplicateServices(timetable);
-  const index = Math.floor(Math.random() * uniqueServices.length);
-  timetable.departures.all = [uniqueServices[index]];
+  timetable.departures.uniqueServices = removeDuplicateServices(timetable);
+  const index = Math.floor(
+    Math.random() * timetable.departures.uniqueServices.length,
+  );
+  const journeyRef = timetable.departures.uniqueServices[index];
 
   // API CALL TO GET STOPS
-  timetable.departures.all[0].callingAt = await fetch(
-    timetable.departures.all[0].timetableURL,
-  )
-    .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
-    .then((result) => result.json())
-    .then((result) =>
-      result.stops.splice(
-        result.stops.findIndex(
-          (el) => el.station_code === timetable.station_code,
+  timetable.departures.calculatedJourneys.push({
+    from: timetable.station_name,
+    to: journeyRef.destination_name,
+    id: journeyRef.train_uid,
+    departingAt: journeyRef.aimed_departure_time,
+    callingAt: await fetch(journeyRef.service_timetable.id)
+      .then((result) =>
+        result.status <= 400 ? result : Promise.reject(result),
+      )
+      .then((result) => result.json())
+      .then((result) =>
+        result.stops.splice(
+          result.stops.findIndex(
+            (el) => el.station_code === timetable.station_code,
+          ),
         ),
-      ),
-    )
-    .catch((err) => {
-      console.log(`${err.message}`);
-    });
-
-  // // REMOVES STOPS FROM THE PAST
-  // const remainingStops = callingAtResult.stops.slice(
-  //   callingAtResult.stops.findIndex(
-  //     (el) => el.station_code === timetable.station_code,
-  //   ),
-  // );
-
-  console.log('timetABEL', timetable);
-
+      )
+      .catch((err) => {
+        console.log(`${err.message}`);
+      }),
+  });
   return timetable;
 };
 

@@ -30,15 +30,11 @@ export const removeDuplicateServices = (timetable) => {
     if (
       !uniqueServices.some(
         (serv) =>
-          serv.destination === trainService.destination_name &&
-          serv.serviceCode === trainService.service,
+          serv.destination_name === trainService.destination_name &&
+          serv.service === trainService.service,
       )
     ) {
-      uniqueServices.push({
-        serviceCode: trainService.service,
-        destination: trainService.destination_name,
-        timetableURL: trainService.service_timetable.id,
-      });
+      uniqueServices.push(trainService);
     }
   }
   return uniqueServices;
