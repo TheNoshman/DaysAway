@@ -15,7 +15,6 @@ import dayjs from 'dayjs';
 
 export default function TimePicker() {
   const [openTimePicker, setOpenTimePicker] = useState(false);
-
   const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
@@ -39,6 +38,7 @@ export default function TimePicker() {
   return (
     <View>
       <TouchableOpacity
+        disabled={reduxSelectedStation.code ? false : true}
         style={styles.button}
         onPress={() => setOpenTimePicker(true)}
       >

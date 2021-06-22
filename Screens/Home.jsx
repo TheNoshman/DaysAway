@@ -53,8 +53,8 @@ const Home = () => {
         ) : (
           <FlatList
             style={styles.list}
-            data={timetable[0].departures.all}
-            keyExtractor={(item) => item.serviceCode}
+            data={timetable.departures.calculatedJourneys}
+            keyExtractor={(item) => item.id}
             renderItem={({ item }) => <Destination train={item} />}
             refreshing={isRefreshing}
             onRefresh={() => handleRefresh()}
