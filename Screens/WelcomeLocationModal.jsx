@@ -8,11 +8,7 @@ import changeUserLocationAction from '../actionCreators/changeUserLocationAction
 import changeLocalTrainStationsAction from '../actionCreators/changeLocalTrainStationsAction';
 
 // SERVICE API FUNCTIONS
-import {
-  calculateLastStop,
-  calculateLastTrain,
-  distanceCalculator,
-} from '../serviceFunctions';
+import { calculateLastStop, distanceCalculator } from '../serviceFunctions';
 import { findLocalTrainStations, getLocationAPI } from '../serviceAPI';
 
 // PICKERS SELECT
@@ -66,6 +62,8 @@ const WelcomeLocationModal = ({ navigation }) => {
 
   // TRIGGERS JOURNEY ALGORITHM -> MAKES SURE USER HAS PICKED A TIME AND A STATION
   useCallback(async () => {
+    console.log('callback fired in modal');
+
     if (
       reduxTimetables.findIndex(
         (timetable) => timetable.station_code === reduxSelectedStation.code,

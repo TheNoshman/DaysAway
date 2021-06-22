@@ -94,15 +94,17 @@ export const calculateLastStop = async (timetable, userTime) => {
   });
   console.log('index func = ', index);
 
-  // journeyTimetableArray = [];
   if (!lastTrainStopsArray[index - 1]) {
     console.log('journey timetable array', journeyTimetableArray);
 
-    return journeyTimetableArray[journeyTimetableArray.length - 2].departures
-      .all[0].callingAt[
+    const journeyTT =
       journeyTimetableArray[journeyTimetableArray.length - 2].departures.all[0]
-        .callingAt.length - 1
-    ];
+        .callingAt[
+        journeyTimetableArray[journeyTimetableArray.length - 2].departures
+          .all[0].callingAt.length - 1
+      ];
+    journeyTimetableArray = [];
+    return journeyTT;
   } else {
     return lastTrainStopsArray[index - 1];
   }

@@ -9,7 +9,11 @@ import addTimetableToCacheAction from '../actionCreators/addTimetableToCacheActi
 import updateTimetableCacheAction from '../actionCreators/updateTimetableCacheAction';
 
 // SERVICE API FUNCTIONS
-import { getCachedTimetable, getStationTimetable } from '../serviceAPI';
+import {
+  getCachedTimetable,
+  getStationTimetable,
+  getStops,
+} from '../serviceAPI';
 
 // STATION PICKER SELECT
 import RNPickerSelect from 'react-native-picker-select';
@@ -33,7 +37,8 @@ export default function DropDownPicker() {
       dispatch(updateTimetableCacheAction(cachedTimetable));
     } else {
       const timetable = await getStationTimetable(payload.code);
-      dispatch(addTimetableToCacheAction(timetable));
+      const withStops = await getStops(timetable);
+      dispatch(addTimetableToCacheAction(withStops));
     }
   };
 

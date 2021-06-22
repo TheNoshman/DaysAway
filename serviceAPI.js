@@ -49,36 +49,44 @@ export const getStationTimetable = async (code) => {
     .catch((err) => {
       console.log(`${err.message}`);
     });
-  const withStops = await getStops(res);
-  return withStops;
+  // const withStops = await getStops(res);
+  return res;
 };
 
 // GET TRAIN STOPS
-const getStops = async (timetable) => {
+export const getStops = async (timetable) => {
   console.log('API CALL - GET DEPARTURES FROM STATION');
   // REMOVES DUPLICATE SERVICES FOR API CALL
   let uniqueServices = removeDuplicateServices(timetable);
   const index = Math.floor(Math.random() * uniqueServices.length);
-  console.log('index ', index);
-
   timetable.departures.all = [uniqueServices[index]];
 
   // API CALL TO GET STOPS
-  const callingAtResult = await fetch(timetable.departures.all[0].timetableURL)
+  timetable.departures.all[0].callingAt = await fetch(
+    timetable.departures.all[0].timetableURL,
+  )
     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
     .then((result) => result.json())
+    .then((result) =>
+      result.stops.splice(
+        result.stops.findIndex(
+          (el) => el.station_code === timetable.station_code,
+        ),
+      ),
+    )
     .catch((err) => {
       console.log(`${err.message}`);
     });
 
-  // REMOVES STOPS FROM THE PAST
-  const remainingStops = callingAtResult.stops.slice(
-    callingAtResult.stops.findIndex(
-      (el) => el.station_code === timetable.station_code,
-    ),
-  );
+  // // REMOVES STOPS FROM THE PAST
+  // const remainingStops = callingAtResult.stops.slice(
+  //   callingAtResult.stops.findIndex(
+  //     (el) => el.station_code === timetable.station_code,
+  //   ),
+  // );
 
-  timetable.departures.all[0].callingAt = remainingStops;
+  console.log('timetABEL', timetable);
+
   return timetable;
 };
 

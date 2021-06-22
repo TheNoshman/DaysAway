@@ -2,7 +2,7 @@
 
 export default function seenDestinationReducer(
   // Default state
-  state = {},
+  state = [],
   action,
 ) {
   switch (action.type) {
