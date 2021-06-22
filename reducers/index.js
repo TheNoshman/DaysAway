@@ -4,6 +4,7 @@ import trainStationListReducer from './trainStationListReducer';
 import userLocationReducer from './userLocationReducer';
 import timetableReducer from './timetableReducer';
 import userTravelTimeReducer from './userTravelTimeReducer';
+import seenDestinationReducer from './seenDestinationReducer';
 
 export default combineReducers({
   reduxUserLocation: userLocationReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   reduxSelectedTrainStation: selectedTrainStationReducer,
   reduxTimetableCache: timetableReducer,
   reduxUserTravelTime: userTravelTimeReducer,
+  reduxSeenDestinationCache: seenDestinationReducer,
 });

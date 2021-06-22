@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+// REDUX
 import { useDispatch, useSelector } from 'react-redux';
 import updateTimetableCacheAction from '../actionCreators/updateTimetableCacheAction';
 
 // COMPONENTS
 import Destination from '../Components/Destination';
 import { getCachedTimetable, getStationTimetable } from '../serviceAPI';
-import { calculateLastStop } from '../serviceFunctions';
+import { calculateLastTrain } from '../serviceFunctions';
+import dayjs from 'dayjs';
 
 const Home = () => {
   // STATE FOR REFRESH
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const reduxTimetableCache = useSelector((state) => state.reduxTimetableCache);
+  const reduxTimetables = useSelector((state) => state.reduxTimetables);
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
   );
@@ -25,19 +28,20 @@ const Home = () => {
     const timetable = await getStationTimetable(reduxSelectedStation.code);
     dispatch(updateTimetableCacheAction(timetable));
 
-    const timetableIndex = reduxTimetableCache.findIndex(
+    const timetableIndex = reduxTimetables.findIndex(
       (tt) => tt.station_code === reduxSelectedStation.code,
     );
-    calculateLastStop(
-      reduxTimetableCache[timetableIndex],
-      reduxUserTravelTime.dayjsTime,
+    const userTravelTime = reduxUserTravelTime.dayjsTime.diff(
+      dayjs().hour(0).minute(0).second(0),
+      'minutes',
     );
+    calculateLastTrain(reduxTimetables[timetableIndex], userTravelTime);
     setIsRefreshing(false);
   };
 
   // GRABS TIMETABLE FROM THE CACHE
   const timetable = getCachedTimetable(
-    reduxTimetableCache,
+    reduxTimetables,
     reduxSelectedStation.code,
   );
 

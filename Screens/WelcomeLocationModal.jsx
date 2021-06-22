@@ -8,13 +8,18 @@ import changeUserLocationAction from '../actionCreators/changeUserLocationAction
 import changeLocalTrainStationsAction from '../actionCreators/changeLocalTrainStationsAction';
 
 // SERVICE API FUNCTIONS
-import { calculateLastStop, distanceCalculator } from '../serviceFunctions';
+import {
+  calculateLastStop,
+  calculateLastTrain,
+  distanceCalculator,
+} from '../serviceFunctions';
 import { findLocalTrainStations, getLocationAPI } from '../serviceAPI';
 
 // PICKERS SELECT
 import DropDownPicker from '../Components/DropDownPicker';
 import TimePicker from '../Components/TimePicker';
 import changeTravelTimeAction from '../actionCreators/changeTravelTimeAction';
+import dayjs from 'dayjs';
 
 const WelcomeLocationModal = ({ navigation }) => {
   // ################## VARIABLES ##################
@@ -60,9 +65,7 @@ const WelcomeLocationModal = ({ navigation }) => {
   }, []);
 
   // TRIGGERS JOURNEY ALGORITHM -> MAKES SURE USER HAS PICKED A TIME AND A STATION
-  useCallback(() => {
-    console.log('indesi');
-
+  useCallback(async () => {
     if (
       reduxTimetables.findIndex(
         (timetable) => timetable.station_code === reduxSelectedStation.code,
@@ -73,12 +76,20 @@ const WelcomeLocationModal = ({ navigation }) => {
       const timetableIndex = reduxTimetables.findIndex(
         (timetable) => timetable.station_code === reduxSelectedStation.code,
       );
-      calculateLastStop(
-        reduxTimetables[timetableIndex],
-        reduxUserTravelTime.dayjsTime,
+      const userTravelTime = reduxUserTravelTime.dayjsTime.diff(
+        dayjs().hour(0).minute(0).second(0),
+        'minutes',
+      );
+      console.log(
+        'result from last stop = ',
+        await calculateLastStop(
+          reduxTimetables[timetableIndex],
+          userTravelTime,
+        ),
       );
     }
-  }, [reduxTimetables, reduxUserTravelTime.dayjsTime, reduxSelectedStation])();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reduxUserTravelTime.dayjsTime, reduxSelectedStation])();
 
   // NAVIGATION HANDLER -> ENTERS THE MAIN STACK
   const handleSubmit = useCallback(async () => {

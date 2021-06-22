@@ -20,6 +20,8 @@ export const getLocationAPI = async () => {
 
 // GET LOCAL TRAIN STATIONS REQUEST
 export const findLocalTrainStations = async (userLocationData) => {
+  console.log('API CALL - FIND LOCAL STATIONS');
+
   const searchType = 'train_station';
   const min_lat = (userLocationData.coords.latitude - 0.1).toFixed(3);
   const min_lon = (userLocationData.coords.longitude - 0.1).toFixed(3);
@@ -37,6 +39,7 @@ export const findLocalTrainStations = async (userLocationData) => {
 
 // GET TRAIN STATION TIMETABLE REQUEST
 export const getStationTimetable = async (code) => {
+  console.log('API CALL - GET STATION TIMETABLE');
   const stationCode = `${code}/live.json?`;
   const res = await fetch(
     `${getTimetableAPI}${stationCode}app_id=${API_ID}&app_key=${API_KEY}&darwin=false&train_status=passenger`,
@@ -47,17 +50,17 @@ export const getStationTimetable = async (code) => {
       console.log(`${err.message}`);
     });
   const withStops = await getStops(res);
-
-  console.log('withStops', withStops);
-
   return withStops;
 };
 
 // GET TRAIN STOPS
 const getStops = async (timetable) => {
+  console.log('API CALL - GET DEPARTURES FROM STATION');
   // REMOVES DUPLICATE SERVICES FOR API CALL
   let uniqueServices = removeDuplicateServices(timetable);
   const index = Math.floor(Math.random() * uniqueServices.length);
+  console.log('index ', index);
+
   timetable.departures.all = [uniqueServices[index]];
 
   // API CALL TO GET STOPS

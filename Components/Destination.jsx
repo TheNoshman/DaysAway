@@ -4,8 +4,6 @@ import { FlatList } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 
 export default function Destination({ train }) {
-  console.log('TRAIN', train);
-
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
   );
