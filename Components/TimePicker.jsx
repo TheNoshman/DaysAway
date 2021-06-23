@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -12,10 +12,12 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 // DATE FRAMEWORK
 import dayjs from 'dayjs';
+import { calculateLastStop } from '../serviceFunctions';
 
 export default function TimePicker() {
   const [openTimePicker, setOpenTimePicker] = useState(false);
   const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
+  const reduxTimetables = useSelector((state) => state.reduxTimetableCache);
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
   );
@@ -26,13 +28,40 @@ export default function TimePicker() {
     setOpenTimePicker(false);
     if (
       event.type === 'dismissed' ||
-      dayjs(event.nativeEvent.timestamp) === reduxUserTravelTime.fullTime
+      event.nativeEvent.timestamp.getTime() ===
+        reduxUserTravelTime.fullTime.getTime()
     ) {
       return;
     }
-    const fullTime = event.nativeEvent.timestamp;
-    const dayjsTime = dayjs(event.nativeEvent.timestamp);
-    dispatch(changeTravelTimeAction({ fullTime, dayjsTime }));
+    const time = dispatch(
+      changeTravelTimeAction({
+        fullTime: event.nativeEvent.timestamp,
+        dayjsTime: dayjs(event.nativeEvent.timestamp),
+      }),
+    );
+    triggerAlgorithm(time);
+  };
+
+  const triggerAlgorithm = async (time) => {
+    const userTravelTime = time.payload.dayjsTime.diff(
+      dayjs().hour(0).minute(0).second(0),
+      'minutes',
+    );
+    console.log('user time', userTravelTime);
+
+    const timetableIndex = await reduxTimetables.findIndex(
+      (timetable) => timetable.station_code === reduxSelectedStation.code,
+    );
+    console.log('redux tt', reduxTimetables);
+
+    console.log('timetableide', timetableIndex);
+
+    console.log('user tie', userTravelTime);
+
+    console.log(
+      'result from last stop = ',
+      await calculateLastStop(reduxTimetables[timetableIndex], userTravelTime),
+    );
   };
 
   return (

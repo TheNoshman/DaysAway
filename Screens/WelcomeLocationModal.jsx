@@ -60,35 +60,6 @@ const WelcomeLocationModal = ({ navigation }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // TRIGGERS JOURNEY ALGORITHM -> MAKES SURE USER HAS PICKED A TIME AND A STATION
-  useCallback(async () => {
-    console.log('callback fired in modal');
-
-    if (
-      reduxTimetables.findIndex(
-        (timetable) => timetable.station_code === reduxSelectedStation.code,
-      ) !== -1 &&
-      reduxTimetables.length &&
-      reduxUserTravelTime.dayjsTime
-    ) {
-      const timetableIndex = reduxTimetables.findIndex(
-        (timetable) => timetable.station_code === reduxSelectedStation.code,
-      );
-      const userTravelTime = reduxUserTravelTime.dayjsTime.diff(
-        dayjs().hour(0).minute(0).second(0),
-        'minutes',
-      );
-      console.log(
-        'result from last stop = ',
-        await calculateLastStop(
-          reduxTimetables[timetableIndex],
-          userTravelTime,
-        ),
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reduxUserTravelTime.dayjsTime, reduxSelectedStation])();
-
   // NAVIGATION HANDLER -> ENTERS THE MAIN STACK
   const handleSubmit = useCallback(async () => {
     if (reduxSelectedStation.code === null) {

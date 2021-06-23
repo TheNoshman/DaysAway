@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { getStationTimetable } from './serviceAPI';
+import { getStationTimetable, getStops } from './serviceAPI';
 
 // DISTANCE CALC BETWEEN TWO COORDS
 export const distanceCalculator = (lat1, lon1, lat2, lon2) => {
@@ -40,23 +40,28 @@ export const removeDuplicateServices = (timetable) => {
   return uniqueServices;
 };
 
-let journeyTimetableArray = [];
+let journeyTimetableArray = [{ journeyRoute: [] }];
 
 export const calculateLastStop = async (timetable, userTime) => {
   const timetableArray = await calculateLastTrain(timetable, userTime);
+  // console.log('timetbale ARRY', timetableArray);
+
   console.log('timetable array', timetableArray);
-  let userTimeRemaining = timetableArray[0].remaining_time;
+  let userTimeRemaining =
+    timetableArray[timetableArray.length - 1].remaining_time;
 
   const departure =
-    timetableArray[
-      timetableArray.length - 1
-    ].departures.all[0].callingAt[0].aimed_departure_time.split(':');
+    timetableArray[0].journeyRoute[
+      timetableArray[0].journeyRoute.length - 1
+    ].departures.calculatedJourneys[0].departingAt.split(':');
+
   const lastTrainStopsArray =
-    timetableArray[timetableArray.length - 1].departures.all[0].callingAt.slice(
-      1,
-    );
+    timetableArray[0].journeyRoute[
+      timetableArray[0].journeyRoute.length - 1
+    ].departures.calculatedJourneys[0].callingAt.slice(1);
 
   console.log('departure = ', departure);
+  console.log('last stops arr = ', lastTrainStopsArray);
 
   const stationDepartureTime = dayjs()
     .hour(departure[0])
@@ -90,29 +95,41 @@ export const calculateLastStop = async (timetable, userTime) => {
   });
   console.log('index func = ', index);
 
+  // HANDLES IF NEXT STOP ON NEW TRAIN IS OVER TIME -> RETURNS LAST STOP FROM PREVIOUS TRAIN
   if (!lastTrainStopsArray[index - 1]) {
     console.log('journey timetable array', journeyTimetableArray);
+    const train =
+      journeyTimetableArray[0].journeyRoute[
+        journeyTimetableArray[0].journeyRoute.length - 2
+      ].departures.calculatedJourneys[0];
 
-    const journeyTT =
-      journeyTimetableArray[journeyTimetableArray.length - 2].departures.all[0]
-        .callingAt[
-        journeyTimetableArray[journeyTimetableArray.length - 2].departures
-          .all[0].callingAt.length - 1
-      ];
-    journeyTimetableArray = [];
-    return journeyTT;
+    const journeyTT = train.callingAt[train.callingAt.length - 1];
+    const x = [...journeyTimetableArray, { destination: journeyTT }];
+    journeyTimetableArray = [{ journeyRoute: [] }];
+    return x;
   } else {
-    return lastTrainStopsArray[index - 1];
+    const y = [
+      ...journeyTimetableArray,
+      { destination: lastTrainStopsArray[index - 1] },
+    ];
+    journeyTimetableArray = [{ journeyRoute: [] }];
+    return y;
   }
 };
 
 // CALCULATE DIFFERENCE BETWEEN DEPARTURE TIME AND ARRIVAL TIME
 // IF TRUE, JOURNEY OK. IF FALSE, JOURNEY TOO LONG
 export const calculateLastTrain = async (timetable, userTime) => {
-  // console.log('in calclasttrain, timetable = ', timetable);
-  // console.log('user journey time = ', userTime);
-  journeyTimetableArray.push(timetable);
-  const callingAtArray = timetable.departures.all[0].callingAt;
+  console.log('in calclasttrain, timetable = ', timetable);
+  console.log('user journey time = ', userTime);
+
+  console.log('ofsadilgbsjhgb', journeyTimetableArray);
+  journeyTimetableArray[0].journeyRoute.push(timetable);
+
+  const callingAtArray =
+    timetable.departures.calculatedJourneys[
+      timetable.departures.calculatedJourneys.length - 1
+    ].callingAt;
 
   const departure = callingAtArray[0].aimed_departure_time.split(':');
   const stationDepartureTime = dayjs()
@@ -128,20 +145,25 @@ export const calculateLastTrain = async (timetable, userTime) => {
     .second(0);
 
   let journeyTime = stationArrivalTime.diff(stationDepartureTime, 'minutes');
-  // console.log('total journey time for this trip = ', journeyTime);
-  // console.log('time remaining = ', userTime - journeyTime);
+  console.log('total journey time for this trip = ', journeyTime);
+  console.log('time remaining = ', userTime - journeyTime);
 
   // BASE CASE
   if (journeyTime > userTime) {
     // const returnJourneyArray = journeyTimetableArray.slice();
-    // console.log('in base case');
+    console.log('in base case', journeyTimetableArray);
+
     return journeyTimetableArray;
   } else {
-    journeyTimetableArray.unshift({ remaining_time: userTime - journeyTime });
-    // console.log('in recursive step');
-    const nextTimetable = await getStationTimetable(
-      callingAtArray[callingAtArray.length - 1].station_code,
+    journeyTimetableArray[1] = { remaining_time: userTime - journeyTime };
+    console.log('in recursive step, getting new station timetable');
+    const nextTimetable = await getStops(
+      await getStationTimetable(
+        callingAtArray[callingAtArray.length - 1].station_code,
+      ),
     );
+    console.log('next timetable = ', nextTimetable);
+
     // RECURSIVE CALL
     return calculateLastTrain(nextTimetable, userTime - journeyTime);
   }
