@@ -8,14 +8,13 @@ import changeUserLocationAction from '../actionCreators/changeUserLocationAction
 import changeLocalTrainStationsAction from '../actionCreators/changeLocalTrainStationsAction';
 
 // SERVICE API FUNCTIONS
-import { calculateLastStop, distanceCalculator } from '../serviceFunctions';
+import { distanceCalculator } from '../serviceFunctions';
 import { findLocalTrainStations, getLocationAPI } from '../serviceAPI';
 
 // PICKERS SELECT
 import DropDownPicker from '../Components/DropDownPicker';
 import TimePicker from '../Components/TimePicker';
 import changeTravelTimeAction from '../actionCreators/changeTravelTimeAction';
-import dayjs from 'dayjs';
 
 const WelcomeLocationModal = ({ navigation }) => {
   // ################## VARIABLES ##################

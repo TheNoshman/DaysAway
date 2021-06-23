@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -52,12 +52,6 @@ export default function TimePicker() {
     const timetableIndex = await reduxTimetables.findIndex(
       (timetable) => timetable.station_code === reduxSelectedStation.code,
     );
-    console.log('redux tt', reduxTimetables);
-
-    console.log('timetableide', timetableIndex);
-
-    console.log('user tie', userTravelTime);
-
     console.log(
       'result from last stop = ',
       await calculateLastStop(reduxTimetables[timetableIndex], userTravelTime),
