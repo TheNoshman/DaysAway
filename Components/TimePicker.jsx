@@ -16,16 +16,19 @@ import dayjs from 'dayjs';
 import { calculateLastStop } from '../serviceFunctions';
 
 export default function TimePicker() {
+  // OPEN TIMEPICKER STATE
   const [openTimePicker, setOpenTimePicker] = useState(false);
+
+  // REDUX
   const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
   const reduxTimetables = useSelector((state) => state.reduxTimetableCache);
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
   );
-
   const dispatch = useDispatch();
 
-  const handleTimeChange = (event) => {
+  // ON TIME CHANGE HANDLER
+  const handleTimeChange = async (event) => {
     setOpenTimePicker(false);
     if (
       event.type === 'dismissed' ||
@@ -40,27 +43,23 @@ export default function TimePicker() {
         dayjsTime: dayjs(event.nativeEvent.timestamp),
       }),
     );
-    triggerAlgorithm(time);
-  };
-
-  const triggerAlgorithm = async (time) => {
     const userTravelTime = time.payload.dayjsTime.diff(
       dayjs().hour(0).minute(0).second(0),
       'minutes',
     );
-    console.log('user time', userTravelTime);
-
     const timetableIndex = await reduxTimetables.findIndex(
       (timetable) => timetable.station_code === reduxSelectedStation.code,
     );
-
     const result = await calculateLastStop(
       reduxTimetables[timetableIndex],
       userTravelTime,
     );
-    const dest = { destination: result[result.length - 1].destination, result };
-
-    dispatch(addSeenDestinationAction(dest));
+    dispatch(
+      addSeenDestinationAction({
+        destination: result[result.length - 1].destination.station_name,
+        details: result,
+      }),
+    );
   };
 
   return (
