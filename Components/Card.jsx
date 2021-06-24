@@ -11,11 +11,19 @@ import { shape, string, number } from 'prop-types';
 
 const { height } = Dimensions.get('window');
 
+// destination
+// departureTime
+// travelTime
+
 const Card = ({ card }) => (
   <View activeOpacity={1} style={styles.card}>
-    <Image style={styles.image} source={card.photo} resizeMode="cover" />
+    {/* <Image style={styles.image} source={card.photo} resizeMode="cover" /> */}
     <View style={styles.photoDescriptionContainer}>
-      <Text style={styles.text}>{`${card.name}, ${card.age}`}</Text>
+      <Text style={styles.text}>{`Destination: ${card.destination}`}</Text>
+      <Text style={styles.text}>{`Leaving At: ${card.departureTime}`}</Text>
+      <Text style={styles.text}>
+        {`Journey duration: ${card.travelTime.hour()}:${card.travelTime.minute()}`}
+      </Text>
     </View>
   </View>
 );

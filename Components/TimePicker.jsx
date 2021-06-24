@@ -11,6 +11,7 @@ import addSeenDestinationAction from '../actionCreators/addSeenDestinationAction
 import { calculateLastStop } from '../serviceFunctions';
 // COMPONENTS
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { getStops } from '../serviceAPI';
 
 export default function TimePicker() {
   // OPEN TIMEPICKER STATE
@@ -19,6 +20,9 @@ export default function TimePicker() {
   const dispatch = useDispatch();
   const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
   const reduxTimetables = useSelector((state) => state.reduxTimetableCache);
+  const reduxSeenDestinations = useSelector(
+    (state) => state.reduxSeenDestinationCache,
+  );
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
   );
@@ -44,25 +48,60 @@ export default function TimePicker() {
     const timetableIndex = reduxTimetables.findIndex(
       (timetable) => timetable.station_code === reduxSelectedStation.code,
     );
-    // CALCULATE ROUTE & DESTINATION
-    const result = await calculateLastStop(
-      reduxTimetables[timetableIndex],
-      time.payload.dayjsTime.diff(
-        dayjs().hour(0).minute(0).second(0),
-        'minutes',
-      ),
-    );
-    console.log('resuly', result);
+
+    const seenDest = [];
+    for (let index = 0; index < 3; index++) {
+      const stops = await getStops(reduxTimetables[timetableIndex]);
+      const result = await calculateLastStop(
+        stops,
+        time.payload.dayjsTime.diff(
+          dayjs().hour(0).minute(0).second(0),
+          'minutes',
+        ),
+      );
+      console.log('RESULT = ', result);
+
+      console.log('seenDest = ', seenDest);
+
+      if (
+        seenDest.some((train) => train === result[2].destination.station_code)
+      ) {
+        console.log('seen before');
+        index--;
+      } else {
+        seenDest.push(result[2].destination.station_code);
+        dispatch(
+          addSeenDestinationAction({
+            destination: result[result.length - 1].destination.station_name,
+            from: result[0].journeyRoute[0].station_name,
+            departureTime:
+              result[0].journeyRoute[0].departures.calculatedJourneys[0]
+                .callingAt[0].aimed_departure_time,
+            travelTime: time.payload.dayjsTime.subtract(
+              result[1].remainingTime,
+              'minute',
+            ),
+            details: result,
+          }),
+        );
+      }
+    }
 
     // SAVE ROUTE & DESTINATION TO REDUX
-    dispatch(
-      addSeenDestinationAction({
-        destination: result[result.length - 1].destination.station_name,
-        departureTime: result[0].journeyRoute[0].station_name,
-        travelTime: time.payload.dayjsTime.subtract(result[1].remainingTime),
-        details: result,
-      }),
-    );
+    // dispatch(
+    //   addSeenDestinationAction({
+    //     destination: result[result.length - 1].destination.station_name,
+    //     from: result[0].journeyRoute[0].station_name,
+    //     departureTime:
+    //       result[0].journeyRoute[0].departures.calculatedJourneys[0]
+    //         .callingAt[0].aimed_departure_time,
+    //     travelTime: time.payload.dayjsTime.subtract(
+    //       result[1].remainingTime,
+    //       'minute',
+    //     ),
+    //     details: result,
+    //   }),
+    // );
   };
 
   return (

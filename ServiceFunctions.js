@@ -41,7 +41,7 @@ export const removeDuplicateServices = (timetable) => {
 };
 
 let journeyTimetableArray = [{ journeyRoute: [] }];
-
+let times = [];
 export const calculateLastStop = async (timetable, userTime) => {
   console.log('user time in calc last stop = ', userTime);
   const timetableArray = await calculateLastTrain(timetable, userTime);
@@ -67,11 +67,9 @@ export const calculateLastStop = async (timetable, userTime) => {
     .minute(departure[1])
     .second(0);
 
-  let times = [];
   const index = lastTrainStopsArray.findIndex((stop) => {
     console.log('stop', stop);
-    let remainingTime =
-      timetableArray[timetableArray.length - 1].remaining_time;
+    let remainingTime = timetableArray[timetableArray.length - 1].remainingTime;
     const arrival = stop.aimed_arrival_time.split(':');
     const stationArrivalTime = dayjs()
       .hour(arrival[0])
@@ -101,11 +99,11 @@ export const calculateLastStop = async (timetable, userTime) => {
 
   if (times.length > 1) {
     console.log('x', times[times.length - 1]);
-    journeyTimetableArray[1].remaining_time = times[times.length - 2];
+    journeyTimetableArray[1].remainingTime = times[times.length - 2];
   } else {
     console.log('akfhagbjhdbgsadbgjasbgj', times[times.length - 1]);
 
-    journeyTimetableArray[1].remaining_time = times[times.length - 1];
+    journeyTimetableArray[1].remainingTime = times[times.length - 1];
   }
 
   console.log('JOURNEY AFTER ALGO', journeyTimetableArray);
@@ -169,7 +167,8 @@ export const calculateLastTrain = async (timetable, userTime) => {
 
     return journeyTimetableArray;
   } else {
-    journeyTimetableArray[1] = { remaining_time: userTime - journeyTime };
+    times.push(userTime - journeyTime);
+    journeyTimetableArray[1] = { remainingTime: userTime - journeyTime };
     console.log('in recursive step, getting new station timetable');
     const nextTimetable = await getStops(
       await getStationTimetable(

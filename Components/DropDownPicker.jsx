@@ -36,7 +36,7 @@ export default function DropDownPicker() {
       console.log('cached has length ');
       dispatch(updateTimetableCacheAction(cachedTimetable));
     } else {
-      const timetable = await getStops(await getStationTimetable(payload.code));
+      const timetable = await getStationTimetable(payload.code);
       // const withStops = await getStops(timetable);
       console.log('with stops', timetable);
 

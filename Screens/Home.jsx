@@ -70,7 +70,7 @@ const Home = () => {
               ref={useSwiper}
               animateCardOpacity
               containerStyle={styles.container}
-              cards={photoCards}
+              cards={reduxSeenDestinations}
               renderCard={(card) => <Card card={card} />}
               cardIndex={0}
               backgroundColor="white"
