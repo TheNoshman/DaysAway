@@ -47,8 +47,6 @@ export const calculateLastStop = async (timetable, userTime) => {
   // console.log('timetbale ARRY', timetableArray);
 
   console.log('timetable array', timetableArray);
-  let userTimeRemaining =
-    timetableArray[timetableArray.length - 1].remaining_time;
 
   const departure =
     timetableArray[0].journeyRoute[
@@ -82,18 +80,24 @@ export const calculateLastStop = async (timetable, userTime) => {
       stationDepartureTime,
       'minutes',
     );
-    userTimeRemaining -= journeyTime;
+    timetableArray[timetableArray.length - 1].remaining_time -= journeyTime;
     console.log('journey time = ', journeyTime);
-    console.log('user time remainign = ', userTimeRemaining);
+    console.log(
+      'user time remainign = ',
+      timetableArray[timetableArray.length - 1].remaining_time,
+    );
 
     console.log(
       'is journey time greater than user time',
-      journeyTime > userTimeRemaining,
+      journeyTime > timetableArray[timetableArray.length - 1].remaining_time,
     );
 
-    return journeyTime > userTimeRemaining;
+    return (
+      journeyTime > timetableArray[timetableArray.length - 1].remaining_time
+    );
   });
   console.log('index func = ', index);
+  console.log('JOURNEY AFTER ALGO', journeyTimetableArray);
 
   // HANDLES IF NEXT STOP ON NEW TRAIN IS OVER TIME -> RETURNS LAST STOP FROM PREVIOUS TRAIN
   if (!lastTrainStopsArray[index - 1]) {
@@ -123,7 +127,6 @@ export const calculateLastTrain = async (timetable, userTime) => {
   console.log('in calclasttrain, timetable = ', timetable);
   console.log('user journey time = ', userTime);
 
-  console.log('ofsadilgbsjhgb', journeyTimetableArray);
   journeyTimetableArray[0].journeyRoute.push(timetable);
 
   const callingAtArray =

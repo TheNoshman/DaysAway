@@ -18,15 +18,30 @@ import Swiper from 'react-native-deck-swiper';
 
 import Card from '../Components/Card';
 import IconButton from '../Components/IconButton';
-import OverlayLabel from '../Components/OverlayLabel';
-import photoCards from '../Components/photoCards';
+// import OverlayLabel from '../Components/OverlayLabel';
 
 const { height } = Dimensions.get('window');
+
+const photoCards = [
+  {
+    name: 'Austin Wade',
+    age: 22,
+    photo: require('../assets/01.jpg'),
+    key: 'caseex6qfO4TPMYyhorner',
+  },
+  {
+    name: 'Aleksander Borzenets',
+    age: 28,
+    photo: require('../assets/02.jpg'),
+    key: 'ozda-XbeP0k',
+  },
+];
 
 const Home = () => {
   // STATE FOR REFRESH
   const [isRefreshing, setIsRefreshing] = useState(false);
-
+  // REDUX
+  const dispatch = useDispatch();
   const reduxTimetables = useSelector((state) => state.reduxTimetables);
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
@@ -35,8 +50,6 @@ const Home = () => {
   const reduxSeenDestinations = useSelector(
     (state) => state.reduxSeenDestinationCache,
   );
-
-  const dispatch = useDispatch();
 
   // SWIPER HANDLERS
   const useSwiper = useRef(null).current;
@@ -65,28 +78,31 @@ const Home = () => {
               infinite
               showSecondCard
               animateOverlayLabelsOpacity
-              overlayLabels={{
-                left: {
-                  title: 'NOPE',
-                  element: <OverlayLabel label="NOPE" color="#E5566D" />,
-                  style: {
-                    wrapper: styles.overlayWrapper,
-                  },
-                },
-                right: {
-                  title: 'LIKE',
-                  element: <OverlayLabel label="LIKE" color="#4CCC93" />,
-                  style: {
-                    wrapper: {
-                      ...styles.overlayWrapper,
-                      alignItems: 'flex-start',
-                      marginLeft: 30,
-                    },
-                  },
-                },
-              }}
+
+              // NOT WORKING
+              // overlayLabels={{
+              //   left: {
+              //     title: 'NOPE',
+              //     element: <OverlayLabel label="NOPE" color="#E5566D" />,
+              //     style: {
+              //       wrapper: styles.overlayWrapper,
+              //     },
+              //   },
+              //   right: {
+              //     title: 'LIKE',
+              //     element: <OverlayLabel label="LIKE" color="#4CCC93" />,
+              //     style: {
+              //       wrapper: {
+              //         ...styles.overlayWrapper,
+              //         alignItems: 'flex-start',
+              //         marginLeft: 30,
+              //       },
+              //     },
+              //   },
+              // }}
             />
           </View>
+          {/* BUTTONS */}
           <View style={styles.buttonsContainer}>
             <IconButton
               name="close"
@@ -138,7 +154,6 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: 'black',
     paddingBottom: 20,
-    fontFamily: 'Avenir',
   },
   overlayWrapper: {
     flexDirection: 'column',

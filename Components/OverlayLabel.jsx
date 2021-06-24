@@ -12,7 +12,6 @@ OverlayLabel.propTypes = {
   label: string.isRequired,
   color: string.isRequired,
 };
-
 const styles = StyleSheet.create({
   overlayLabel: {
     justifyContent: 'center',
@@ -23,7 +22,6 @@ const styles = StyleSheet.create({
   },
   overlayLabelText: {
     fontSize: 25,
-
     textAlign: 'center',
   },
 });

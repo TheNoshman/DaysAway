@@ -2,30 +2,26 @@ import React, { useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import dayjs from 'dayjs';
 // REDUX
 import { useDispatch, useSelector } from 'react-redux';
 import changeTravelTimeAction from '../actionCreators/changeTravelTimeAction';
 import addSeenDestinationAction from '../actionCreators/addSeenDestinationAction';
-
-// TIME PICKER SELECT
-import DateTimePicker from '@react-native-community/datetimepicker';
-
-// DATE FRAMEWORK
-import dayjs from 'dayjs';
+// SERVICE FUNCTIONS
 import { calculateLastStop } from '../serviceFunctions';
+// COMPONENTS
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function TimePicker() {
   // OPEN TIMEPICKER STATE
   const [openTimePicker, setOpenTimePicker] = useState(false);
-
   // REDUX
+  const dispatch = useDispatch();
   const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
   const reduxTimetables = useSelector((state) => state.reduxTimetableCache);
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
   );
-  const dispatch = useDispatch();
 
   // ON TIME CHANGE HANDLER
   const handleTimeChange = async (event) => {
@@ -37,15 +33,18 @@ export default function TimePicker() {
     ) {
       return;
     }
+    // SAVE USER TIME TO REDUX STORE
     const time = dispatch(
       changeTravelTimeAction({
         fullTime: event.nativeEvent.timestamp,
         dayjsTime: dayjs(event.nativeEvent.timestamp),
       }),
     );
-    const timetableIndex = await reduxTimetables.findIndex(
+    // GET CURRENT SELECTED TIMETABLE FROM CACHE
+    const timetableIndex = reduxTimetables.findIndex(
       (timetable) => timetable.station_code === reduxSelectedStation.code,
     );
+    // CALCULATE ROUTE & DESTINATION
     const result = await calculateLastStop(
       reduxTimetables[timetableIndex],
       time.payload.dayjsTime.diff(
@@ -53,9 +52,14 @@ export default function TimePicker() {
         'minutes',
       ),
     );
+    console.log('resuly', result);
+
+    // SAVE ROUTE & DESTINATION TO REDUX
     dispatch(
       addSeenDestinationAction({
         destination: result[result.length - 1].destination.station_name,
+        departureTime: result[0].journeyRoute[0].station_name,
+        travelTime: time.payload.dayjsTime.subtract(result[1].remainingTime),
         details: result,
       }),
     );
