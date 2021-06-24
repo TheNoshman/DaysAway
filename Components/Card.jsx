@@ -1,19 +1,7 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  Dimensions,
-  ImageSourcePropType,
-} from 'react-native';
-import { shape, string, number } from 'prop-types';
+import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
 
 const { height } = Dimensions.get('window');
-
-// destination
-// departureTime
-// travelTime
 
 const Card = ({ card }) => (
   <View activeOpacity={1} style={styles.card}>
@@ -28,19 +16,11 @@ const Card = ({ card }) => (
   </View>
 );
 
-Card.propTypes = {
-  card: shape({
-    photo: ImageSourcePropType,
-    name: string,
-    age: number,
-  }).isRequired,
-};
-
 export default Card;
 
 const styles = StyleSheet.create({
   card: {
-    height: height - 300,
+    height: height - 190,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -22,20 +22,20 @@ import IconButton from '../Components/IconButton';
 
 const { height } = Dimensions.get('window');
 
-const photoCards = [
-  {
-    name: 'Austin Wade',
-    age: 22,
-    photo: require('../assets/01.jpg'),
-    key: 'caseex6qfO4TPMYyhorner',
-  },
-  {
-    name: 'Aleksander Borzenets',
-    age: 28,
-    photo: require('../assets/02.jpg'),
-    key: 'ozda-XbeP0k',
-  },
-];
+// const photoCards = [
+//   {
+//     name: 'Austin Wade',
+//     age: 22,
+//     photo: require('../assets/01.jpg'),
+//     key: 'caseex6qfO4TPMYyhorner',
+//   },
+//   {
+//     name: 'Aleksander Borzenets',
+//     age: 28,
+//     photo: require('../assets/02.jpg'),
+//     key: 'ozda-XbeP0k',
+//   },
+// ];
 
 const Home = () => {
   // STATE FOR REFRESH
@@ -105,29 +105,17 @@ const Home = () => {
           {/* BUTTONS */}
           <View style={styles.buttonsContainer}>
             <IconButton
-              name="close"
+              name="remove"
               onPress={handleOnSwipedLeft}
               color="white"
               backgroundColor="#E5566D"
             />
             <IconButton
-              name="star"
-              onPress={handleOnSwipedTop}
-              color="white"
-              backgroundColor="#3CA3FF"
-            />
-            <IconButton
-              name="heart"
+              name="add"
               onPress={handleOnSwipedRight}
               color="white"
               backgroundColor="#4CCC93"
             />
-          </View>
-          <View style={styles.swipeTextContainer}>
-            <Text style={styles.copyright}>
-              All pictures were taken freerly from Unsplash.com. Names on the
-              Photos are the names of photographers who took pictures.
-            </Text>
           </View>
         </View>
       )}
@@ -141,19 +129,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   swiperContainer: {
-    height: height - 250,
+    height: height - 115,
   },
   buttonsContainer: {
+    backgroundColor: 'white',
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
     paddingHorizontal: '15%',
-  },
-  copyright: {
-    textAlign: 'center',
-    fontSize: 10,
-    color: 'black',
-    paddingBottom: 20,
+    paddingTop: 10,
+    paddingBottom: 25,
   },
   overlayWrapper: {
     flexDirection: 'column',

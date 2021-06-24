@@ -1,7 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
-import { func, string } from 'prop-types';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const IconButton = ({ onPress, name, backgroundColor, color }) => (
   <TouchableOpacity
@@ -9,24 +8,14 @@ const IconButton = ({ onPress, name, backgroundColor, color }) => (
     onPress={onPress}
     activeOpacity={0.85}
   >
-    <Icon name={name} size={20} color={color} />
+    <Ionicons name={name} size={40} color={color} />
   </TouchableOpacity>
 );
-IconButton.defaultProps = {
-  color: 'white',
-  backgroundColor: 'orange',
-};
-IconButton.propTypes = {
-  onPress: func.isRequired,
-  name: string.isRequired,
-  color: string,
-  backgroundColor: string,
-};
 
 const styles = StyleSheet.create({
   singleButton: {
     backgroundColor: 'transparent',
-    borderRadius: 50,
+    borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: 'black',
@@ -37,7 +26,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     shadowOpacity: 0.3,
     elevation: 2,
-    padding: 15,
+    padding: 10,
   },
 });
 export default IconButton;
