@@ -8,7 +8,6 @@ import updateTimetableCacheAction from '../actionCreators/updateTimetableCacheAc
 
 // COMPONENTS
 import Destination from '../Components/Destination';
-import SwiperCard from '../Components/Card';
 
 // SERVICE FUNCTIONS
 import { getCachedTimetable, getStationTimetable } from '../serviceAPI';
@@ -41,28 +40,6 @@ const Home = () => {
   const handleOnSwipedLeft = () => useSwiper.swipeLeft();
   const handleOnSwipedTop = () => useSwiper.swipeTop();
   const handleOnSwipedRight = () => useSwiper.swipeRight();
-
-  // const handleRefresh = async () => {
-  //   setIsRefreshing(true);
-  //   const timetable = await getStationTimetable(reduxSelectedStation.code);
-  //   dispatch(updateTimetableCacheAction(timetable));
-
-  //   const timetableIndex = reduxTimetables.findIndex(
-  //     (tt) => tt.station_code === reduxSelectedStation.code,
-  //   );
-  //   const userTravelTime = reduxUserTravelTime.dayjsTime.diff(
-  //     dayjs().hour(0).minute(0).second(0),
-  //     'minutes',
-  //   );
-  //   calculateLastTrain(reduxTimetables[timetableIndex], userTravelTime);
-  //   setIsRefreshing(false);
-  // };
-
-  // GRABS TIMETABLE FROM THE CACHE
-  // const timetable = getCachedTimetable(
-  //   reduxTimetables,
-  //   reduxSelectedStation.code,
-  // );
 
   return (
     <View style={styles.container}>
