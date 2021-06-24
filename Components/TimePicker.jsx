@@ -6,6 +6,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 // REDUX
 import { useDispatch, useSelector } from 'react-redux';
 import changeTravelTimeAction from '../actionCreators/changeTravelTimeAction';
+import addSeenDestinationAction from '../actionCreators/addSeenDestinationAction';
 
 // TIME PICKER SELECT
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -52,16 +53,20 @@ export default function TimePicker() {
     const timetableIndex = await reduxTimetables.findIndex(
       (timetable) => timetable.station_code === reduxSelectedStation.code,
     );
-    console.log(
-      'result from last stop = ',
-      await calculateLastStop(reduxTimetables[timetableIndex], userTravelTime),
+
+    const result = await calculateLastStop(
+      reduxTimetables[timetableIndex],
+      userTravelTime,
     );
+    const dest = { destination: result[result.length - 1].destination, result };
+
+    dispatch(addSeenDestinationAction(dest));
   };
 
   return (
     <View>
       <TouchableOpacity
-        disabled={reduxSelectedStation.code ? false : true}
+        disabled={reduxTimetables.length ? false : true}
         style={styles.button}
         onPress={() => setOpenTimePicker(true)}
       >

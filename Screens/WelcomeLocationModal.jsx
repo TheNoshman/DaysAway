@@ -26,6 +26,9 @@ const WelcomeLocationModal = ({ navigation }) => {
   );
   const reduxTimetables = useSelector((state) => state.reduxTimetableCache);
   const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
+  const reduxSeenDestinations = useSelector(
+    (state) => state.reduxSeenDestinationCache,
+  );
   const dispatch = useDispatch();
 
   // ################## FUNCTIONS ##################
@@ -128,6 +131,12 @@ const WelcomeLocationModal = ({ navigation }) => {
         onPress={() => console.log(reduxUserTravelTime)}
       >
         <Text>get user time</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => console.log(reduxSeenDestinations)}
+      >
+        <Text>get seen destinations redux</Text>
       </TouchableOpacity>
     </View>
   );
