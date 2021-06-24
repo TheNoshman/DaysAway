@@ -43,6 +43,7 @@ export const removeDuplicateServices = (timetable) => {
 let journeyTimetableArray = [{ journeyRoute: [] }];
 
 export const calculateLastStop = async (timetable, userTime) => {
+  console.log('user time in calc last stop = ', userTime);
   const timetableArray = await calculateLastTrain(timetable, userTime);
   // console.log('timetbale ARRY', timetableArray);
 
@@ -66,9 +67,11 @@ export const calculateLastStop = async (timetable, userTime) => {
     .minute(departure[1])
     .second(0);
 
+  let times = [];
   const index = lastTrainStopsArray.findIndex((stop) => {
     console.log('stop', stop);
-
+    let remainingTime =
+      timetableArray[timetableArray.length - 1].remaining_time;
     const arrival = stop.aimed_arrival_time.split(':');
     const stationArrivalTime = dayjs()
       .hour(arrival[0])
@@ -80,23 +83,31 @@ export const calculateLastStop = async (timetable, userTime) => {
       stationDepartureTime,
       'minutes',
     );
-    timetableArray[timetableArray.length - 1].remaining_time -= journeyTime;
+    remainingTime -= journeyTime;
     console.log('journey time = ', journeyTime);
-    console.log(
-      'user time remainign = ',
-      timetableArray[timetableArray.length - 1].remaining_time,
-    );
+    console.log('user time remainign = ', remainingTime);
 
+    times.push(remainingTime);
     console.log(
       'is journey time greater than user time',
-      journeyTime > timetableArray[timetableArray.length - 1].remaining_time,
+      journeyTime > remainingTime,
     );
 
-    return (
-      journeyTime > timetableArray[timetableArray.length - 1].remaining_time
-    );
+    return journeyTime > remainingTime;
   });
+  console.log('TIMES = ', times);
+
   console.log('index func = ', index);
+
+  if (times.length > 1) {
+    console.log('x', times[times.length - 1]);
+    journeyTimetableArray[1].remaining_time = times[times.length - 2];
+  } else {
+    console.log('akfhagbjhdbgsadbgjasbgj', times[times.length - 1]);
+
+    journeyTimetableArray[1].remaining_time = times[times.length - 1];
+  }
+
   console.log('JOURNEY AFTER ALGO', journeyTimetableArray);
 
   // HANDLES IF NEXT STOP ON NEW TRAIN IS OVER TIME -> RETURNS LAST STOP FROM PREVIOUS TRAIN
