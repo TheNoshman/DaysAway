@@ -37,7 +37,9 @@ const { height } = Dimensions.get('window');
 //   },
 // ];
 
-const Home = () => {
+const Home = ({ navigation }) => {
+  console.log('nav =', navigation);
+
   // STATE FOR REFRESH
   const [isRefreshing, setIsRefreshing] = useState(false);
   // REDUX
@@ -71,8 +73,11 @@ const Home = () => {
               animateCardOpacity
               containerStyle={styles.container}
               cards={reduxSeenDestinations}
-              renderCard={(card) => <Card card={card} />}
+              renderCard={(card) => (
+                <Card navigation={navigation} card={card} />
+              )}
               cardIndex={0}
+              onTapCard={(event) => navigation.navigate('Details', { event })}
               backgroundColor="white"
               stackSize={2}
               infinite
@@ -108,13 +113,13 @@ const Home = () => {
               name="remove"
               onPress={handleOnSwipedLeft}
               color="white"
-              backgroundColor="#E5566D"
+              backgroundColor="#ffb01f"
             />
             <IconButton
               name="add"
               onPress={handleOnSwipedRight}
               color="white"
-              backgroundColor="#4CCC93"
+              backgroundColor="#00dbdb"
             />
           </View>
         </View>

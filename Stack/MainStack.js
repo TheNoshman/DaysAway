@@ -5,6 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from '../Screens/Home';
 import TripsScreen from '../Screens/Trips';
 import LocationComponent from '../Screens/Location';
+import JourneyDetails from '../Screens/JourneyDetails';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,7 +15,6 @@ function MainStack({ navigation }) {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-
           if (route.name === 'Home') {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Trips') {

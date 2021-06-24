@@ -3,10 +3,12 @@ import { removeDuplicateServices } from './serviceFunctions';
 
 // npm install babel-plugin-inline-dotenv
 // .ENV VARIABLES
-const { API_KEY } = process.env;
-const { API_ID } = process.env;
+const { TRANSPORT_API_KEY } = process.env;
+const { TRANSPORT_API_ID } = process.env;
 const getStationsListAPI = 'http://transportapi.com/v3/uk/places.json?';
 const getTimetableAPI = 'https://transportapi.com/v3/uk/train/station/';
+const { PHOTOS_API_KEY } = process.env;
+const { PHOTOS_SECRET_KEY } = process.env;
 
 // GET USER LOCATION API
 export const getLocationAPI = async () => {
@@ -28,7 +30,7 @@ export const findLocalTrainStations = async (userLocationData) => {
   const max_lat = (userLocationData.coords.latitude + 0.1).toFixed(3);
   const max_lon = (userLocationData.coords.longitude + 0.1).toFixed(3);
   return fetch(
-    `${getStationsListAPI}min_lat=${min_lat}&min_lon=${min_lon}&max_lat=${max_lat}&max_lon=${max_lon}&type=${searchType}&app_id=${API_ID}&app_key=${API_KEY}`,
+    `${getStationsListAPI}min_lat=${min_lat}&min_lon=${min_lon}&max_lat=${max_lat}&max_lon=${max_lon}&type=${searchType}&app_id=${TRANSPORT_API_ID}&app_key=${TRANSPORT_API_KEY}`,
   )
     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
     .then((result) => result.json())
@@ -42,7 +44,7 @@ export const getStationTimetable = async (code) => {
   console.log('API CALL - GET STATION TIMETABLE');
   const stationCode = `${code}/live.json?`;
   const res = await fetch(
-    `${getTimetableAPI}${stationCode}app_id=${API_ID}&app_key=${API_KEY}&darwin=false&train_status=passenger`,
+    `${getTimetableAPI}${stationCode}app_id=${TRANSPORT_API_ID}&app_key=${TRANSPORT_API_KEY}&darwin=false&train_status=passenger`,
   )
     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
     .then((result) => result.json())

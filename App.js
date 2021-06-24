@@ -14,6 +14,7 @@ import MainStack from './Stack/MainStack';
 // Redux
 import { Provider } from 'react-redux';
 import store from './reduxStore';
+import JourneyDetails from './Screens/JourneyDetails';
 
 // Navigation - Stack
 const RootStack = createStackNavigator();
@@ -34,6 +35,11 @@ const App = () => {
             name="Main"
             component={MainStack}
             options={{ headerShown: false }}
+          />
+          <RootStack.Screen
+            name="Details"
+            component={JourneyDetails}
+            // options={{ headerShown: false }}
           />
         </RootStack.Navigator>
       </Provider>

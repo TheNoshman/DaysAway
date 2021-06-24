@@ -1,16 +1,25 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
+import JourneyDetails from '../Screens/JourneyDetails';
 
 const { height } = Dimensions.get('window');
 
-const Card = ({ card }) => (
+const Card = ({ navigation, card }) => (
   <View activeOpacity={1} style={styles.card}>
     {/* <Image style={styles.image} source={card.photo} resizeMode="cover" /> */}
     <View style={styles.photoDescriptionContainer}>
       <Text style={styles.text}>{`Destination: ${card.destination}`}</Text>
       <Text style={styles.text}>{`Leaving At: ${card.departureTime}`}</Text>
       <Text style={styles.text}>
-        {`Journey duration: ${card.travelTime.hour()}:${card.travelTime.minute()}`}
+        {`Journey duration: ${card.travelTime.hour()} hours, ${card.travelTime.minute()} minutes`}
       </Text>
     </View>
   </View>
