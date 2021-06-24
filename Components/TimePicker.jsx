@@ -43,16 +43,15 @@ export default function TimePicker() {
         dayjsTime: dayjs(event.nativeEvent.timestamp),
       }),
     );
-    const userTravelTime = time.payload.dayjsTime.diff(
-      dayjs().hour(0).minute(0).second(0),
-      'minutes',
-    );
     const timetableIndex = await reduxTimetables.findIndex(
       (timetable) => timetable.station_code === reduxSelectedStation.code,
     );
     const result = await calculateLastStop(
       reduxTimetables[timetableIndex],
-      userTravelTime,
+      time.payload.dayjsTime.diff(
+        dayjs().hour(0).minute(0).second(0),
+        'minutes',
+      ),
     );
     dispatch(
       addSeenDestinationAction({
@@ -77,7 +76,7 @@ export default function TimePicker() {
         ) : (
           <Text style={styles.textDisabled}>Select travel duration</Text>
         )}
-        {reduxSelectedStation.code ? (
+        {reduxTimetables.length ? (
           <Ionicons name="timer" size={24} color="red" />
         ) : (
           <Ionicons name="timer" size={24} color="gray" />

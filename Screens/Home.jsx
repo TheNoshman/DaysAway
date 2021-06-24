@@ -32,6 +32,9 @@ const Home = () => {
     (state) => state.reduxSelectedTrainStation,
   );
   const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
+  const reduxSeenDestinations = useSelector(
+    (state) => state.reduxSeenDestinationCache,
+  );
 
   const dispatch = useDispatch();
 
@@ -43,8 +46,10 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-      {!timetable.length ? (
-        <Text>Loading...</Text>
+      {!reduxSeenDestinations.length ? (
+        <SafeAreaView>
+          <Text>Loading...</Text>
+        </SafeAreaView>
       ) : (
         <View style={styles.container}>
           <View style={styles.swiperContainer}>
