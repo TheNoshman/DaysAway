@@ -36,16 +36,23 @@ export const distanceCalculator = (lat1, lon1, lat2, lon2) => {
 //     ) {
 //       uniqueServices.push(trainService);
 //     }
-//   }
+//   }=
 //   return uniqueServices;
 // };
+
+// CHECKS CACHE FOR TIMETABLE
+export const getCachedTimetable = (reduxStore, selectedStation) => {
+  return reduxStore.filter(
+    (timetable) => timetable.station_code === selectedStation,
+  );
+};
 
 let journeyTimetableArray = [{ journeyRoute: [] }];
 let times = [];
 export const calculateLastStop = async (timetable, userTime) => {
   console.log('user time in calc last stop = ', userTime);
   const timetableArray = await calculateLastTrain(timetable, userTime);
-  // console.log('timetbale ARRY', timetableArray);
+  console.log('timetbale ', timetableArray);
 
   console.log('timetable array', timetableArray);
 
@@ -129,12 +136,13 @@ export const calculateLastStop = async (timetable, userTime) => {
     return y;
   }
 };
-
+const originalUserTime = [];
 // CALCULATE DIFFERENCE BETWEEN DEPARTURE TIME AND ARRIVAL TIME
 // IF TRUE, JOURNEY OK. IF FALSE, JOURNEY TOO LONG
 export const calculateLastTrain = async (timetable, userTime) => {
   console.log('in calclasttrain, timetable = ', timetable);
   console.log('user journey time = ', userTime);
+  originalUserTime.push(userTime);
 
   journeyTimetableArray[0].journeyRoute.push(timetable);
 
@@ -163,6 +171,7 @@ export const calculateLastTrain = async (timetable, userTime) => {
   // BASE CASE
   if (journeyTime > userTime) {
     console.log('in base case', journeyTimetableArray);
+    console.log('user time in base case =', userTime);
 
     return journeyTimetableArray;
   } else {

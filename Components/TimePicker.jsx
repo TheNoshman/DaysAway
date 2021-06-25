@@ -86,22 +86,6 @@ export default function TimePicker() {
         );
       }
     }
-
-    // SAVE ROUTE & DESTINATION TO REDUX
-    // dispatch(
-    //   addSeenDestinationAction({
-    //     destination: result[result.length - 1].destination.station_name,
-    //     from: result[0].journeyRoute[0].station_name,
-    //     departureTime:
-    //       result[0].journeyRoute[0].departures.calculatedJourneys[0]
-    //         .callingAt[0].aimed_departure_time,
-    //     travelTime: time.payload.dayjsTime.subtract(
-    //       result[1].remainingTime,
-    //       'minute',
-    //     ),
-    //     details: result,
-    //   }),
-    // );
   };
 
   return (
@@ -120,9 +104,9 @@ export default function TimePicker() {
           <Text style={styles.textDisabled}>Select travel duration</Text>
         )}
         {reduxTimetables.length ? (
-          <Ionicons name="timer" size={24} color="red" />
+          <Ionicons name="timer" size={24} color="#00dbdb" />
         ) : (
-          <Ionicons name="timer" size={24} color="gray" />
+          <Ionicons name="timer" size={24} color="#ffb01f" />
         )}
       </TouchableOpacity>
       {openTimePicker ? (

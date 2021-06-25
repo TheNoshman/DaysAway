@@ -4,11 +4,12 @@ import * as Location from 'expo-location';
 // .ENV VARIABLES
 const { TRANSPORT_API_KEY } = process.env;
 const { TRANSPORT_API_ID } = process.env;
-const getStationsListAPI = 'http://transportapi.com/v3/uk/places.json?';
-const getTimetableAPI = 'https://transportapi.com/v3/uk/train/station/';
 const { PHOTOS_API_KEY } = process.env;
 const { PHOTOS_SECRET_KEY } = process.env;
 const { OPENTRIPMAP_API_KEY } = process.env;
+
+const getStationsListAPI = 'http://transportapi.com/v3/uk/places.json?';
+const getTimetableAPI = 'https://transportapi.com/v3/uk/train/station/';
 
 // GET USER LOCATION API
 export const getLocationAPI = async () => {
@@ -89,9 +90,16 @@ export const getStops = async (timetable) => {
   return timetable;
 };
 
-// CHECKS CACHE FOR TIMETABLE
-export const getCachedTimetable = (reduxStore, selectedStation) => {
-  return reduxStore.filter(
-    (timetable) => timetable.station_code === selectedStation,
-  );
+export const getAttractions = async (placeName) => {
+  console.log('API CALL - FIND ATTRACTIONS', placeName);
+
+  return fetch(
+    `https://api.opentripmap.com/0.1/en/places/geoname?apikey=${OPENTRIPMAP_API_KEY}&name=${placeName}`,
+  )
+    .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
+    .then((result) => result.json())
+    .then((result) => console.log('API RESULT = ', result))
+    .catch((err) => {
+      console.log(`${err.message}`);
+    });
 };

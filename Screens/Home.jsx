@@ -10,8 +10,8 @@ import updateTimetableCacheAction from '../actionCreators/updateTimetableCacheAc
 import Destination from '../Components/Destination';
 
 // SERVICE FUNCTIONS
-import { getCachedTimetable, getStationTimetable } from '../serviceAPI';
-import { calculateLastTrain } from '../serviceFunctions';
+import { getStationTimetable } from '../serviceAPI';
+import { getCachedTimetable, calculateLastTrain } from '../serviceFunctions';
 import dayjs from 'dayjs';
 
 import Swiper from 'react-native-deck-swiper';

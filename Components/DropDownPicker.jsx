@@ -9,11 +9,8 @@ import addTimetableToCacheAction from '../actionCreators/addTimetableToCacheActi
 import updateTimetableCacheAction from '../actionCreators/updateTimetableCacheAction';
 
 // SERVICE API FUNCTIONS
-import {
-  getCachedTimetable,
-  getStationTimetable,
-  getStops,
-} from '../serviceAPI';
+import { getStationTimetable } from '../serviceAPI';
+import { getCachedTimetable } from '../serviceFunctions';
 
 // STATION PICKER SELECT
 import RNPickerSelect from 'react-native-picker-select';
@@ -60,9 +57,9 @@ export default function DropDownPicker() {
       value={reduxSelectedStation}
       Icon={() => {
         if (reduxStationList.length > 1) {
-          return <Ionicons name="md-arrow-down" size={24} color="red" />;
+          return <Ionicons name="md-arrow-down" size={24} color="#00dbdb" />;
         } else {
-          return <Ionicons name="md-arrow-down" size={24} color="gray" />;
+          return <Ionicons name="md-arrow-down" size={24} color="#ffb01f" />;
         }
       }}
       items={reduxStationList}
