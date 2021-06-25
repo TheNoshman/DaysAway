@@ -1,5 +1,4 @@
 import * as Location from 'expo-location';
-import { removeDuplicateServices } from './serviceFunctions';
 
 // npm install babel-plugin-inline-dotenv
 // .ENV VARIABLES
@@ -60,12 +59,9 @@ export const getStationTimetable = async (code) => {
 export const getStops = async (timetable) => {
   console.log('API CALL - GET STATION STOPS FOR TRAIN');
 
-  // REMOVES DUPLICATE SERVICES FOR API CALL
-  timetable.departures.uniqueServices = removeDuplicateServices(timetable);
-  const index = Math.floor(
-    Math.random() * timetable.departures.uniqueServices.length,
-  );
-  const journeyRef = timetable.departures.uniqueServices[index];
+  // removeDuplicateServices(timetable);
+  const index = Math.floor(Math.random() * timetable.departures.all.length);
+  const journeyRef = timetable.departures.all[index];
 
   // API CALL TO GET STOPS
   timetable.departures.calculatedJourneys.push({

@@ -24,21 +24,21 @@ export const distanceCalculator = (lat1, lon1, lat2, lon2) => {
 };
 
 // REMOVES DUPLICATE SERVICES FOR API CALL IN SERVICE API
-export const removeDuplicateServices = (timetable) => {
-  let uniqueServices = [];
-  for (const trainService of timetable.departures.all) {
-    if (
-      !uniqueServices.some(
-        (serv) =>
-          serv.destination_name === trainService.destination_name &&
-          serv.service === trainService.service,
-      )
-    ) {
-      uniqueServices.push(trainService);
-    }
-  }
-  return uniqueServices;
-};
+// export const removeDuplicateServices = (timetable) => {
+//   let uniqueServices = [];
+//   for (const trainService of timetable.departures.all) {
+//     if (
+//       !uniqueServices.some(
+//         (serv) =>
+//           serv.destination_name === trainService.destination_name &&
+//           serv.service === trainService.service,
+//       )
+//     ) {
+//       uniqueServices.push(trainService);
+//     }
+//   }
+//   return uniqueServices;
+// };
 
 let journeyTimetableArray = [{ journeyRoute: [] }];
 let times = [];
@@ -162,7 +162,6 @@ export const calculateLastTrain = async (timetable, userTime) => {
 
   // BASE CASE
   if (journeyTime > userTime) {
-    // const returnJourneyArray = journeyTimetableArray.slice();
     console.log('in base case', journeyTimetableArray);
 
     return journeyTimetableArray;
