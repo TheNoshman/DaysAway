@@ -1,18 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
-import { getAttractions } from '../serviceAPI';
+import { getPlaceLocation, getObject } from '../serviceAPI';
 
-export default function JourneyDetails(event) {
+const JourneyDetails = (event) => {
   const reduxSeenDestinations = useSelector(
     (state) => state.reduxSeenDestinationCache,
   );
   // INDEX OF SELECTED CARD
-  const cardIndex = reduxSeenDestinations[event.route.params.event];
-  console.log('CARD INDEX SEEN DESTINATIONS', cardIndex);
+  const journey = reduxSeenDestinations[event.route.params.event];
+  console.log('CARD INDEX SEEN DESTINATIONS', journey);
 
-  getAttractions(cardIndex.destination);
+  useEffect(() => {
+    (async () => {
+      console.log('IN USE EFFECT');
+
+      const location = await getPlaceLocation(
+        reduxSeenDestinations[event.route.params.event],
+      );
+      console.log('location = ', location);
+
+      const obj = await getObject(location);
+    })();
+  }, [event.route.params.event, reduxSeenDestinations]);
 
   return (
     <SafeAreaView>
@@ -28,4 +39,6 @@ export default function JourneyDetails(event) {
       <Text>Things to see</Text>
     </SafeAreaView>
   );
-}
+};
+
+export default JourneyDetails;

@@ -86,6 +86,22 @@ export default function TimePicker() {
         );
       }
     }
+
+    // SAVE ROUTE & DESTINATION TO REDUX
+    // dispatch(
+    //   addSeenDestinationAction({
+    //     destination: result[result.length - 1].destination.station_name,
+    //     from: result[0].journeyRoute[0].station_name,
+    //     departureTime:
+    //       result[0].journeyRoute[0].departures.calculatedJourneys[0]
+    //         .callingAt[0].aimed_departure_time,
+    //     travelTime: time.payload.dayjsTime.subtract(
+    //       result[1].remainingTime,
+    //       'minute',
+    //     ),
+    //     details: result,
+    //   }),
+    // );
   };
 
   return (

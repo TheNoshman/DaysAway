@@ -10,6 +10,7 @@ const { OPENTRIPMAP_API_KEY } = process.env;
 
 const getStationsListAPI = 'http://transportapi.com/v3/uk/places.json?';
 const getTimetableAPI = 'https://transportapi.com/v3/uk/train/station/';
+const opentripAPI = 'https://api.opentripmap.com/0.1/en/places/';
 
 // GET USER LOCATION API
 export const getLocationAPI = async () => {
@@ -90,15 +91,26 @@ export const getStops = async (timetable) => {
   return timetable;
 };
 
-export const getAttractions = async (placeName) => {
-  console.log('API CALL - FIND ATTRACTIONS', placeName);
-
+export const getPlaceLocation = async ({ destination }) => {
+  console.log('API CALL - FIND ATTRACTIONS', destination);
   return fetch(
-    `https://api.opentripmap.com/0.1/en/places/geoname?apikey=${OPENTRIPMAP_API_KEY}&name=${placeName}`,
+    `${opentripAPI}geoname?apikey=${OPENTRIPMAP_API_KEY}&name=${destination}`,
   )
     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
     .then((result) => result.json())
-    .then((result) => console.log('API RESULT = ', result))
+    .catch((err) => {
+      console.log(`${err.message}`);
+    });
+};
+
+export const getObject = async (location) => {
+  console.log('IN GET OBJ, LOCATION = ', location);
+  return fetch(
+    `${opentripAPI}radius?apikey=${OPENTRIPMAP_API_KEY}&radius=1000&limit=10&offset=0&lon=${location.lon}&lat=${location.lat}&rate=2`,
+  )
+    .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
+    .then((result) => result.json())
+    .then((result) => console.log('SECOND PLACE API RESULT = ', result))
     .catch((err) => {
       console.log(`${err.message}`);
     });
