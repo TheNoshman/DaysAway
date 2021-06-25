@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
-import JourneyDetails from '../Screens/JourneyDetails';
+import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
 
 const { height } = Dimensions.get('window');
 

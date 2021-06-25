@@ -8,6 +8,7 @@ const getStationsListAPI = 'http://transportapi.com/v3/uk/places.json?';
 const getTimetableAPI = 'https://transportapi.com/v3/uk/train/station/';
 const { PHOTOS_API_KEY } = process.env;
 const { PHOTOS_SECRET_KEY } = process.env;
+const { OPENTRIPMAP_API_KEY } = process.env;
 
 // GET USER LOCATION API
 export const getLocationAPI = async () => {

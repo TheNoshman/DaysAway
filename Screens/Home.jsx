@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Dimensions } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 // REDUX
