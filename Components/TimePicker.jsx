@@ -11,7 +11,7 @@ import addSeenDestinationAction from '../actionCreators/addSeenDestinationAction
 import { calculateLastStop } from '../serviceFunctions';
 // COMPONENTS
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { getStops } from '../serviceAPI';
+import { getListOfPlaces, getPlaceLocation, getStops } from '../serviceAPI';
 
 export default function TimePicker() {
   // OPEN TIMEPICKER STATE
@@ -59,7 +59,7 @@ export default function TimePicker() {
           'minutes',
         ),
       );
-      console.log('RESULT = ', result);
+      console.log('RESULT = ', result[2].destination.station_name);
 
       console.log('seenDest = ', seenDest);
 
@@ -69,6 +69,9 @@ export default function TimePicker() {
         console.log('seen before');
         index--;
       } else {
+        const placeList = await getListOfPlaces(
+          await getPlaceLocation(result[2].destination.station_name),
+        );
         seenDest.push(result[2].destination.station_code);
         dispatch(
           addSeenDestinationAction({
@@ -81,6 +84,7 @@ export default function TimePicker() {
               result[1].remainingTime,
               'minute',
             ),
+            localPlaces: placeList,
             details: result,
           }),
         );

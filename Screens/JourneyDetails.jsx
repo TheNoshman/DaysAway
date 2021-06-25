@@ -14,22 +14,6 @@ const JourneyDetails = (event) => {
   const journey = reduxSeenDestinations[event.route.params.event];
   console.log('CARD INDEX SEEN DESTINATIONS', journey);
 
-  useEffect(() => {
-    (async () => {
-      console.log('IN USE EFFECT');
-      const location = await getPlaceLocation(
-        reduxSeenDestinations[event.route.params.event],
-      );
-      console.log('location = ', location);
-
-      const placeList = await getListOfPlaces(location);
-
-      journey.localPlaces = placeList;
-      console.log('journey = ', journey);
-      updateJourneyWithLocation(journey);
-    })();
-  }, [event.route.params.event, reduxSeenDestinations]);
-
   return (
     <SafeAreaView>
       <Text> journey details</Text>

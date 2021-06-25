@@ -91,10 +91,10 @@ export const getStops = async (timetable) => {
   return timetable;
 };
 
-export const getPlaceLocation = async ({ destination }) => {
-  console.log('API CALL - FIND ATTRACTIONS', destination);
+export const getPlaceLocation = async (destination) => {
+  console.log('API CALL - FIND PLACE LOCATION', destination);
   return fetch(
-    `${opentripAPI}geoname?apikey=${OPENTRIPMAP_API_KEY}&name=${destination}`,
+    `${opentripAPI}geoname?apikey=${OPENTRIPMAP_API_KEY}&name=${destination}&country=gb`,
   )
     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
     .then((result) => result.json())
@@ -104,9 +104,9 @@ export const getPlaceLocation = async ({ destination }) => {
 };
 
 export const getListOfPlaces = async (location) => {
-  console.log('IN GET OBJ, LOCATION = ', location);
+  console.log('API CALL - GET LOCAL PLACES');
   return fetch(
-    `${opentripAPI}radius?apikey=${OPENTRIPMAP_API_KEY}&radius=1000&limit=10&offset=0&lon=${location.lon}&lat=${location.lat}&rate=2`,
+    `${opentripAPI}radius?apikey=${OPENTRIPMAP_API_KEY}&radius=3000&limit=10&offset=0&lon=${location.lon}&lat=${location.lat}&rate=2`,
   )
     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
     .then((result) => result.json())
