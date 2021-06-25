@@ -11,7 +11,12 @@ import addSeenDestinationAction from '../actionCreators/addSeenDestinationAction
 import { calculateLastStop } from '../serviceFunctions';
 // COMPONENTS
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { getListOfPlaces, getPlaceLocation, getStops } from '../serviceAPI';
+import {
+  getListOfPlaces,
+  getPlaceDetail,
+  getPlaceLocation,
+  getStops,
+} from '../serviceAPI';
 
 export default function TimePicker() {
   // OPEN TIMEPICKER STATE
@@ -72,6 +77,9 @@ export default function TimePicker() {
         const placeList = await getListOfPlaces(
           await getPlaceLocation(result[2].destination.station_name),
         );
+        const singlePlaceDetail = await getPlaceDetail(
+          placeList.features[0].id,
+        );
         seenDest.push(result[2].destination.station_code);
         dispatch(
           addSeenDestinationAction({
@@ -85,6 +93,7 @@ export default function TimePicker() {
               'minute',
             ),
             localPlaces: placeList,
+            singlePlaceDetail,
             details: result,
           }),
         );

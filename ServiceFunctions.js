@@ -126,12 +126,14 @@ export const calculateLastStop = async (timetable, userTime) => {
     const journeyTT = train.callingAt[train.callingAt.length - 1];
     const x = [...journeyTimetableArray, { destination: journeyTT }];
     journeyTimetableArray = [{ journeyRoute: [] }];
+    times = [];
     return x;
   } else {
     const y = [
       ...journeyTimetableArray,
       { destination: lastTrainStopsArray[index - 1] },
     ];
+    times = [];
     journeyTimetableArray = [{ journeyRoute: [] }];
     return y;
   }

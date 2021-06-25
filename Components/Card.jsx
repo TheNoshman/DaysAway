@@ -3,25 +3,31 @@ import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
 
 const { height } = Dimensions.get('window');
 
-const Card = ({ navigation, card }) => (
-  <View activeOpacity={1} style={styles.card}>
-    {/* <Image style={styles.image} source={card.photo} resizeMode="cover" /> */}
-    <View style={styles.photoDescriptionContainer}>
-      <Text style={styles.text}>{`Destination: ${card.destination}`}</Text>
-      <Text style={styles.text}>
-        {`Journey duration: ${
-          card.travelTime.hour()
-            ? `${card.travelTime.hour()} ${
-                card.travelTime.hour() > 1 ? 'hours, ' : 'hour, '
-              }`
-            : ''
-        }${card.travelTime.minute()} ${
-          card.travelTime.minute() > 1 ? 'minutes' : 'minute'
-        }`}
-      </Text>
+const Card = ({ card }) => {
+  return (
+    <View activeOpacity={1} style={styles.card}>
+      <Image
+        style={styles.image}
+        source={{ uri: card.singlePlaceDetail.preview.source }}
+        resizeMode="contain"
+      />
+      <View style={styles.photoDescriptionContainer}>
+        <Text style={styles.text}>{`Destination: ${card.destination}`}</Text>
+        <Text style={styles.text}>
+          {`Journey duration: ${
+            card.travelTime.hour()
+              ? `${card.travelTime.hour()} ${
+                  card.travelTime.hour() > 1 ? 'hours, ' : 'hour, '
+                }`
+              : ''
+          }${card.travelTime.minute()} ${
+            card.travelTime.minute() > 1 ? 'minutes' : 'minute'
+          }`}
+        </Text>
+      </View>
     </View>
-  </View>
-);
+  );
+};
 
 export default Card;
 

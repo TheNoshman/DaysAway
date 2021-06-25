@@ -115,3 +115,15 @@ export const getListOfPlaces = async (location) => {
       console.log(`${err.message}`);
     });
 };
+
+export const getPlaceDetail = async (id) => {
+  console.log('API CALL - GET PLACE DETAIL');
+
+  return fetch(`${opentripAPI}xid/${id}?apikey=${OPENTRIPMAP_API_KEY}`)
+    .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
+    .then((result) => result.json())
+
+    .catch((err) => {
+      console.log(`${err.message}`);
+    });
+};
