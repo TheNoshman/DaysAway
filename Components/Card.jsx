@@ -17,9 +17,16 @@ const Card = ({ navigation, card }) => (
     {/* <Image style={styles.image} source={card.photo} resizeMode="cover" /> */}
     <View style={styles.photoDescriptionContainer}>
       <Text style={styles.text}>{`Destination: ${card.destination}`}</Text>
-      <Text style={styles.text}>{`Leaving At: ${card.departureTime}`}</Text>
       <Text style={styles.text}>
-        {`Journey duration: ${card.travelTime.hour()} hours, ${card.travelTime.minute()} minutes`}
+        {`Journey duration: ${
+          card.travelTime.hour()
+            ? `${card.travelTime.hour()} ${
+                card.travelTime.hour() > 1 ? 'hours, ' : 'hour, '
+              }`
+            : ''
+        }${card.travelTime.minute()} ${
+          card.travelTime.minute() > 1 ? 'minutes' : 'minute'
+        }`}
       </Text>
     </View>
   </View>
