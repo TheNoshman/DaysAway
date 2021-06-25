@@ -103,14 +103,14 @@ export const getPlaceLocation = async ({ destination }) => {
     });
 };
 
-export const getObject = async (location) => {
+export const getListOfPlaces = async (location) => {
   console.log('IN GET OBJ, LOCATION = ', location);
   return fetch(
     `${opentripAPI}radius?apikey=${OPENTRIPMAP_API_KEY}&radius=1000&limit=10&offset=0&lon=${location.lon}&lat=${location.lat}&rate=2`,
   )
     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
     .then((result) => result.json())
-    .then((result) => console.log('SECOND PLACE API RESULT = ', result))
+
     .catch((err) => {
       console.log(`${err.message}`);
     });

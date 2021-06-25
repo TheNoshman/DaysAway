@@ -18,6 +18,9 @@ const LocationComponent = ({ navigation }) => {
   );
   const reduxTimetableCache = useSelector((state) => state.reduxTimetableCache);
   const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
+  const reduxSeenDestinations = useSelector(
+    (state) => state.reduxSeenDestinationCache,
+  );
 
   return (
     <View style={styles.container}>
@@ -66,6 +69,12 @@ const LocationComponent = ({ navigation }) => {
         onPress={() => console.log(reduxUserTravelTime)}
       >
         <Text>get user time</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => console.log(reduxSeenDestinations)}
+      >
+        <Text>get seen destinations redux</Text>
       </TouchableOpacity>
     </View>
   );

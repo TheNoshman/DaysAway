@@ -12,6 +12,13 @@ export default function seenDestinationReducer(
         action.payload,
       );
       return [...state, action.payload];
+    case ' UPDATE_JOURNEY_WITH_LOCATION':
+      const oldJourneyIndex = state.findIndex((journey) => {
+        return journey.destination === action.payload.destination;
+      });
+      state[oldJourneyIndex] = action.payload;
+      return state;
+
     default:
       // If nothing changes, still return state
       return state;
