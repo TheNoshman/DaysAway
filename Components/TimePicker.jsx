@@ -49,56 +49,58 @@ export default function TimePicker() {
         dayjsTime: dayjs(event.nativeEvent.timestamp),
       }),
     );
+
     // GET CURRENT SELECTED TIMETABLE FROM CACHE
     const timetableIndex = reduxTimetables.findIndex(
       (timetable) => timetable.station_code === reduxSelectedStation.code,
     );
 
     const seenDest = [];
-    for (let index = 0; index < 3; index++) {
-      const stops = await getStops(reduxTimetables[timetableIndex]);
-      const result = await calculateLastStop(
-        stops,
-        time.payload.dayjsTime.diff(
-          dayjs().hour(0).minute(0).second(0),
-          'minutes',
-        ),
-      );
-      console.log('RESULT = ', result[2].destination.station_name);
+    const userJourneyTime = time.payload.dayjsTime.diff(
+      dayjs().hour(0).minute(0).second(0),
+      'minutes',
+    );
 
-      console.log('seenDest = ', seenDest);
+    const result = await calculateLastStop(
+      await getStops(reduxTimetables[timetableIndex], userJourneyTime),
+      userJourneyTime,
+    );
 
-      if (
-        seenDest.some((train) => train === result[2].destination.station_code)
-      ) {
-        console.log('seen before');
-        index--;
-      } else {
-        const placeList = await getListOfPlaces(
-          await getPlaceLocation(result[2].destination.station_name),
-        );
-        const singlePlaceDetail = await getPlaceDetail(
-          placeList.features[0].id,
-        );
-        seenDest.push(result[2].destination.station_code);
-        dispatch(
-          addSeenDestinationAction({
-            destination: result[result.length - 1].destination.station_name,
-            from: result[0].journeyRoute[0].station_name,
-            departureTime:
-              result[0].journeyRoute[0].departures.calculatedJourneys[0]
-                .callingAt[0].aimed_departure_time,
-            travelTime: time.payload.dayjsTime.subtract(
-              result[1].remainingTime,
-              'minute',
-            ),
-            localPlaces: placeList,
-            singlePlaceDetail,
-            details: result,
-          }),
-        );
-      }
-    }
+    console.log('RESULT = ', result);
+
+    console.log('seenDest = ', seenDest);
+
+    // if (
+    //   seenDest.some((train) => train === result[2].destination.station_code)
+    // ) {
+    //   console.log('seen before');
+    //   index--;
+    // } else {
+    //   const placeList = await getListOfPlaces(
+    //     await getPlaceLocation(result[2].destination.station_name),
+    //   );
+    //   const singlePlaceDetail = await getPlaceDetail(
+    //     placeList.features[0].id,
+    //   );
+    //   seenDest.push(result[2].destination.station_code);
+    //   dispatch(
+    //     addSeenDestinationAction({
+    //       destination: result[result.length - 1].destination.station_name,
+    //       from: result[0].journeyRoute[0].station_name,
+    //       departureTime:
+    //         result[0].journeyRoute[0].departures.calculatedJourneys[0]
+    //           .callingAt[0].aimed_departure_time,
+    //       travelTime: time.payload.dayjsTime.subtract(
+    //         result[1].remainingTime,
+    //         'minute',
+    //       ),
+    //       localPlaces: placeList,
+    //       singlePlaceDetail,
+    //       details: result,
+    //     }),
+    //   );
+
+    // }
 
     // SAVE ROUTE & DESTINATION TO REDUX
     // dispatch(

@@ -1,4 +1,5 @@
 import * as Location from 'expo-location';
+import { calculateLastStop } from './serviceFunctions';
 
 // npm install babel-plugin-inline-dotenv
 // .ENV VARIABLES
@@ -56,15 +57,16 @@ export const getStationTimetable = async (code) => {
     console.log('NO DEPARTURES TO DISPLAY, RETURNING');
     return;
   }
-  console.log('RES = ', res);
-
   res.departures.calculatedJourneys = [];
   return res;
 };
 
 // GET TRAIN STOPS
 export const getStops = async (timetable) => {
-  console.log('API CALL - GET STATION STOPS FOR TRAIN');
+  console.log(
+    'API CALL - GET STATION STOPS FOR TRAIN, TIMETABLE PASSED IN = ',
+    timetable,
+  );
 
   const index = Math.floor(Math.random() * timetable.departures.all.length);
   const journeyRef = timetable.departures.all[index];
