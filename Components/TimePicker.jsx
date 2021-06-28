@@ -62,34 +62,38 @@ export default function TimePicker() {
       'minutes',
     );
 
-    const { result, placeList, singlePlaceDetail } = await getCardData(
-      reduxTimetables,
-      timetableIndex,
-      userJourneyTime,
-    );
-    console.log('result = ', result);
+    const cardPromisesArray = [];
 
-    const travelTimeMins = time.payload.dayjsTime
-      .subtract(result[1].remainingTime, 'minute')
-      .diff(dayjs().hour(0).minute(0).second(0), 'minute');
+    for (let i = 0; i < 3; i++) {
+      cardPromisesArray.push(
+        getCardData(reduxTimetables, timetableIndex, userJourneyTime, time),
+      );
+    }
 
-    const travelTimeDayjs = time.payload.dayjsTime.subtract(
-      result[1].remainingTime,
-      'minute',
-    );
-
-    dispatch(
-      addSeenDestinationAction({
-        destination: result[result.length - 1].destination.station_name,
-        from: result[0].journeyRoute[0].station_name,
-        departureTime:
-          result[0].journeyRoute[0].departures.calculatedJourneys[0]
-            .callingAt[0].aimed_departure_time,
-        travelTime: { travelTimeMins, travelTimeDayjs },
-        localPlaces: placeList,
+    const resolvedCardPromises = await Promise.all(cardPromisesArray);
+    console.log('FINAL RESULT = ', resolvedCardPromises);
+    resolvedCardPromises.forEach(
+      ({
+        result,
+        placeList,
         singlePlaceDetail,
-        details: result,
-      }),
+        travelTimeMins,
+        travelTimeDayjs,
+      }) => {
+        dispatch(
+          addSeenDestinationAction({
+            destination: result[result.length - 1].destination.station_name,
+            from: result[0].journeyRoute[0].station_name,
+            departureTime:
+              result[0].journeyRoute[0].departures.calculatedJourneys[0]
+                .callingAt[0].aimed_departure_time,
+            travelTime: { travelTimeMins, travelTimeDayjs },
+            localPlaces: placeList,
+            singlePlaceDetail,
+            details: result,
+          }),
+        );
+      },
     );
   };
 

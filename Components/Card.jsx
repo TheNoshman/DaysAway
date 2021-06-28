@@ -18,12 +18,19 @@ const Card = ({ card }) => {
             card.travelTime.travelTimeDayjs.hour()
               ? `${card.travelTime.travelTimeDayjs.hour()} ${
                   card.travelTime.travelTimeDayjs.hour() > 1
-                    ? 'hours, '
-                    : 'hour, '
+                    ? 'hours '
+                    : 'hour '
                 }`
               : ''
-          }${card.travelTime.travelTimeDayjs.minute()} ${
-            card.travelTime.travelTimeDayjs.minute() > 1 ? 'minutes' : 'minute'
+          }
+          ${
+            card.travelTime.travelTimeDayjs.minute() > 0
+              ? `${card.travelTime.travelTimeDayjs.minute()} ${
+                  card.travelTime.travelTimeDayjs.minute() > 1
+                    ? 'minutes'
+                    : 'minute'
+                }`
+              : ''
           }`}
         </Text>
       </View>

@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import * as Location from 'expo-location';
 import { calculateLastStop } from './serviceFunctions';
 
@@ -137,6 +138,7 @@ export const getCardData = async (
   reduxTimetables,
   timetableIndex,
   userJourneyTime,
+  time,
 ) => {
   const result = await calculateLastStop(
     await getStops(reduxTimetables[timetableIndex], userJourneyTime),
@@ -147,6 +149,23 @@ export const getCardData = async (
   const placeList = await getListOfPlaces(
     await getPlaceLocation(result[3].destination.station_name),
   );
+  console.log('PLACELIST IN GET CARDS = ', placeList);
   const singlePlaceDetail = await getPlaceDetail(placeList.features[0].id);
-  return { result, placeList, singlePlaceDetail };
+
+  const travelTimeMins = time.payload.dayjsTime
+    .subtract(result[1].remainingTime, 'minute')
+    .diff(dayjs().hour(0).minute(0).second(0), 'minute');
+
+  const travelTimeDayjs = time.payload.dayjsTime.subtract(
+    result[1].remainingTime,
+    'minute',
+  );
+  // MAYBE DESTINATION API CALL FOR PLACE DATA FOR API?
+  return {
+    result,
+    placeList,
+    singlePlaceDetail,
+    travelTimeMins,
+    travelTimeDayjs,
+  };
 };

@@ -117,7 +117,7 @@ export const calculateLastStop = async (timetable, userTime) => {
   }
   const tt0jr = timetableArray[0].journeyRoute;
   // HANDLES IF NEXT STOP ON NEW TRAIN IS OVER TIME -> RETURNS LAST STOP FROM PREVIOUS TRAIN
-  if (index !== 0) {
+  if (index > 0) {
     console.log('INDEX IS NOT 0, LAST STEP, TT array = ', timetableArray);
     timetableArray.push({
       destination:
@@ -125,12 +125,24 @@ export const calculateLastStop = async (timetable, userTime) => {
           index
         ],
     });
-    console.log(
-      'index > 0, journey timetable array to be returned = ',
-      index,
-      timetableArray,
-    );
     journeyTimetableArray = [{ journeyRoute: [] }];
+    console.log('TO BE RETURNED FROM ALGO = ', timetableArray);
+
+    return timetableArray;
+  } else if (index < 0 || tt0jr.length === 1) {
+    timetableArray.push({
+      destination:
+        tt0jr[0].departures.calculatedJourneys[
+          tt0jr[0].departures.calculatedJourneys.length - 1
+        ].callingAt[
+          tt0jr[0].departures.calculatedJourneys[
+            tt0jr[0].departures.calculatedJourneys.length - 1
+          ].callingAt.length - 1
+        ],
+    });
+    journeyTimetableArray = [{ journeyRoute: [] }];
+    console.log('TO BE RETURNED FROM ALGO = ', timetableArray);
+
     return timetableArray;
   } else {
     console.log('INDEX IS 0, LAST STEP, TT array = ', timetableArray);
@@ -144,12 +156,10 @@ export const calculateLastStop = async (timetable, userTime) => {
           ].callingAt.length - 1
         ],
     });
-    console.log(
-      'index = 0, journey timetable array to be returned = ',
-      index,
-      timetableArray,
-    );
+
     journeyTimetableArray = [{ journeyRoute: [] }];
+    console.log('TO BE RETURNED FROM ALGO = ', timetableArray);
+
     return timetableArray;
   }
 };
