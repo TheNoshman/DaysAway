@@ -130,6 +130,8 @@ export const calculateLastStop = async (timetable, userTime) => {
       index,
       timetableArray,
     );
+    journeyTimetableArray = [{ journeyRoute: [] }];
+    return timetableArray;
   } else {
     console.log('INDEX IS 0, LAST STEP, TT array = ', timetableArray);
     timetableArray.push({
@@ -147,9 +149,9 @@ export const calculateLastStop = async (timetable, userTime) => {
       index,
       timetableArray,
     );
+    journeyTimetableArray = [{ journeyRoute: [] }];
+    return timetableArray;
   }
-  journeyTimetableArray = [{ journeyRoute: [] }];
-  return;
 };
 
 // CALCULATE DIFFERENCE BETWEEN DEPARTURE TIME AND ARRIVAL TIME

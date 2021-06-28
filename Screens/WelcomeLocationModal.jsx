@@ -100,7 +100,7 @@ const WelcomeLocationModal = ({ navigation }) => {
       <TouchableOpacity
         style={styles.button}
         onPress={() => handleSubmit()}
-        disabled={reduxSeenDestinations.length < 2 ? true : false}
+        disabled={reduxSeenDestinations ? false : true}
       >
         <Text>Touch to enter</Text>
       </TouchableOpacity>

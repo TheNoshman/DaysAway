@@ -57,7 +57,6 @@ export default function TimePicker() {
     );
     console.log('timetable index = ', timetableIndex);
 
-    const seenDest = [];
     const userJourneyTime = time.payload.dayjsTime.diff(
       dayjs().hour(0).minute(0).second(0),
       'minutes',
@@ -67,58 +66,27 @@ export default function TimePicker() {
       await getStops(reduxTimetables[timetableIndex], userJourneyTime),
       userJourneyTime,
     );
+    const placeList = await getListOfPlaces(
+      await getPlaceLocation(result[3].destination.station_name),
+    );
+    const singlePlaceDetail = await getPlaceDetail(placeList.features[0].id);
 
-    console.log('RESULT = ', result);
-
-    console.log('seenDest = ', seenDest);
-
-    // if (
-    //   seenDest.some((train) => train === result[2].destination.station_code)
-    // ) {
-    //   console.log('seen before');
-    //   index--;
-    // } else {
-    //   const placeList = await getListOfPlaces(
-    //     await getPlaceLocation(result[2].destination.station_name),
-    //   );
-    //   const singlePlaceDetail = await getPlaceDetail(
-    //     placeList.features[0].id,
-    //   );
-    //   seenDest.push(result[2].destination.station_code);
-    //   dispatch(
-    //     addSeenDestinationAction({
-    //       destination: result[result.length - 1].destination.station_name,
-    //       from: result[0].journeyRoute[0].station_name,
-    //       departureTime:
-    //         result[0].journeyRoute[0].departures.calculatedJourneys[0]
-    //           .callingAt[0].aimed_departure_time,
-    //       travelTime: time.payload.dayjsTime.subtract(
-    //         result[1].remainingTime,
-    //         'minute',
-    //       ),
-    //       localPlaces: placeList,
-    //       singlePlaceDetail,
-    //       details: result,
-    //     }),
-    //   );
-
-    // }
-
-    // SAVE ROUTE & DESTINATION TO REDUX
-    // dispatch(
-    //   addSeenDestinationAction({
-    //     destination: result[result.length - 1].destination.station_name,
-    //     from: result[0].journeyRoute[0].station_name,
-    //     departureTime:
-    //       result[0].journeyRoute[0].departures.calculatedJourneys[0]
-    //         .callingAt[0].aimed_departure_time,
-    //     travelTime: time.payload.dayjsTime.subtract(
-    //       result[1].remainingTime,
-    //       'minute',
-    //     ),
-    //     details: result,
-    //   }),
-    // );
+    dispatch(
+      addSeenDestinationAction({
+        destination: result[result.length - 1].destination.station_name,
+        from: result[0].journeyRoute[0].station_name,
+        departureTime:
+          result[0].journeyRoute[0].departures.calculatedJourneys[0]
+            .callingAt[0].aimed_departure_time,
+        travelTime: time.payload.dayjsTime.subtract(
+          result[1].remainingTime,
+          'minute',
+        ),
+        localPlaces: placeList,
+        singlePlaceDetail,
+        details: result,
+      }),
+    );
   };
 
   return (

@@ -1,5 +1,4 @@
 import * as Location from 'expo-location';
-import { calculateLastStop } from './serviceFunctions';
 
 // npm install babel-plugin-inline-dotenv
 // .ENV VARIABLES
