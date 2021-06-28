@@ -126,7 +126,7 @@ const WelcomeLocationModal = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => console.log(reduxTimetables[0])}
+        onPress={() => console.log(reduxTimetables)}
       >
         <Text>get redux timetable</Text>
       </TouchableOpacity>

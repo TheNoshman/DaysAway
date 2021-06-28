@@ -87,7 +87,7 @@ export const calculateLastStop = async (timetable, userTime) => {
     timetableArray[2].timeRemainingAfterStops.push(time);
 
     console.log('TIMETABLE ARRAY WITHIN FIND INDEX LOOP', timetableArray);
-    return time < 1;
+    return time < 0;
   });
 
   console.log('after find index');
@@ -104,27 +104,26 @@ export const calculateLastStop = async (timetable, userTime) => {
     );
     timetableArray[1].remainingTime =
       journeyStopTimes[journeyStopTimes.length - 2];
-  } else {
-    if (timetableArray[2].timeRemainingAfterStops[0] < 1) {
-      return;
-    } else {
-      console.log(
-        'TIME REMAINING AFTER STOPS IS NOT BIGGER THAN ONE = TIME REMAINING = ',
-        journeyStopTimes[journeyStopTimes.length - 1],
-      );
-      timetableArray[1].remainingTime =
-        journeyStopTimes[journeyStopTimes.length - 1];
-    }
+  } else if (
+    timetableArray[2].timeRemainingAfterStops.length === 1 &&
+    timetableArray[2].timeRemainingAfterStops[0] > 0
+  ) {
+    console.log(
+      'TIME REMAINING AFTER STOPS IS NOT BIGGER THAN ONE = TIME REMAINING = ',
+      journeyStopTimes[journeyStopTimes.length - 1],
+    );
+    timetableArray[1].remainingTime =
+      journeyStopTimes[journeyStopTimes.length - 1];
   }
-
+  const tt0jr = timetableArray[0].journeyRoute;
   // HANDLES IF NEXT STOP ON NEW TRAIN IS OVER TIME -> RETURNS LAST STOP FROM PREVIOUS TRAIN
   if (index !== 0) {
     console.log('INDEX IS NOT 0, LAST STEP, TT array = ', timetableArray);
     timetableArray.push({
       destination:
-        timetableArray[0].journeyRoute[
-          timetableArray[0].journeyRoute.length - 1
-        ].departures.calculatedJourneys[0].callingAt[index],
+        tt0jr[tt0jr.length - 1].departures.calculatedJourneys[0].callingAt[
+          index
+        ],
     });
     console.log(
       'index > 0, journey timetable array to be returned = ',
@@ -133,14 +132,14 @@ export const calculateLastStop = async (timetable, userTime) => {
     );
   } else {
     console.log('INDEX IS 0, LAST STEP, TT array = ', timetableArray);
-
     timetableArray.push({
       destination:
-        timetableArray[0].journeyRoute[
-          timetableArray[0].journeyRoute.length - 2
-        ].departures.calculatedJourneys[0].callingAt[
-          timetableArray[0].journeyRoute.departures.calculatedJourneys[0]
-            .callingAt.length - 1
+        tt0jr[tt0jr.length - 2].departures.calculatedJourneys[
+          tt0jr[tt0jr.length - 2].departures.calculatedJourneys.length - 1
+        ].callingAt[
+          tt0jr[tt0jr.length - 2].departures.calculatedJourneys[
+            tt0jr[tt0jr.length - 2].departures.calculatedJourneys.length - 1
+          ].callingAt.length - 1
         ],
     });
     console.log(

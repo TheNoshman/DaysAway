@@ -49,11 +49,13 @@ export default function TimePicker() {
         dayjsTime: dayjs(event.nativeEvent.timestamp),
       }),
     );
+    console.log('redux tts = ', reduxTimetables);
 
     // GET CURRENT SELECTED TIMETABLE FROM CACHE
     const timetableIndex = reduxTimetables.findIndex(
       (timetable) => timetable.station_code === reduxSelectedStation.code,
     );
+    console.log('timetable index = ', timetableIndex);
 
     const seenDest = [];
     const userJourneyTime = time.payload.dayjsTime.diff(
