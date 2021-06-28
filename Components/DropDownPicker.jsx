@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 // REDUX
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +16,7 @@ import { getCachedTimetable } from '../serviceFunctions';
 import RNPickerSelect from 'react-native-picker-select';
 
 export default function DropDownPicker() {
+  const [noDepartures, setNoDepartures] = useState(false);
   const reduxStationList = useSelector((state) => state.reduxTrainStationList);
   const reduxTimetables = useSelector((state) => state.reduxTimetableCache);
   const reduxSelectedStation = useSelector(
@@ -34,33 +35,43 @@ export default function DropDownPicker() {
       dispatch(updateTimetableCacheAction(cachedTimetable));
     } else {
       const timetable = await getStationTimetable(payload.code);
-      dispatch(addTimetableToCacheAction(timetable));
+      if (timetable) {
+        dispatch(addTimetableToCacheAction(timetable));
+        setNoDepartures(false);
+      } else {
+        setNoDepartures(true);
+      }
     }
   };
 
   return (
-    <RNPickerSelect
-      style={{
-        ...styles,
-        iconContainer: {
-          top: 18,
-          right: 18,
-        },
-      }}
-      onValueChange={(value) => handleValueChange(value)}
-      disabled={reduxStationList.length > 1 ? false : true}
-      useNativeAndroidPickerStyle={false}
-      placeholder={{ label: 'Select a station...', value: null }}
-      value={reduxSelectedStation}
-      Icon={() => {
-        if (reduxStationList.length > 1) {
-          return <Ionicons name="md-arrow-down" size={24} color="#00dbdb" />;
-        } else {
-          return <Ionicons name="md-arrow-down" size={24} color="#ffb01f" />;
-        }
-      }}
-      items={reduxStationList}
-    />
+    <View style={styles.textBox}>
+      <RNPickerSelect
+        style={{
+          ...styles,
+          iconContainer: {
+            top: 18,
+            right: 18,
+          },
+        }}
+        onValueChange={(value) => handleValueChange(value)}
+        disabled={reduxStationList.length > 1 ? false : true}
+        useNativeAndroidPickerStyle={false}
+        placeholder={{ label: 'Select a station...', value: null }}
+        value={reduxSelectedStation}
+        Icon={() => {
+          if (reduxStationList.length > 1) {
+            return <Ionicons name="md-arrow-down" size={24} color="#00dbdb" />;
+          } else {
+            return <Ionicons name="md-arrow-down" size={24} color="#ffb01f" />;
+          }
+        }}
+        items={reduxStationList}
+      />
+      {noDepartures ? (
+        <Text>No departures from selected station, please choose another</Text>
+      ) : null}
+    </View>
   );
 }
 // ################## STYLES ##################
@@ -69,6 +80,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  textBox: {
+    height: 70,
+    alignItems: 'center',
   },
   button: {
     height: 40,
