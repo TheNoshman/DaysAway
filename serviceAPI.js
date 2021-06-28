@@ -1,4 +1,5 @@
 import * as Location from 'expo-location';
+import { calculateLastStop } from './serviceFunctions';
 
 // npm install babel-plugin-inline-dotenv
 // .ENV VARIABLES
@@ -130,4 +131,22 @@ export const getPlaceDetail = async (id) => {
     .catch((err) => {
       console.log(`${err.message}`);
     });
+};
+
+export const getCardData = async (
+  reduxTimetables,
+  timetableIndex,
+  userJourneyTime,
+) => {
+  const result = await calculateLastStop(
+    await getStops(reduxTimetables[timetableIndex], userJourneyTime),
+    userJourneyTime,
+  );
+  console.log('RESULT IN GET CARDS = ', result);
+
+  const placeList = await getListOfPlaces(
+    await getPlaceLocation(result[3].destination.station_name),
+  );
+  const singlePlaceDetail = await getPlaceDetail(placeList.features[0].id);
+  return { result, placeList, singlePlaceDetail };
 };

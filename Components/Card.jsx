@@ -15,13 +15,15 @@ const Card = ({ card }) => {
         <Text style={styles.text}>{`Destination: ${card.destination}`}</Text>
         <Text style={styles.text}>
           {`Journey duration: ${
-            card.travelTime.hour()
-              ? `${card.travelTime.hour()} ${
-                  card.travelTime.hour() > 1 ? 'hours, ' : 'hour, '
+            card.travelTime.travelTimeDayjs.hour()
+              ? `${card.travelTime.travelTimeDayjs.hour()} ${
+                  card.travelTime.travelTimeDayjs.hour() > 1
+                    ? 'hours, '
+                    : 'hour, '
                 }`
               : ''
-          }${card.travelTime.minute()} ${
-            card.travelTime.minute() > 1 ? 'minutes' : 'minute'
+          }${card.travelTime.travelTimeDayjs.minute()} ${
+            card.travelTime.travelTimeDayjs.minute() > 1 ? 'minutes' : 'minute'
           }`}
         </Text>
       </View>

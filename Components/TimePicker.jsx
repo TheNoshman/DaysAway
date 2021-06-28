@@ -12,6 +12,7 @@ import { calculateLastStop } from '../serviceFunctions';
 // COMPONENTS
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {
+  getCardData,
   getListOfPlaces,
   getPlaceDetail,
   getPlaceLocation,
@@ -55,21 +56,27 @@ export default function TimePicker() {
     const timetableIndex = reduxTimetables.findIndex(
       (timetable) => timetable.station_code === reduxSelectedStation.code,
     );
-    console.log('timetable index = ', timetableIndex);
 
     const userJourneyTime = time.payload.dayjsTime.diff(
       dayjs().hour(0).minute(0).second(0),
       'minutes',
     );
 
-    const result = await calculateLastStop(
-      await getStops(reduxTimetables[timetableIndex], userJourneyTime),
+    const { result, placeList, singlePlaceDetail } = await getCardData(
+      reduxTimetables,
+      timetableIndex,
       userJourneyTime,
     );
-    const placeList = await getListOfPlaces(
-      await getPlaceLocation(result[3].destination.station_name),
+    console.log('result = ', result);
+
+    const travelTimeMins = time.payload.dayjsTime
+      .subtract(result[1].remainingTime, 'minute')
+      .diff(dayjs().hour(0).minute(0).second(0), 'minute');
+
+    const travelTimeDayjs = time.payload.dayjsTime.subtract(
+      result[1].remainingTime,
+      'minute',
     );
-    const singlePlaceDetail = await getPlaceDetail(placeList.features[0].id);
 
     dispatch(
       addSeenDestinationAction({
@@ -78,10 +85,7 @@ export default function TimePicker() {
         departureTime:
           result[0].journeyRoute[0].departures.calculatedJourneys[0]
             .callingAt[0].aimed_departure_time,
-        travelTime: time.payload.dayjsTime.subtract(
-          result[1].remainingTime,
-          'minute',
-        ),
+        travelTime: { travelTimeMins, travelTimeDayjs },
         localPlaces: placeList,
         singlePlaceDetail,
         details: result,
