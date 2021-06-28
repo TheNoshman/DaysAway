@@ -4,8 +4,8 @@ import * as Location from 'expo-location';
 // .ENV VARIABLES
 const { TRANSPORT_API_KEY } = process.env;
 const { TRANSPORT_API_ID } = process.env;
-const { PHOTOS_API_KEY } = process.env;
-const { PHOTOS_SECRET_KEY } = process.env;
+// const { PHOTOS_API_KEY } = process.env;
+// const { PHOTOS_SECRET_KEY } = process.env;
 const { OPENTRIPMAP_API_KEY } = process.env;
 
 const getStationsListAPI = 'http://transportapi.com/v3/uk/places.json?';
@@ -25,7 +25,6 @@ export const getLocationAPI = async () => {
 // GET LOCAL TRAIN STATIONS REQUEST
 export const findLocalTrainStations = async (userLocationData) => {
   console.log('API CALL - FIND LOCAL STATIONS');
-
   const searchType = 'train_station';
   const min_lat = (userLocationData.coords.latitude - 0.1).toFixed(3);
   const min_lon = (userLocationData.coords.longitude - 0.1).toFixed(3);
@@ -53,7 +52,12 @@ export const getStationTimetable = async (code) => {
     .catch((err) => {
       console.log(`${err.message}`);
     });
-  // const withStops = await getStops(res);
+  if (!res.departures.all.length) {
+    console.log('NO DEPARTURES TO DISPLAY, RETURNING');
+    return;
+  }
+  console.log('RES = ', res);
+
   res.departures.calculatedJourneys = [];
   return res;
 };
@@ -62,7 +66,6 @@ export const getStationTimetable = async (code) => {
 export const getStops = async (timetable) => {
   console.log('API CALL - GET STATION STOPS FOR TRAIN');
 
-  // removeDuplicateServices(timetable);
   const index = Math.floor(Math.random() * timetable.departures.all.length);
   const journeyRef = timetable.departures.all[index];
 

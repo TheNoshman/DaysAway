@@ -34,9 +34,6 @@ export default function DropDownPicker() {
       dispatch(updateTimetableCacheAction(cachedTimetable));
     } else {
       const timetable = await getStationTimetable(payload.code);
-      // const withStops = await getStops(timetable);
-      console.log('with stops', timetable);
-
       dispatch(addTimetableToCacheAction(timetable));
     }
   };

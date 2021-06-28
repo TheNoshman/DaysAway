@@ -97,7 +97,11 @@ const WelcomeLocationModal = ({ navigation }) => {
       {/* TIME PICKER */}
       <TimePicker />
       {/* ENTER APP TOUCHABLE */}
-      <TouchableOpacity style={styles.button} onPress={() => handleSubmit()}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => handleSubmit()}
+        disabled={reduxSeenDestinations.length < 2 ? true : false}
+      >
         <Text>Touch to enter</Text>
       </TouchableOpacity>
 

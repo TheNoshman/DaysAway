@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     flex: 1,
     width: '100%',
+    height: 300,
   },
   photoDescriptionContainer: {
     justifyContent: 'flex-end',
