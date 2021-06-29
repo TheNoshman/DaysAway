@@ -56,7 +56,7 @@ export default function TimePicker() {
 
     const cardPromisesArray = [];
 
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 3; i++) {
       cardPromisesArray.push(
         getCardData(reduxTimetables, timetableIndex, userJourneyTime, time, i),
       );

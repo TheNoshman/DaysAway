@@ -97,9 +97,13 @@ export const getStops = async (timetable, index) => {
 };
 
 export const getPlaceLocation = async (destination) => {
-  console.log('API CALL - FIND PLACE LOCATION', destination);
+  if (destination === 'University') {
+    destination = 'Edgbaston';
+  }
+  const firstWord = destination.split(' ');
+  console.log('API CALL - FIND PLACE LOCATION', firstWord[0]);
   return fetch(
-    `${opentripAPI}geoname?apikey=${OPENTRIPMAP_API_KEY}&name=${destination}&country=gb`,
+    `${opentripAPI}geoname?apikey=${OPENTRIPMAP_API_KEY}&name=${firstWord[0]}&country=gb`,
   )
     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
     .then((result) => result.json())
@@ -109,7 +113,7 @@ export const getPlaceLocation = async (destination) => {
 };
 
 export const getListOfPlaces = async (location) => {
-  console.log('API CALL - GET LOCAL PLACES');
+  console.log('API CALL - GET LOCAL PLACES', location);
   return fetch(
     `${opentripAPI}radius?apikey=${OPENTRIPMAP_API_KEY}&radius=3000&limit=10&offset=0&lon=${location.lon}&lat=${location.lat}&rate=2`,
   )
@@ -122,7 +126,7 @@ export const getListOfPlaces = async (location) => {
 };
 
 export const getPlaceDetail = async (id) => {
-  console.log('API CALL - GET PLACE DETAIL');
+  console.log('API CALL - GET PLACE DETAIL', id);
 
   return fetch(`${opentripAPI}xid/${id}?apikey=${OPENTRIPMAP_API_KEY}`)
     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
