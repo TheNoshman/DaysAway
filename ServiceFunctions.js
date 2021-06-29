@@ -30,12 +30,20 @@ export const getCachedTimetable = (reduxStore, selectedStation) => {
   );
 };
 
-let journeyTimetableArray = [{ journeyRoute: [] }];
+let journeyTimetableArray = [
+  [{ journeyRoute: [] }],
+  [{ journeyRoute: [] }],
+  [{ journeyRoute: [] }],
+];
 let seenDests = [];
 
-export const calculateLastStop = async (timetable, userTime) => {
+export const calculateLastStop = async (timetable, userTime, journeyIndex) => {
   console.log('user time in calc last stop = ', userTime, timetable);
-  const timetableArray = await calculateLastTrain(timetable, userTime);
+  const timetableArray = await calculateLastTrain(
+    timetable,
+    userTime,
+    journeyIndex,
+  );
   console.log('timetable Array from calc last train = ', timetableArray);
 
   let timeRemaining = timetableArray[1].remainingTime;
@@ -227,14 +235,14 @@ export const calculateLastStop = async (timetable, userTime) => {
 
 // CALCULATE DIFFERENCE BETWEEN DEPARTURE TIME AND ARRIVAL TIME
 // IF TRUE, JOURNEY OK. IF FALSE, JOURNEY TOO LONG
-export const calculateLastTrain = async (timetable, userTime) => {
+export const calculateLastTrain = async (timetable, userTime, journeyIndex) => {
   // Adds the whole timetable from stone to journey route
-  journeyTimetableArray[0].journeyRoute.push(timetable);
+  console.log('TIMETALE ARRAY  = ', journeyTimetableArray);
+
+  journeyTimetableArray[journeyIndex][0].journeyRoute.push(timetable);
 
   const callingAtArray =
-    timetable.departures.calculatedJourneys[
-      timetable.departures.calculatedJourneys.length - 1
-    ].callingAt;
+    timetable.departures.calculatedJourneys[journeyIndex].callingAt;
 
   const departure = callingAtArray[0].aimed_departure_time.split(':');
   const stationDepartureTime = dayjs()
@@ -255,7 +263,7 @@ export const calculateLastTrain = async (timetable, userTime) => {
 
   // BASE CASE
   if (journeyTime > userTime) {
-    journeyTimetableArray[1] = { remainingTime: userTime };
+    journeyTimetableArray[journeyIndex][1] = { remainingTime: userTime };
     console.log(
       '##################BASE CASE############',
       journeyTimetableArray,
@@ -263,16 +271,23 @@ export const calculateLastTrain = async (timetable, userTime) => {
     console.log('user time in base case =', userTime);
     return journeyTimetableArray;
   } else {
-    journeyTimetableArray[1] = { remainingTime: userTime - journeyTime };
+    journeyTimetableArray[journeyIndex][1] = {
+      remainingTime: userTime - journeyTime,
+    };
     console.log('in recursive step, getting new station timetable');
     const nextTimetable = await getStops(
       await getStationTimetable(
         callingAtArray[callingAtArray.length - 1].station_code,
       ),
+      journeyIndex,
     );
     console.log('next timetable = ', nextTimetable);
 
     // RECURSIVE CALL
-    return calculateLastTrain(nextTimetable, userTime - journeyTime);
+    return calculateLastTrain(
+      nextTimetable,
+      userTime - journeyTime,
+      journeyIndex,
+    );
   }
 };

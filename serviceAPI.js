@@ -58,22 +58,21 @@ export const getStationTimetable = async (code) => {
     console.log('NO DEPARTURES TO DISPLAY, RETURNING');
     return;
   }
-  res.departures.calculatedJourneys = [];
+  res.departures.calculatedJourneys = [{}, {}, {}];
   return res;
 };
 
 // GET TRAIN STOPS
-export const getStops = async (timetable) => {
+export const getStops = async (timetable, index) => {
   console.log(
     'API CALL - GET STATION STOPS FOR TRAIN, TIMETABLE PASSED IN = ',
     timetable,
+    index,
   );
-
-  const index = Math.floor(Math.random() * timetable.departures.all.length);
   const journeyRef = timetable.departures.all[index];
 
   // API CALL TO GET STOPS
-  timetable.departures.calculatedJourneys.push({
+  timetable.departures.calculatedJourneys[index] = {
     from: timetable.station_name,
     to: journeyRef.destination_name,
     id: journeyRef.train_uid,
@@ -93,7 +92,7 @@ export const getStops = async (timetable) => {
       .catch((err) => {
         console.log(`${err.message}`);
       }),
-  });
+  };
   return timetable;
 };
 
@@ -139,10 +138,12 @@ export const getCardData = async (
   timetableIndex,
   userJourneyTime,
   time,
+  index,
 ) => {
   const result = await calculateLastStop(
-    await getStops(reduxTimetables[timetableIndex], userJourneyTime),
+    await getStops(reduxTimetables[timetableIndex], index),
     userJourneyTime,
+    index,
   );
   console.log('RESULT IN GET CARDS = ', result);
 
