@@ -5,6 +5,7 @@ import userLocationReducer from './userLocationReducer';
 import timetableReducer from './timetableReducer';
 import userTravelTimeReducer from './userTravelTimeReducer';
 import seenDestinationReducer from './seenDestinationReducer';
+import homeIsReadyState from './homeIsReadyReducer';
 
 export default combineReducers({
   reduxUserLocation: userLocationReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   reduxTimetableCache: timetableReducer,
   reduxUserTravelTime: userTravelTimeReducer,
   reduxSeenDestinationCache: seenDestinationReducer,
+  reduxHomeIsReadyState: homeIsReadyState,
 });

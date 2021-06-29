@@ -49,6 +49,7 @@ const Home = ({ navigation }) => {
     (state) => state.reduxSelectedTrainStation,
   );
   const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
+  const reduxHomeIsReady = useSelector((state) => state.reduxHomeIsReadyState);
   const reduxSeenDestinations = useSelector(
     (state) => state.reduxSeenDestinationCache,
   );
@@ -61,7 +62,7 @@ const Home = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {!reduxSeenDestinations.length ? (
+      {reduxHomeIsReady ? (
         <SafeAreaView>
           <Text>Loading...</Text>
         </SafeAreaView>

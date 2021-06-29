@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import changeTravelTimeAction from '../actionCreators/changeTravelTimeAction';
 import addSeenDestinationAction from '../actionCreators/addSeenDestinationAction';
+import homeIsReadyAction from '../actionCreators/homeIsReadyAction';
 
 // COMPONENTS
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -21,6 +22,7 @@ export default function TimePicker() {
   const dispatch = useDispatch();
   const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
   const reduxTimetables = useSelector((state) => state.reduxTimetableCache);
+
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
   );
@@ -87,6 +89,9 @@ export default function TimePicker() {
         );
       },
     );
+    setTimeout(() => {
+      homeIsReadyAction(true);
+    }, 1000);
   };
 
   return (
