@@ -7,17 +7,12 @@ import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import changeTravelTimeAction from '../actionCreators/changeTravelTimeAction';
 import addSeenDestinationAction from '../actionCreators/addSeenDestinationAction';
-// SERVICE FUNCTIONS
-import { calculateLastStop } from '../serviceFunctions';
+
 // COMPONENTS
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {
-  getCardData,
-  getListOfPlaces,
-  getPlaceDetail,
-  getPlaceLocation,
-  getStops,
-} from '../serviceAPI';
+
+// SERVICE FUNCTIONS
+import { getCardData } from '../serviceAPI';
 
 export default function TimePicker() {
   // OPEN TIMEPICKER STATE
@@ -26,9 +21,6 @@ export default function TimePicker() {
   const dispatch = useDispatch();
   const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
   const reduxTimetables = useSelector((state) => state.reduxTimetableCache);
-  const reduxSeenDestinations = useSelector(
-    (state) => state.reduxSeenDestinationCache,
-  );
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
   );

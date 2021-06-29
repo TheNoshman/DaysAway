@@ -124,7 +124,10 @@ export const calculateLastStop = async (timetable, userTime) => {
       tt0jr[tt0jr.length - 1].departures.calculatedJourneys[0].callingAt[index];
 
     if (seenDests.includes(dest.station_code)) {
-      console.log('SEEN DESTS INCLUDES, INDEX - 1 AND RETURNING');
+      console.log(
+        'SEEN DESTS INCLUDES, INDEX - 1 AND RETURNING, SEEN = ',
+        dest.station_code,
+      );
       timetableArray.push({
         destination:
           tt0jr[tt0jr.length - 1].departures.calculatedJourneys[0].callingAt[
@@ -158,7 +161,10 @@ export const calculateLastStop = async (timetable, userTime) => {
         ].callingAt.length - 1
       ];
     if (seenDests.includes(dest.station_code)) {
-      console.log('SEEN DESTS INCLUDES, INDEX - 1 AND RETURNING');
+      console.log(
+        'SEEN DESTS INCLUDES, INDEX - 1 AND RETURNING, SEEN = ',
+        dest.station_code,
+      );
       timetableArray.push({
         destination:
           tt0jr[0].departures.calculatedJourneys[
