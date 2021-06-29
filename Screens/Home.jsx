@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -38,17 +38,8 @@ const { height } = Dimensions.get('window');
 // ];
 
 const Home = ({ navigation }) => {
-  console.log('nav =', navigation);
-
-  // STATE FOR REFRESH
-  const [isRefreshing, setIsRefreshing] = useState(false);
   // REDUX
   const dispatch = useDispatch();
-  const reduxTimetables = useSelector((state) => state.reduxTimetables);
-  const reduxSelectedStation = useSelector(
-    (state) => state.reduxSelectedTrainStation,
-  );
-  const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
   const reduxHomeIsReady = useSelector((state) => state.reduxHomeIsReadyState);
   const reduxSeenDestinations = useSelector(
     (state) => state.reduxSeenDestinationCache,
@@ -57,8 +48,8 @@ const Home = ({ navigation }) => {
   // SWIPER HANDLERS
   const useSwiper = useRef(null).current;
   const handleOnSwipedLeft = () => useSwiper.swipeLeft();
-  const handleOnSwipedTop = () => useSwiper.swipeTop();
   const handleOnSwipedRight = () => useSwiper.swipeRight();
+  console.log('useSwiper', useSwiper);
 
   return (
     <View style={styles.container}>
@@ -115,12 +106,21 @@ const Home = ({ navigation }) => {
               onPress={handleOnSwipedLeft}
               color="white"
               backgroundColor="#ffb01f"
+              size={45}
+            />
+            <IconButton
+              name="undo"
+              onPress={handleOnSwipedLeft}
+              color="black"
+              backgroundColor="#d1d1d1"
+              size={20}
             />
             <IconButton
               name="add"
               onPress={handleOnSwipedRight}
               color="white"
               backgroundColor="#00dbdb"
+              size={45}
             />
           </View>
         </View>

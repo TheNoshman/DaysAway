@@ -1,14 +1,14 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const IconButton = ({ onPress, name, backgroundColor, color }) => (
+const IconButton = ({ onPress, name, backgroundColor, color, size }) => (
   <TouchableOpacity
     style={[styles.singleButton, { backgroundColor }]}
     onPress={onPress}
     activeOpacity={0.85}
   >
-    <Ionicons name={name} size={40} color={color} />
+    <Icon name={name} size={size} color={color} />
   </TouchableOpacity>
 );
 
