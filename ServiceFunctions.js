@@ -31,6 +31,7 @@ export const getCachedTimetable = (reduxStore, selectedStation) => {
 };
 
 let journeyTimetableArray = [{ journeyRoute: [] }];
+let seenDests = [];
 
 export const calculateLastStop = async (timetable, userTime) => {
   console.log('user time in calc last stop = ', userTime, timetable);
@@ -119,48 +120,102 @@ export const calculateLastStop = async (timetable, userTime) => {
   // HANDLES IF NEXT STOP ON NEW TRAIN IS OVER TIME -> RETURNS LAST STOP FROM PREVIOUS TRAIN
   if (index > 0) {
     console.log('INDEX IS NOT 0, LAST STEP, TT array = ', timetableArray);
-    timetableArray.push({
-      destination:
-        tt0jr[tt0jr.length - 1].departures.calculatedJourneys[0].callingAt[
-          index
-        ],
-    });
-    journeyTimetableArray = [{ journeyRoute: [] }];
-    console.log('TO BE RETURNED FROM ALGO = ', timetableArray);
+    const dest =
+      tt0jr[tt0jr.length - 1].departures.calculatedJourneys[0].callingAt[index];
+
+    if (seenDests.includes(dest.station_code)) {
+      console.log('SEEN DESTS INCLUDES, INDEX - 1 AND RETURNING');
+      timetableArray.push({
+        destination:
+          tt0jr[tt0jr.length - 1].departures.calculatedJourneys[0].callingAt[
+            index - 1
+          ],
+      });
+      journeyTimetableArray = [{ journeyRoute: [] }];
+      console.log('TO BE RETURNED FROM ALGO = ', timetableArray);
+      return timetableArray;
+    } else {
+      timetableArray.push({
+        destination: dest,
+      });
+      seenDests.push(dest.station_code);
+      console.log('SEEN DESTS = ', seenDests);
+
+      journeyTimetableArray = [{ journeyRoute: [] }];
+      console.log('TO BE RETURNED FROM ALGO = ', timetableArray);
+    }
 
     return timetableArray;
   } else if (index < 0 || tt0jr.length === 1) {
-    timetableArray.push({
-      destination:
+    console.log('INDEX === -1 OR ONLY ONE JOURNEY');
+
+    const dest =
+      tt0jr[0].departures.calculatedJourneys[
+        tt0jr[0].departures.calculatedJourneys.length - 1
+      ].callingAt[
         tt0jr[0].departures.calculatedJourneys[
           tt0jr[0].departures.calculatedJourneys.length - 1
-        ].callingAt[
+        ].callingAt.length - 1
+      ];
+    if (seenDests.includes(dest.station_code)) {
+      console.log('SEEN DESTS INCLUDES, INDEX - 1 AND RETURNING');
+      timetableArray.push({
+        destination:
           tt0jr[0].departures.calculatedJourneys[
             tt0jr[0].departures.calculatedJourneys.length - 1
-          ].callingAt.length - 1
-        ],
-    });
-    journeyTimetableArray = [{ journeyRoute: [] }];
-    console.log('TO BE RETURNED FROM ALGO = ', timetableArray);
+          ].callingAt[
+            tt0jr[0].departures.calculatedJourneys[
+              tt0jr[0].departures.calculatedJourneys.length - 1
+            ].callingAt.length - 2
+          ],
+      });
+      journeyTimetableArray = [{ journeyRoute: [] }];
+      console.log('TO BE RETURNED FROM ALGO = ', timetableArray);
 
-    return timetableArray;
+      return timetableArray;
+    } else {
+      timetableArray.push({
+        destination: dest,
+      });
+      journeyTimetableArray = [{ journeyRoute: [] }];
+      console.log('TO BE RETURNED FROM ALGO = ', timetableArray);
+
+      return timetableArray;
+    }
   } else {
-    console.log('INDEX IS 0, LAST STEP, TT array = ', timetableArray);
-    timetableArray.push({
-      destination:
+    const dest =
+      tt0jr[tt0jr.length - 2].departures.calculatedJourneys[
+        tt0jr[tt0jr.length - 2].departures.calculatedJourneys.length - 1
+      ].callingAt[
         tt0jr[tt0jr.length - 2].departures.calculatedJourneys[
           tt0jr[tt0jr.length - 2].departures.calculatedJourneys.length - 1
-        ].callingAt[
+        ].callingAt.length - 1
+      ];
+    if (seenDests.includes(dest.station_code)) {
+      timetableArray.push({
+        destination:
           tt0jr[tt0jr.length - 2].departures.calculatedJourneys[
             tt0jr[tt0jr.length - 2].departures.calculatedJourneys.length - 1
-          ].callingAt.length - 1
-        ],
-    });
+          ].callingAt[
+            tt0jr[tt0jr.length - 2].departures.calculatedJourneys[
+              tt0jr[tt0jr.length - 2].departures.calculatedJourneys.length - 1
+            ].callingAt.length - 2
+          ],
+      });
+      journeyTimetableArray = [{ journeyRoute: [] }];
+      console.log('TO BE RETURNED FROM ALGO = ', timetableArray);
 
-    journeyTimetableArray = [{ journeyRoute: [] }];
-    console.log('TO BE RETURNED FROM ALGO = ', timetableArray);
+      return timetableArray;
+    } else {
+      console.log('INDEX IS 0, LAST STEP, TT array = ', timetableArray);
+      timetableArray.push({
+        destination: dest,
+      });
+      journeyTimetableArray = [{ journeyRoute: [] }];
+      console.log('TO BE RETURNED FROM ALGO = ', timetableArray);
 
-    return timetableArray;
+      return timetableArray;
+    }
   }
 };
 
