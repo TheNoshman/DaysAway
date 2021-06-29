@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -18,38 +18,21 @@ import Swiper from 'react-native-deck-swiper';
 
 import Card from '../Components/Card';
 import IconButton from '../Components/IconButton';
+import addLikedTripAction from '../actionCreators/addLikedTripAction';
 // import OverlayLabel from '../Components/OverlayLabel';
 
 const { height } = Dimensions.get('window');
-
-// const photoCards = [
-//   {
-//     name: 'Austin Wade',
-//     age: 22,
-//     photo: require('../assets/01.jpg'),
-//     key: 'caseex6qfO4TPMYyhorner',
-//   },
-//   {
-//     name: 'Aleksander Borzenets',
-//     age: 28,
-//     photo: require('../assets/02.jpg'),
-//     key: 'ozda-XbeP0k',
-//   },
-// ];
 
 const Home = ({ navigation }) => {
   // REDUX
   const dispatch = useDispatch();
   const reduxHomeIsReady = useSelector((state) => state.reduxHomeIsReadyState);
+  const reduxLikedTrips = useSelector((state) => state.reduxLikedTrips);
   const reduxSeenDestinations = useSelector(
     (state) => state.reduxSeenDestinationCache,
   );
 
   // SWIPER HANDLERS
-  const useSwiper = useRef(null).current;
-  const handleOnSwipedLeft = () => useSwiper.swipeLeft();
-  const handleOnSwipedRight = () => useSwiper.swipeRight();
-  console.log('useSwiper', useSwiper);
 
   return (
     <View style={styles.container}>
@@ -61,7 +44,6 @@ const Home = ({ navigation }) => {
         <View style={styles.container}>
           <View style={styles.swiperContainer}>
             <Swiper
-              ref={useSwiper}
               animateCardOpacity
               containerStyle={styles.container}
               cards={reduxSeenDestinations}
@@ -73,51 +55,72 @@ const Home = ({ navigation }) => {
               backgroundColor="white"
               stackSize={2}
               infinite
-              showSecondCard
+              showSecondCard={false}
               animateOverlayLabelsOpacity
-
-              // NOT WORKING
-              // overlayLabels={{
-              //   left: {
-              //     title: 'NOPE',
-              //     element: <OverlayLabel label="NOPE" color="#E5566D" />,
-              //     style: {
-              //       wrapper: styles.overlayWrapper,
-              //     },
-              //   },
-              //   right: {
-              //     title: 'LIKE',
-              //     element: <OverlayLabel label="LIKE" color="#4CCC93" />,
-              //     style: {
-              //       wrapper: {
-              //         ...styles.overlayWrapper,
-              //         alignItems: 'flex-start',
-              //         marginLeft: 30,
-              //       },
-              //     },
-              //   },
-              // }}
+              onSwipedLeft={(e) => console.log('left', e)}
+              onSwipedRight={(cardIndex) => {
+                dispatch(addLikedTripAction(reduxSeenDestinations[cardIndex]));
+                console.log('LIKED TRIPS = ', reduxLikedTrips);
+              }}
+              overlayLabels={{
+                left: {
+                  title: 'NOPE',
+                  style: {
+                    label: {
+                      backgroundColor: 'black',
+                      borderColor: 'black',
+                      color: 'white',
+                      borderWidth: 1,
+                    },
+                    wrapper: {
+                      flexDirection: 'column',
+                      alignItems: 'flex-end',
+                      justifyContent: 'flex-start',
+                      marginTop: 30,
+                      marginLeft: -30,
+                    },
+                  },
+                },
+                right: {
+                  title: 'LIKE',
+                  style: {
+                    label: {
+                      backgroundColor: 'black',
+                      borderColor: 'black',
+                      color: 'white',
+                      borderWidth: 1,
+                    },
+                    wrapper: {
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                      justifyContent: 'flex-start',
+                      marginTop: 30,
+                      marginLeft: 30,
+                    },
+                  },
+                },
+              }}
             />
           </View>
           {/* BUTTONS */}
           <View style={styles.buttonsContainer}>
             <IconButton
               name="remove"
-              onPress={handleOnSwipedLeft}
+              // onPress={handleOnSwipedLeft}
               color="white"
               backgroundColor="#ffb01f"
               size={45}
             />
             <IconButton
               name="undo"
-              onPress={handleOnSwipedLeft}
-              color="black"
+              // onPress={() => setCardIndex(cardIndex - 1)}
+              color="white"
               backgroundColor="#d1d1d1"
               size={20}
             />
             <IconButton
               name="add"
-              onPress={handleOnSwipedRight}
+              // onPress={() => setCardIndex(cardIndex + 1)}
               color="white"
               backgroundColor="#00dbdb"
               size={45}

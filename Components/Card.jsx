@@ -4,6 +4,8 @@ import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
 const { height } = Dimensions.get('window');
 
 const Card = ({ card }) => {
+  console.log('card = ', card);
+
   return (
     <View activeOpacity={1} style={styles.card}>
       <Image

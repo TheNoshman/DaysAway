@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import dayjs from 'dayjs';
@@ -58,7 +58,7 @@ export default function TimePicker() {
 
     const cardPromisesArray = [];
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 1; i++) {
       cardPromisesArray.push(
         getCardData(reduxTimetables, timetableIndex, userJourneyTime, time, i),
       );
@@ -110,9 +110,9 @@ export default function TimePicker() {
           <Text style={styles.textDisabled}>Select travel duration</Text>
         )}
         {reduxTimetables.length ? (
-          <Ionicons name="timer" size={24} color="#00dbdb" />
+          <Icon name="schedule" size={24} color="#00dbdb" />
         ) : (
-          <Ionicons name="timer" size={24} color="#ffb01f" />
+          <Icon name="schedule" size={24} color="#ffb01f" />
         )}
       </TouchableOpacity>
       {openTimePicker ? (

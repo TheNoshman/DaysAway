@@ -32,7 +32,7 @@ function MainStack({ navigation }) {
         },
       })}
       tabBarOptions={{
-        activeTintColor: 'orange',
+        activeTintColor: '#ffb01f',
         inactiveTintColor: 'gray',
       }}
       initialRouteName={'Home'}

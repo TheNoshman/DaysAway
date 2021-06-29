@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { StyleSheet, Text, View } from 'react-native';
 
 // REDUX
@@ -61,9 +61,9 @@ export default function DropDownPicker() {
         value={reduxSelectedStation}
         Icon={() => {
           if (reduxStationList.length > 1) {
-            return <Ionicons name="md-arrow-down" size={24} color="#00dbdb" />;
+            return <Icon name="expand-more" size={24} color="#00dbdb" />;
           } else {
-            return <Ionicons name="md-arrow-down" size={24} color="#ffb01f" />;
+            return <Icon name="expand-more" size={24} color="#ffb01f" />;
           }
         }}
         items={reduxStationList}
