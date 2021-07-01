@@ -103,18 +103,14 @@ export default function TimePicker() {
         onPress={() => setOpenTimePicker(true)}
       >
         {reduxUserTravelTime.dayjsTime ? (
-          <Text style={styles.textStyle}>
+          <Text style={styles.textEnabled}>
             {reduxUserTravelTime.dayjsTime.hour()} hours{' '}
             {reduxUserTravelTime.dayjsTime.minute()} minutes
           </Text>
         ) : (
           <Text style={styles.textDisabled}>Select travel duration</Text>
         )}
-        {reduxTimetables.length ? (
-          <Icon name="schedule" size={25} color="#00dbdb" />
-        ) : (
-          <Icon name="schedule" size={25} color="#ffb01f" />
-        )}
+        <Icon name="schedule" size={25} color="#00dbdb" />
       </TouchableOpacity>
       {openTimePicker ? (
         <DateTimePicker

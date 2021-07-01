@@ -60,11 +60,7 @@ export default function DropDownPicker() {
         placeholder={{}}
         value={reduxSelectedStation}
         Icon={() => {
-          if (reduxStationList.length > 1) {
-            return <Icon name="expand-more" size={25} color="#00dbdb" />;
-          } else {
-            return <Icon name="expand-more" size={25} color="#ffb01f" />;
-          }
+          return <Icon name="expand-more" size={25} color="#00dbdb" />;
         }}
         items={reduxStationList}
       />

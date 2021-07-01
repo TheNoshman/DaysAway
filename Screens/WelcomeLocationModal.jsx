@@ -26,6 +26,7 @@ import TimePicker from '../Components/TimePicker';
 import changeTravelTimeAction from '../actionCreators/changeTravelTimeAction';
 import { useRef } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const { width } = Dimensions.get('window');
 
@@ -37,9 +38,6 @@ const WelcomeLocationModal = ({ navigation }) => {
     (state) => state.reduxSelectedTrainStation,
   );
   const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
-  const reduxSeenDestinations = useSelector(
-    (state) => state.reduxSeenDestinationCache,
-  );
   const dispatch = useDispatch();
 
   // ################## FUNCTIONS ##################
@@ -58,12 +56,12 @@ const WelcomeLocationModal = ({ navigation }) => {
         duration: 2000,
         useNativeDriver: true,
       }).start();
-
+      // ANIMATION FOR MAP AND BOXES TRIGGER
       Animated.sequence([
-        Animated.delay(3500),
+        Animated.delay(1500),
         Animated.timing(mapAndWordsAnim, {
           toValue: 1,
-          duration: 1500,
+          duration: 500,
           useNativeDriver: true,
         }),
       ]).start();
@@ -130,6 +128,11 @@ const WelcomeLocationModal = ({ navigation }) => {
       {/* LOG IN BUTTON */}
       <SafeAreaView style={styles.entireContainer}>
         <View style={styles.loginView}>
+          <Text>
+            {reduxLocationValue.coords.latitude !== 0
+              ? 'Location success'
+              : 'Locating...'}
+          </Text>
           <TouchableOpacity
             style={styles.loginButton}
             onPress={() => console.log(reduxLocationValue)}
@@ -147,11 +150,6 @@ const WelcomeLocationModal = ({ navigation }) => {
             <Image source={require('../assets/map.png')} style={styles.logo} />
           </Animated.View>
 
-          <Text>
-            {reduxLocationValue.coords.latitude !== 0
-              ? 'Location success'
-              : 'Locating...'}
-          </Text>
           {/* ANIMATED WELCOME */}
           <Animated.View // Special animatable View
             style={{
@@ -171,22 +169,38 @@ const WelcomeLocationModal = ({ navigation }) => {
 
           {/* SELECT STATION ANIMATED WORDS */}
           <Animated.View // Special animatable View
-            style={{ opacity: mapAndWordsAnim }}
+            style={{ ...styles.container, opacity: mapAndWordsAnim }}
           >
             <Text style={styles.text}>Please select a station:</Text>
-          </Animated.View>
+            <View style={styles.container}>
+              {/* STATION DROPDOWN PICKER */}
+              <DropDownPicker />
+              {/* TIME PICKER */}
+              <TimePicker />
 
-          {/* STATION DROPDOWN PICKER */}
-          <DropDownPicker />
-          {/* TIME PICKER */}
-          <TimePicker />
-          {/* ENTER APP TOUCHABLE */}
-          <TouchableOpacity
-            style={styles.enterButton}
-            onPress={() => handleSubmit()}
-          >
-            <Text style={styles.enterButtonText}>Search AwayDays</Text>
-          </TouchableOpacity>
+              <LinearGradient
+                colors={[
+                  '#00FFFF',
+                  '#17C8FF',
+                  '#329BFF',
+                  '#4C64FF',
+                  '#6536FF',
+                  '#8000FF',
+                ]}
+                start={{ x: 0.0, y: 1.0 }}
+                end={{ x: 1.0, y: 1.0 }}
+                style={{ ...styles.enterButton }}
+              >
+                {/* ENTER APP TOUCHABLE */}
+                <TouchableOpacity
+                  // style={styles.enterButton}
+                  onPress={() => handleSubmit()}
+                >
+                  <Text style={styles.enterButtonText}>Search AwayDays</Text>
+                </TouchableOpacity>
+              </LinearGradient>
+            </View>
+          </Animated.View>
         </View>
         <View style={styles.footerView} />
       </SafeAreaView>
@@ -201,37 +215,35 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
+  container: {
+    alignItems: 'center',
+  },
   loginView: {
     width: width,
-    borderColor: 'red',
-    borderWidth: 2,
-    alignItems: 'flex-end',
+    // borderColor: 'red',
+    // borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'space-between',
     height: 70,
+    flexDirection: 'row',
+    paddingHorizontal: 10,
   },
   loginButton: {
-    borderColor: 'red',
-    borderWidth: 2,
+    // borderColor: 'red',
+    // borderWidth: 2,
     width: 100,
-    height: 50,
+    height: 45,
     borderRadius: 50,
-    backgroundColor: 'rgba(255,255,255,0.3)',
+    backgroundColor: 'rgba(255,255,255,1)',
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
   mainContainer: {
     flex: 1,
     alignItems: 'center',
     width: width,
-    borderColor: 'red',
-    borderWidth: 2,
+    // borderColor: 'red',
+    // borderWidth: 2,
     justifyContent: 'center',
   },
   logo: {
@@ -241,8 +253,9 @@ const styles = StyleSheet.create({
   welcome: {
     fontSize: 50,
     color: 'white',
-    borderColor: 'red',
-    borderWidth: 2,
+    marginVertical: 30,
+    // borderColor: 'red',
+    // borderWidth: 2,
   },
 
   text: {
@@ -250,22 +263,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     fontSize: 15,
     color: 'white',
-    borderColor: 'red',
-    borderWidth: 2,
+    // borderColor: 'red',
+    // borderWidth: 2,
   },
   enterButtonText: {
     fontSize: 20,
-    color: 'white',
+    color: 'black',
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    borderRadius: 50,
+    paddingHorizontal: 26,
+    paddingVertical: 10,
   },
   enterButton: {
     width: 200,
     height: 50,
-    paddingHorizontal: 15,
-    paddingVertical: 5,
+    // paddingVertical: 5,
     marginHorizontal: 10,
     marginVertical: 30,
     borderRadius: 50,
-    backgroundColor: 'rgba(255,255,255,0.3)',
+
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#000',
@@ -278,9 +294,9 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   footerView: {
-    height: 150,
-    borderColor: 'red',
-    borderWidth: 2,
+    height: 100,
+    // borderColor: 'red',
+    // borderWidth: 2,
   },
 });
 
