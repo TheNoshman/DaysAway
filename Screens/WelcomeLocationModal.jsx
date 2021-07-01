@@ -1,5 +1,12 @@
 import React, { useCallback, useEffect } from 'react';
-import { View, Text, StyleSheet, Alert, Animated } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  Animated,
+  ImageBackground,
+} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // REDUX
@@ -42,10 +49,10 @@ const WelcomeLocationModal = ({ navigation }) => {
         fullTime.setHours(0, 0, 0, 0);
         dispatch(changeTravelTimeAction({ fullTime }));
       }
-
+      // ANIMATION FOR WELCOME TRIGGER
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 2000,
+        duration: 1000,
         useNativeDriver: true,
       }).start();
 
@@ -96,12 +103,14 @@ const WelcomeLocationModal = ({ navigation }) => {
   // ################## RENDER COMPONENT ##################
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log(reduxLocationValue)}
-      >
-        <Text>LOG IN</Text>
-      </TouchableOpacity>
+      <View>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => console.log(reduxLocationValue)}
+        >
+          <Text>LOG IN</Text>
+        </TouchableOpacity>
+      </View>
       <Text>
         {reduxLocationValue.coords.latitude !== 0
           ? 'Location success'
@@ -109,7 +118,17 @@ const WelcomeLocationModal = ({ navigation }) => {
       </Text>
       {/* ANIMATED WELCOME */}
       <Animated.View // Special animatable View
-        style={{ opacity: fadeAnim }}
+        style={{
+          opacity: fadeAnim,
+          transform: [
+            {
+              translateY: fadeAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [-50, 0],
+              }),
+            },
+          ],
+        }}
       >
         <Text style={styles.welcome}>Welcome</Text>
       </Animated.View>
@@ -159,7 +178,7 @@ const styles = StyleSheet.create({
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   welcome: {
-    fontSize: 80,
+    fontSize: 50,
     textAlign: 'center',
     margin: 10,
   },
