@@ -7,6 +7,7 @@ import {
   Animated,
   ImageBackground,
   Dimensions,
+  Image,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -52,11 +53,20 @@ const WelcomeLocationModal = ({ navigation }) => {
         dispatch(changeTravelTimeAction({ fullTime }));
       }
       // ANIMATION FOR WELCOME TRIGGER
-      Animated.timing(fadeAnim, {
+      Animated.timing(welcomeAnim, {
         toValue: 1,
         duration: 2000,
         useNativeDriver: true,
       }).start();
+
+      Animated.sequence([
+        Animated.delay(3500),
+        Animated.timing(mapAndWordsAnim, {
+          toValue: 1,
+          duration: 1500,
+          useNativeDriver: true,
+        }),
+      ]).start();
 
       // LOCATION
       const locationResult = await getLocationAPI();
@@ -79,7 +89,9 @@ const WelcomeLocationModal = ({ navigation }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const welcomeAnim = useRef(new Animated.Value(0)).current;
+  const mapAndWordsAnim = useRef(new Animated.Value(0)).current;
+  // const
 
   // NAVIGATION HANDLER -> ENTERS THE MAIN STACK
   const handleSubmit = useCallback(async () => {
@@ -115,6 +127,7 @@ const WelcomeLocationModal = ({ navigation }) => {
       blurRadius={8}
       fadeDuration={300}
     >
+      {/* LOG IN BUTTON */}
       <SafeAreaView style={styles.entireContainer}>
         <View style={styles.loginView}>
           <TouchableOpacity
@@ -125,6 +138,15 @@ const WelcomeLocationModal = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         <View style={styles.mainContainer}>
+          {/* MAP IMAGE */}
+          <Animated.View
+            style={{
+              opacity: mapAndWordsAnim,
+            }}
+          >
+            <Image source={require('../assets/map.png')} style={styles.logo} />
+          </Animated.View>
+
           <Text>
             {reduxLocationValue.coords.latitude !== 0
               ? 'Location success'
@@ -133,10 +155,10 @@ const WelcomeLocationModal = ({ navigation }) => {
           {/* ANIMATED WELCOME */}
           <Animated.View // Special animatable View
             style={{
-              opacity: fadeAnim,
+              opacity: welcomeAnim,
               transform: [
                 {
-                  translateY: fadeAnim.interpolate({
+                  translateY: welcomeAnim.interpolate({
                     inputRange: [0, 1],
                     outputRange: [-50, 0],
                   }),
@@ -147,12 +169,11 @@ const WelcomeLocationModal = ({ navigation }) => {
             <Text style={styles.welcome}>Welcome</Text>
           </Animated.View>
 
+          {/* SELECT STATION ANIMATED WORDS */}
           <Animated.View // Special animatable View
-            style={{ opacity: fadeAnim }}
+            style={{ opacity: mapAndWordsAnim }}
           >
-            <Text style={styles.selectStationText}>
-              Please select a station:
-            </Text>
+            <Text style={styles.text}>Please select a station:</Text>
           </Animated.View>
 
           {/* STATION DROPDOWN PICKER */}
@@ -164,12 +185,10 @@ const WelcomeLocationModal = ({ navigation }) => {
             style={styles.enterButton}
             onPress={() => handleSubmit()}
           >
-            <Text>View AwayDays</Text>
+            <Text style={styles.enterButtonText}>Search AwayDays</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.loginView}>
-          <Text>FOOTER</Text>
-        </View>
+        <View style={styles.footerView} />
       </SafeAreaView>
     </ImageBackground>
   );
@@ -184,23 +203,28 @@ const styles = StyleSheet.create({
   },
   loginView: {
     width: width,
-    borderWidth: 2,
     borderColor: 'red',
+    borderWidth: 2,
     alignItems: 'flex-end',
     height: 70,
   },
   loginButton: {
-    width: 150,
-    height: 40,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    marginHorizontal: 10,
-    marginVertical: 10,
+    borderColor: 'red',
     borderWidth: 2,
-    borderColor: 'white',
+    width: 100,
+    height: 50,
     borderRadius: 50,
-    color: 'white',
-    paddingRight: 30, // to ensure the text is never behind the icon
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   mainContainer: {
     flex: 1,
@@ -210,6 +234,10 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     justifyContent: 'center',
   },
+  logo: {
+    width: 120,
+    height: 120,
+  },
   welcome: {
     fontSize: 50,
     color: 'white',
@@ -217,7 +245,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
 
-  selectStationText: {
+  text: {
     width: 300,
     paddingHorizontal: 15,
     fontSize: 15,
@@ -225,16 +253,32 @@ const styles = StyleSheet.create({
     borderColor: 'red',
     borderWidth: 2,
   },
+  enterButtonText: {
+    fontSize: 20,
+    color: 'white',
+  },
   enterButton: {
-    width: 150,
-    height: 40,
-    paddingHorizontal: 10,
+    width: 200,
+    height: 50,
+    paddingHorizontal: 15,
     paddingVertical: 5,
     marginHorizontal: 10,
-    marginVertical: 10,
+    marginVertical: 30,
     borderRadius: 50,
-    color: 'white',
-    paddingRight: 30, // to ensure the text is never behind the icon
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  footerView: {
+    height: 150,
     borderColor: 'red',
     borderWidth: 2,
   },

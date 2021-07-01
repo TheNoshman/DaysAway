@@ -107,7 +107,16 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     color: 'white',
     paddingRight: 30, // to ensure the text is never behind the icon
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: 'rgba(255,255,255,0.3)',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
   warningText: {
     color: 'white',

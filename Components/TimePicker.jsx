@@ -146,11 +146,20 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderRadius: 50,
     color: 'white',
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: 'rgba(255,255,255,0.3)',
     paddingLeft: 15,
     paddingRight: 10,
     paddingVertical: 5,
     marginHorizontal: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
   textEnabled: {
     color: 'white',
