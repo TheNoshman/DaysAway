@@ -58,7 +58,7 @@ export default function TimePicker() {
 
     const cardPromisesArray = [];
 
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 2; i++) {
       cardPromisesArray.push(
         getCardData(reduxTimetables, timetableIndex, userJourneyTime, time, i),
       );
@@ -70,7 +70,7 @@ export default function TimePicker() {
       ({
         result,
         placeList,
-        singlePlaceDetail,
+        cardPhotosArray,
         travelTimeMins,
         travelTimeDayjs,
       }) => {
@@ -83,14 +83,15 @@ export default function TimePicker() {
                 .callingAt[0].aimed_departure_time,
             travelTime: { travelTimeMins, travelTimeDayjs },
             localPlaces: placeList,
-            singlePlaceDetail,
+            cardPhotosArray,
             details: result,
           }),
         );
       },
     );
     setTimeout(() => {
-      homeIsReadyAction(true);
+      console.log('INSEIDE SET TITME OUT');
+      dispatch(homeIsReadyAction(true));
     }, 1000);
   };
 

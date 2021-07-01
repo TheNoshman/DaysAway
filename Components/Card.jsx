@@ -8,11 +8,34 @@ const Card = ({ card }) => {
 
   return (
     <View activeOpacity={1} style={styles.card}>
-      <Image
-        style={styles.image}
-        source={{ uri: card.singlePlaceDetail.preview.source }}
-        resizeMode="contain"
-      />
+      {card.placeDetailsArray[0].preview && (
+        <Image
+          style={styles.image}
+          source={{ uri: card.placeDetailsArray[0].preview.source }}
+          resizeMode="contain"
+        />
+      )}
+      {card.placeDetailsArray[1].preview && (
+        <Image
+          style={styles.image}
+          source={{ uri: card.placeDetailsArray[1].preview.source }}
+          resizeMode="contain"
+        />
+      )}
+      {card.placeDetailsArray[2].preview && (
+        <Image
+          style={styles.image}
+          source={{ uri: card.placeDetailsArray[2].preview.source }}
+          resizeMode="contain"
+        />
+      )}
+      {card.placeDetailsArray[3].preview && (
+        <Image
+          style={styles.image}
+          source={{ uri: card.placeDetailsArray[3].preview.source }}
+          resizeMode="contain"
+        />
+      )}
       <View style={styles.photoDescriptionContainer}>
         <Text style={styles.text}>{`Destination: ${card.destination}`}</Text>
         <Text style={styles.text}>

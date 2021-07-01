@@ -9,7 +9,11 @@ import changeLocalTrainStationsAction from '../actionCreators/changeLocalTrainSt
 
 // SERVICE API FUNCTIONS
 import { distanceCalculator } from '../serviceFunctions';
-import { findLocalTrainStations, getLocationAPI } from '../serviceAPI';
+import {
+  findLocalTrainStations,
+  getCardImages,
+  getLocationAPI,
+} from '../serviceAPI';
 
 // PICKERS SELECT
 import DropDownPicker from '../Components/DropDownPicker';
@@ -61,6 +65,8 @@ const WelcomeLocationModal = ({ navigation }) => {
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const cards = async () => await getCardImages();
 
   // NAVIGATION HANDLER -> ENTERS THE MAIN STACK
   const handleSubmit = useCallback(async () => {
@@ -139,6 +145,12 @@ const WelcomeLocationModal = ({ navigation }) => {
       <TouchableOpacity
         style={styles.button}
         onPress={() => console.log(reduxSeenDestinations)}
+      >
+        <Text>get seen destinations redux</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={async () => console.log(await cards())}
       >
         <Text>get seen destinations redux</Text>
       </TouchableOpacity>

@@ -19,6 +19,8 @@ import Swiper from 'react-native-deck-swiper';
 import Card from '../Components/Card';
 import IconButton from '../Components/IconButton';
 import addLikedTripAction from '../actionCreators/addLikedTripAction';
+import { useEffect } from 'react';
+
 // import OverlayLabel from '../Components/OverlayLabel';
 
 const { height } = Dimensions.get('window');
@@ -27,10 +29,11 @@ const Home = ({ navigation }) => {
   // REDUX
   const dispatch = useDispatch();
   const reduxHomeIsReady = useSelector((state) => state.reduxHomeIsReadyState);
-  const reduxLikedTrips = useSelector((state) => state.reduxLikedTrips);
   const reduxSeenDestinations = useSelector(
     (state) => state.reduxSeenDestinationCache,
   );
+
+  console.log('HOME IS READY -', reduxHomeIsReady);
 
   // SWIPER HANDLERS
 
@@ -55,16 +58,16 @@ const Home = ({ navigation }) => {
               backgroundColor="white"
               stackSize={2}
               infinite
-              showSecondCard={false}
+              showSecondCard={true}
               animateOverlayLabelsOpacity
               onSwipedLeft={(e) => console.log('left', e)}
               onSwipedRight={(cardIndex) => {
                 dispatch(addLikedTripAction(reduxSeenDestinations[cardIndex]));
-                console.log('LIKED TRIPS = ', reduxLikedTrips);
+                console.log('ADDED TRIP TO LIKED TRIPS');
               }}
               overlayLabels={{
                 left: {
-                  title: 'NOPE',
+                  title: 'Not today',
                   style: {
                     label: {
                       backgroundColor: 'black',
@@ -82,7 +85,7 @@ const Home = ({ navigation }) => {
                   },
                 },
                 right: {
-                  title: 'LIKE',
+                  title: 'Lets go!',
                   style: {
                     label: {
                       backgroundColor: 'black',

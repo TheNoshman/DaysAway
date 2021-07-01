@@ -6,13 +6,14 @@ import { calculateLastStop } from './serviceFunctions';
 // .ENV VARIABLES
 const { TRANSPORT_API_KEY } = process.env;
 const { TRANSPORT_API_ID } = process.env;
-// const { PHOTOS_API_KEY } = process.env;
+const { PHOTOS_API_KEY } = process.env;
 // const { PHOTOS_SECRET_KEY } = process.env;
 const { OPENTRIPMAP_API_KEY } = process.env;
 
 const getStationsListAPI = 'http://transportapi.com/v3/uk/places.json?';
 const getTimetableAPI = 'https://transportapi.com/v3/uk/train/station/';
 const opentripAPI = 'https://api.opentripmap.com/0.1/en/places/';
+const unsplashAPI = 'https://api.unsplash.com/search/photos/?client_id=';
 
 // GET USER LOCATION API
 export const getLocationAPI = async () => {
@@ -38,7 +39,7 @@ export const findLocalTrainStations = async (userLocationData) => {
     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
     .then((result) => result.json())
     .catch((err) => {
-      console.log(`${err.message}`);
+      console.log(`API CALL ERROR - ${err.message}`);
     });
 };
 
@@ -52,7 +53,7 @@ export const getStationTimetable = async (code) => {
     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
     .then((result) => result.json())
     .catch((err) => {
-      console.log(`${err.message}`);
+      console.log(`API CALL ERROR - ${err.message}`);
     });
   if (!res.departures.all.length) {
     console.log('NO DEPARTURES TO DISPLAY, RETURNING');
@@ -90,7 +91,7 @@ export const getStops = async (timetable, index) => {
         ),
       )
       .catch((err) => {
-        console.log(`${err.message}`);
+        console.log(`getStops API CALL ERROR - ${err.message}`);
       }),
   };
   return timetable;
@@ -98,7 +99,9 @@ export const getStops = async (timetable, index) => {
 
 export const getPlaceLocation = async (destination) => {
   if (destination === 'University') {
-    destination = 'Edgbaston';
+    destination = 'Birmingham';
+  } else if (destination === 'Bache') {
+    destination = 'Chester';
   }
   const firstWord = destination.split(' ');
   console.log('API CALL - FIND PLACE LOCATION', firstWord[0]);
@@ -108,34 +111,52 @@ export const getPlaceLocation = async (destination) => {
     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
     .then((result) => result.json())
     .catch((err) => {
-      console.log(`${err.message}`);
+      console.log(
+        `getPlaceLocation API CALL ERROR - ${err.message}, input = ${destination}`,
+      );
     });
 };
 
 export const getListOfPlaces = async (location) => {
   console.log('API CALL - GET LOCAL PLACES', location);
   return fetch(
-    `${opentripAPI}radius?apikey=${OPENTRIPMAP_API_KEY}&radius=3000&limit=10&offset=0&lon=${location.lon}&lat=${location.lat}&rate=2`,
+    `${opentripAPI}radius?apikey=${OPENTRIPMAP_API_KEY}&radius=3000&limit=10&offset=0&lon=${location.lon}&lat=${location.lat}`,
   )
     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
     .then((result) => result.json())
 
     .catch((err) => {
-      console.log(`${err.message}`);
+      console.log(
+        `getListOfPlaces API CALL ERROR - ${err.message}, input = ${location}`,
+      );
     });
 };
-
-export const getPlaceDetail = async (id) => {
-  console.log('API CALL - GET PLACE DETAIL', id);
-
-  return fetch(`${opentripAPI}xid/${id}?apikey=${OPENTRIPMAP_API_KEY}`)
+// https://api.unsplash.com/photos/?client_id=kj-0LfJ8y2owoiMWHzP14JZXWN1nIXWwOcfnrKqgXHE&page=1&query=church
+export const getCardImages = async (searchTerm = 'uk garden') => {
+  // uk-church
+  console.log('API CALL - GET UNSPLASH CARD IMAGES', searchTerm);
+  return fetch(`${unsplashAPI}${PHOTOS_API_KEY}&query=${searchTerm}&per_page=1`)
     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
     .then((result) => result.json())
-
     .catch((err) => {
-      console.log(`${err.message}`);
+      console.log(
+        `getPlaceLocation API CALL ERROR - ${err.message}, input = ${searchTerm}`,
+      );
     });
 };
+// export const getPlaceDetail = async (id) => {
+//   console.log('API CALL - GET PLACE DETAIL', id);
+
+//   return fetch(`${opentripAPI}xid/${id}?apikey=${OPENTRIPMAP_API_KEY}`)
+//     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
+//     .then((result) => result.json())
+
+//     .catch((err) => {
+//       console.log(
+//         `getPlaceDetail API CALL ERROR - ${err.message}, input = ${id}`,
+//       );
+//     });
+// };
 
 export const getCardData = async (
   reduxTimetables,
@@ -151,11 +172,24 @@ export const getCardData = async (
   );
   console.log('RESULT IN GET CARDS = ', result);
 
-  const placeList = await getListOfPlaces(
-    await getPlaceLocation(result[3].destination.station_name),
+  const placeLocation = await getPlaceLocation(
+    result[3].destination.station_name,
   );
+  console.log('PLACE LOCATION IN GET CARDS =', placeLocation);
+
+  const placeList = await getListOfPlaces(placeLocation);
+
   console.log('PLACELIST IN GET CARDS = ', placeList);
-  const singlePlaceDetail = await getPlaceDetail(placeList.features[0].id);
+
+  const cardPhotosPromises = [];
+  cardPhotosPromises.push(getCardImages('uk park'));
+  cardPhotosPromises.push(getCardImages('uk street'));
+  cardPhotosPromises.push(getCardImages('uk pub'));
+  cardPhotosPromises.push(getCardImages('uk food'));
+
+  const cardPhotosArray = await Promise.all(cardPhotosPromises);
+
+  console.log('CARD IMAGES ARRAY = ', cardPhotosArray);
 
   const travelTimeMins = time.payload.dayjsTime
     .subtract(result[1].remainingTime, 'minute')
@@ -169,7 +203,7 @@ export const getCardData = async (
   return {
     result,
     placeList,
-    singlePlaceDetail,
+    cardPhotosArray,
     travelTimeMins,
     travelTimeDayjs,
   };
