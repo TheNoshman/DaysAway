@@ -19,7 +19,6 @@ import Swiper from 'react-native-deck-swiper';
 import Card from '../Components/Card';
 import IconButton from '../Components/IconButton';
 import addLikedTripAction from '../actionCreators/addLikedTripAction';
-import { useEffect } from 'react';
 
 // import OverlayLabel from '../Components/OverlayLabel';
 
@@ -39,7 +38,7 @@ const Home = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {reduxHomeIsReady ? (
+      {!reduxSeenDestinations ? (
         <SafeAreaView>
           <Text>Loading...</Text>
         </SafeAreaView>

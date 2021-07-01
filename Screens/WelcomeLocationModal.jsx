@@ -9,11 +9,7 @@ import changeLocalTrainStationsAction from '../actionCreators/changeLocalTrainSt
 
 // SERVICE API FUNCTIONS
 import { distanceCalculator } from '../serviceFunctions';
-import {
-  findLocalTrainStations,
-  getCardImages,
-  getLocationAPI,
-} from '../serviceAPI';
+import { findLocalTrainStations, getLocationAPI } from '../serviceAPI';
 
 // PICKERS SELECT
 import DropDownPicker from '../Components/DropDownPicker';
@@ -66,8 +62,6 @@ const WelcomeLocationModal = ({ navigation }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const cards = async () => await getCardImages();
-
   // NAVIGATION HANDLER -> ENTERS THE MAIN STACK
   const handleSubmit = useCallback(async () => {
     if (reduxSelectedStation.code === null) {
@@ -92,6 +86,12 @@ const WelcomeLocationModal = ({ navigation }) => {
   // ################## RENDER COMPONENT ##################
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => console.log(reduxLocationValue)}
+      >
+        <Text>LOG IN</Text>
+      </TouchableOpacity>
       <Text>
         {reduxLocationValue.coords.latitude !== 0
           ? 'Location success'
@@ -145,12 +145,6 @@ const WelcomeLocationModal = ({ navigation }) => {
       <TouchableOpacity
         style={styles.button}
         onPress={() => console.log(reduxSeenDestinations)}
-      >
-        <Text>get seen destinations redux</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={async () => console.log(await cards())}
       >
         <Text>get seen destinations redux</Text>
       </TouchableOpacity>
