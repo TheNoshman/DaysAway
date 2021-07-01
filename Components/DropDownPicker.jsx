@@ -50,26 +50,28 @@ export default function DropDownPicker() {
         style={{
           ...styles,
           iconContainer: {
-            top: 18,
-            right: 18,
+            top: 20,
+            right: 20,
           },
         }}
         onValueChange={(value) => handleValueChange(value)}
         disabled={reduxStationList.length > 1 ? false : true}
         useNativeAndroidPickerStyle={false}
-        placeholder={{ label: 'Select a station...', value: null }}
+        placeholder={{}}
         value={reduxSelectedStation}
         Icon={() => {
           if (reduxStationList.length > 1) {
-            return <Icon name="expand-more" size={24} color="#00dbdb" />;
+            return <Icon name="expand-more" size={25} color="#00dbdb" />;
           } else {
-            return <Icon name="expand-more" size={24} color="#ffb01f" />;
+            return <Icon name="expand-more" size={25} color="#ffb01f" />;
           }
         }}
         items={reduxStationList}
       />
       {noDepartures ? (
-        <Text>No departures from selected station, please choose another</Text>
+        <Text style={styles.warningText}>
+          No departures from selected station, please choose another
+        </Text>
       ) : null}
     </View>
   );
@@ -96,14 +98,18 @@ const styles = StyleSheet.create({
   },
   inputAndroid: {
     width: 300,
-    paddingHorizontal: 10,
+    height: 45,
+    fontSize: 17,
+    paddingHorizontal: 15,
     paddingVertical: 5,
     marginHorizontal: 10,
     marginVertical: 10,
-    borderWidth: 2,
-    borderColor: 'black',
-    borderRadius: 5,
-    color: 'black',
+    borderRadius: 50,
+    color: 'white',
     paddingRight: 30, // to ensure the text is never behind the icon
+    backgroundColor: 'rgba(255,255,255,0.2)',
+  },
+  warningText: {
+    color: 'white',
   },
 });

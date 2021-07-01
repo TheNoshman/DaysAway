@@ -6,6 +6,7 @@ import {
   Alert,
   Animated,
   ImageBackground,
+  Dimensions,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -24,6 +25,8 @@ import TimePicker from '../Components/TimePicker';
 import changeTravelTimeAction from '../actionCreators/changeTravelTimeAction';
 import { useRef } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+const { width } = Dimensions.get('window');
 
 const WelcomeLocationModal = ({ navigation }) => {
   // ################## VARIABLES ##################
@@ -51,7 +54,7 @@ const WelcomeLocationModal = ({ navigation }) => {
       // ANIMATION FOR WELCOME TRIGGER
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 1000,
+        duration: 2000,
         useNativeDriver: true,
       }).start();
 
@@ -100,17 +103,22 @@ const WelcomeLocationModal = ({ navigation }) => {
   }, [reduxSelectedStation, reduxUserTravelTime.dayjsTime]);
 
   // ################## RENDER COMPONENT ##################
+  // ################## RENDER COMPONENT ##################
+  // ################## RENDER COMPONENT ##################
+  // ################## RENDER COMPONENT ##################
+  // ################## RENDER COMPONENT ##################
+  // ################## RENDER COMPONENT ##################
   return (
     <ImageBackground
       source={require('../assets/modalBackground.jpg')}
       style={styles.imageBackground}
-      blurRadius={2}
-      fadeDuration={1000}
+      blurRadius={8}
+      fadeDuration={300}
     >
       <SafeAreaView style={styles.entireContainer}>
         <View style={styles.loginView}>
           <TouchableOpacity
-            style={styles.button}
+            style={styles.loginButton}
             onPress={() => console.log(reduxLocationValue)}
           >
             <Text>LOG IN</Text>
@@ -139,18 +147,28 @@ const WelcomeLocationModal = ({ navigation }) => {
             <Text style={styles.welcome}>Welcome</Text>
           </Animated.View>
 
+          <Animated.View // Special animatable View
+            style={{ opacity: fadeAnim }}
+          >
+            <Text style={styles.selectStationText}>
+              Please select a station:
+            </Text>
+          </Animated.View>
+
           {/* STATION DROPDOWN PICKER */}
           <DropDownPicker />
           {/* TIME PICKER */}
           <TimePicker />
           {/* ENTER APP TOUCHABLE */}
           <TouchableOpacity
-            style={styles.button}
+            style={styles.enterButton}
             onPress={() => handleSubmit()}
-            disabled={reduxSeenDestinations ? false : true}
           >
-            <Text>Touch to enter</Text>
+            <Text>View AwayDays</Text>
           </TouchableOpacity>
+        </View>
+        <View style={styles.loginView}>
+          <Text>FOOTER</Text>
         </View>
       </SafeAreaView>
     </ImageBackground>
@@ -159,46 +177,66 @@ const WelcomeLocationModal = ({ navigation }) => {
 
 // ################## STYLES ##################
 const styles = StyleSheet.create({
+  imageBackground: { width: '100%', height: '100%' },
   entireContainer: {
     flex: 1,
     alignItems: 'center',
   },
-  mainContainer: {
-    flex: 1,
-    alignItems: 'center',
-    // justifyContent: 'center',
-  },
-  button: {
-    height: 40,
-    width: 150,
-    borderRadius: 5,
+  loginView: {
+    width: width,
     borderWidth: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20,
+    borderColor: 'red',
+    alignItems: 'flex-end',
+    height: 70,
   },
-  inputAndroid: {
-    width: 300,
+  loginButton: {
+    width: 150,
+    height: 40,
     paddingHorizontal: 10,
     paddingVertical: 5,
     marginHorizontal: 10,
     marginVertical: 10,
     borderWidth: 2,
     borderColor: 'white',
-    borderRadius: 5,
+    borderRadius: 50,
     color: 'white',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
+  mainContainer: {
+    flex: 1,
+    alignItems: 'center',
+    width: width,
+    borderColor: 'red',
+    borderWidth: 2,
+    justifyContent: 'center',
+  },
   welcome: {
     fontSize: 50,
-    textAlign: 'center',
-    margin: 10,
     color: 'white',
+    borderColor: 'red',
+    borderWidth: 2,
   },
-  imageBackground: { width: '100%', height: '100%' },
 
-  loginView: {
-    justifyContent: 'flex-end',
+  selectStationText: {
+    width: 300,
+    paddingHorizontal: 15,
+    fontSize: 15,
+    color: 'white',
+    borderColor: 'red',
+    borderWidth: 2,
+  },
+  enterButton: {
+    width: 150,
+    height: 40,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginHorizontal: 10,
+    marginVertical: 10,
+    borderRadius: 50,
+    color: 'white',
+    paddingRight: 30, // to ensure the text is never behind the icon
+    borderColor: 'red',
+    borderWidth: 2,
   },
 });
 

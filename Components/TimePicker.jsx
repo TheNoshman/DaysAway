@@ -103,7 +103,7 @@ export default function TimePicker() {
         onPress={() => setOpenTimePicker(true)}
       >
         {reduxUserTravelTime.dayjsTime ? (
-          <Text style={styles.textEnabled}>
+          <Text style={styles.textStyle}>
             {reduxUserTravelTime.dayjsTime.hour()} hours{' '}
             {reduxUserTravelTime.dayjsTime.minute()} minutes
           </Text>
@@ -111,9 +111,9 @@ export default function TimePicker() {
           <Text style={styles.textDisabled}>Select travel duration</Text>
         )}
         {reduxTimetables.length ? (
-          <Icon name="schedule" size={24} color="#00dbdb" />
+          <Icon name="schedule" size={25} color="#00dbdb" />
         ) : (
-          <Icon name="schedule" size={24} color="#ffb01f" />
+          <Icon name="schedule" size={25} color="#ffb01f" />
         )}
       </TouchableOpacity>
       {openTimePicker ? (
@@ -137,21 +137,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   button: {
-    height: 40,
+    height: 45,
     width: 300,
-    borderRadius: 5,
-    borderWidth: 2,
-    paddingLeft: 10,
-    paddingRight: 6,
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
     marginTop: 20,
+    borderColor: 'white',
+    borderRadius: 50,
+    color: 'white',
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    paddingLeft: 15,
+    paddingRight: 10,
+    paddingVertical: 5,
+    marginHorizontal: 10,
+  },
+  textEnabled: {
+    color: 'white',
+    fontSize: 17,
   },
   textDisabled: {
     color: '#c3c3c3',
-  },
-  textEnabled: {
-    color: 'black',
+    fontSize: 17,
   },
 });
