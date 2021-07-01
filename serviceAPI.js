@@ -132,10 +132,12 @@ export const getListOfPlaces = async (location) => {
     });
 };
 // https://api.unsplash.com/photos/?client_id=kj-0LfJ8y2owoiMWHzP14JZXWN1nIXWwOcfnrKqgXHE&page=1&query=church
-export const getCardImages = async (searchTerm = 'uk garden') => {
+export const getCardImages = async (searchTerm) => {
   // uk-church
   console.log('API CALL - GET UNSPLASH CARD IMAGES', searchTerm);
-  return fetch(`${unsplashAPI}${PHOTOS_API_KEY}&query=${searchTerm}&per_page=1`)
+  return fetch(
+    `${unsplashAPI}${PHOTOS_API_KEY}&query=${searchTerm}&per_page=10&orientation=portrait`,
+  )
     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
     .then((result) => result.json())
     .catch((err) => {
@@ -144,6 +146,7 @@ export const getCardImages = async (searchTerm = 'uk garden') => {
       );
     });
 };
+
 // export const getPlaceDetail = async (id) => {
 //   console.log('API CALL - GET PLACE DETAIL', id);
 
@@ -188,6 +191,11 @@ export const getCardData = async (
   cardPhotosPromises.push(getCardImages('uk food'));
 
   const cardPhotosArray = await Promise.all(cardPhotosPromises);
+
+  cardPhotosArray.forEach((arr) => {
+    console.log('arr = ', arr);
+    arr.results = arr.results.filter((image, i) => i === index);
+  });
 
   console.log('CARD IMAGES ARRAY = ', cardPhotosArray);
 
