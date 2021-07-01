@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
+import { View, Text, StyleSheet, Alert, Animated } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // REDUX
@@ -15,6 +15,7 @@ import { findLocalTrainStations, getLocationAPI } from '../serviceAPI';
 import DropDownPicker from '../Components/DropDownPicker';
 import TimePicker from '../Components/TimePicker';
 import changeTravelTimeAction from '../actionCreators/changeTravelTimeAction';
+import { useRef } from 'react';
 
 const WelcomeLocationModal = ({ navigation }) => {
   // ################## VARIABLES ##################
@@ -41,6 +42,13 @@ const WelcomeLocationModal = ({ navigation }) => {
         fullTime.setHours(0, 0, 0, 0);
         dispatch(changeTravelTimeAction({ fullTime }));
       }
+
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 2000,
+        useNativeDriver: true,
+      }).start();
+
       // LOCATION
       const locationResult = await getLocationAPI();
       dispatch(changeUserLocationAction(locationResult));
@@ -61,6 +69,8 @@ const WelcomeLocationModal = ({ navigation }) => {
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
   // NAVIGATION HANDLER -> ENTERS THE MAIN STACK
   const handleSubmit = useCallback(async () => {
@@ -97,6 +107,12 @@ const WelcomeLocationModal = ({ navigation }) => {
           ? 'Location success'
           : 'Locating...'}
       </Text>
+      {/* ANIMATED WELCOME */}
+      <Animated.View // Special animatable View
+        style={{ opacity: fadeAnim }}
+      >
+        <Text style={styles.welcome}>Welcome</Text>
+      </Animated.View>
 
       {/* STATION DROPDOWN PICKER */}
       <DropDownPicker />
@@ -109,44 +125,6 @@ const WelcomeLocationModal = ({ navigation }) => {
         disabled={reduxSeenDestinations ? false : true}
       >
         <Text>Touch to enter</Text>
-      </TouchableOpacity>
-
-      {/* ############ TESTING ############# */}
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log(reduxLocationValue)}
-      >
-        <Text>get redux location</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log(reduxStationList)}
-      >
-        <Text>get redux station list</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log(reduxSelectedStation)}
-      >
-        <Text>get redux selected station</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log(reduxTimetables)}
-      >
-        <Text>get redux timetable</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log(reduxUserTravelTime)}
-      >
-        <Text>get user time</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log(reduxSeenDestinations)}
-      >
-        <Text>get seen destinations redux</Text>
       </TouchableOpacity>
     </View>
   );
@@ -179,6 +157,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     color: 'black',
     paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  welcome: {
+    fontSize: 80,
+    textAlign: 'center',
+    margin: 10,
   },
 });
 
