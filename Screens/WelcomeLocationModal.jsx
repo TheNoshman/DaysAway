@@ -23,16 +23,15 @@ import DropDownPicker from '../Components/DropDownPicker';
 import TimePicker from '../Components/TimePicker';
 import changeTravelTimeAction from '../actionCreators/changeTravelTimeAction';
 import { useRef } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const WelcomeLocationModal = ({ navigation }) => {
   // ################## VARIABLES ##################
   // Redux values from store
   const reduxLocationValue = useSelector((state) => state.reduxUserLocation);
-  const reduxStationList = useSelector((state) => state.reduxTrainStationList);
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
   );
-  const reduxTimetables = useSelector((state) => state.reduxTimetableCache);
   const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
   const reduxSeenDestinations = useSelector(
     (state) => state.reduxSeenDestinationCache,
@@ -102,59 +101,72 @@ const WelcomeLocationModal = ({ navigation }) => {
 
   // ################## RENDER COMPONENT ##################
   return (
-    <View style={styles.container}>
-      <View>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => console.log(reduxLocationValue)}
-        >
-          <Text>LOG IN</Text>
-        </TouchableOpacity>
-      </View>
-      <Text>
-        {reduxLocationValue.coords.latitude !== 0
-          ? 'Location success'
-          : 'Locating...'}
-      </Text>
-      {/* ANIMATED WELCOME */}
-      <Animated.View // Special animatable View
-        style={{
-          opacity: fadeAnim,
-          transform: [
-            {
-              translateY: fadeAnim.interpolate({
-                inputRange: [0, 1],
-                outputRange: [-50, 0],
-              }),
-            },
-          ],
-        }}
-      >
-        <Text style={styles.welcome}>Welcome</Text>
-      </Animated.View>
+    <ImageBackground
+      source={require('../assets/modalBackground.jpg')}
+      style={styles.imageBackground}
+      blurRadius={2}
+      fadeDuration={1000}
+    >
+      <SafeAreaView style={styles.entireContainer}>
+        <View style={styles.loginView}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => console.log(reduxLocationValue)}
+          >
+            <Text>LOG IN</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.mainContainer}>
+          <Text>
+            {reduxLocationValue.coords.latitude !== 0
+              ? 'Location success'
+              : 'Locating...'}
+          </Text>
+          {/* ANIMATED WELCOME */}
+          <Animated.View // Special animatable View
+            style={{
+              opacity: fadeAnim,
+              transform: [
+                {
+                  translateY: fadeAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [-50, 0],
+                  }),
+                },
+              ],
+            }}
+          >
+            <Text style={styles.welcome}>Welcome</Text>
+          </Animated.View>
 
-      {/* STATION DROPDOWN PICKER */}
-      <DropDownPicker />
-      {/* TIME PICKER */}
-      <TimePicker />
-      {/* ENTER APP TOUCHABLE */}
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => handleSubmit()}
-        disabled={reduxSeenDestinations ? false : true}
-      >
-        <Text>Touch to enter</Text>
-      </TouchableOpacity>
-    </View>
+          {/* STATION DROPDOWN PICKER */}
+          <DropDownPicker />
+          {/* TIME PICKER */}
+          <TimePicker />
+          {/* ENTER APP TOUCHABLE */}
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => handleSubmit()}
+            disabled={reduxSeenDestinations ? false : true}
+          >
+            <Text>Touch to enter</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 
 // ################## STYLES ##################
 const styles = StyleSheet.create({
-  container: {
+  entireContainer: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+  },
+  mainContainer: {
+    flex: 1,
+    alignItems: 'center',
+    // justifyContent: 'center',
   },
   button: {
     height: 40,
@@ -172,15 +184,21 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 10,
     borderWidth: 2,
-    borderColor: 'black',
+    borderColor: 'white',
     borderRadius: 5,
-    color: 'black',
+    color: 'white',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   welcome: {
     fontSize: 50,
     textAlign: 'center',
     margin: 10,
+    color: 'white',
+  },
+  imageBackground: { width: '100%', height: '100%' },
+
+  loginView: {
+    justifyContent: 'flex-end',
   },
 });
 
