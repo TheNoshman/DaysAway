@@ -120,9 +120,9 @@ const WelcomeLocationModal = ({ navigation }) => {
   // ################## RENDER COMPONENT ##################
   return (
     <ImageBackground
-      source={require('../assets/modalBackground.jpg')}
+      source={require('../assets/modalBackground.png')}
       style={styles.imageBackground}
-      blurRadius={8}
+      blurRadius={2}
       fadeDuration={300}
     >
       {/* LOG IN BUTTON */}
@@ -134,9 +134,9 @@ const WelcomeLocationModal = ({ navigation }) => {
               : 'Locating...'}
           </Text>
           <LinearGradient
-            colors={['rgba(54,214,249,0.8)', 'rgba(54,249,171,0.7)']}
-            start={{ x: 0.0, y: 1.0 }}
-            end={{ x: 1.0, y: 1.0 }}
+            colors={['rgba(247,136,142,1)', 'rgba(249,133,41,1)']}
+            start={{ x: 0.0, y: 0.5 }}
+            end={{ x: 0.5, y: 0.0 }}
             style={{ ...styles.loginButton }}
           >
             <TouchableOpacity onPress={() => console.log(reduxLocationValue)}>
@@ -183,9 +183,9 @@ const WelcomeLocationModal = ({ navigation }) => {
               <TimePicker />
 
               <LinearGradient
-                colors={['rgba(54,214,249,0.8)', 'rgba(54,249,171,0.7)']}
-                start={{ x: 0.0, y: 1.0 }}
-                end={{ x: 1.0, y: 1.0 }}
+                colors={['rgba(247,136,142,1)', 'rgba(252,113,0,1)']}
+                start={{ x: 0.0, y: 0.5 }}
+                end={{ x: 0.5, y: 0.0 }}
                 style={{ ...styles.enterButton }}
               >
                 {/* ENTER APP TOUCHABLE */}
@@ -230,7 +230,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 10,
-    marginVertical: 30,
     borderRadius: 50,
     elevation: 5,
   },
@@ -240,7 +239,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     color: 'black',
-    backgroundColor: 'rgba(255,255,255,0.9)',
+    backgroundColor: 'rgba(255,255,255,0.7)',
     borderRadius: 50,
     paddingHorizontal: 15,
     paddingVertical: 7,
@@ -276,7 +275,7 @@ const styles = StyleSheet.create({
   enterButtonText: {
     fontSize: 20,
     color: 'black',
-    backgroundColor: 'rgba(255,255,255,0.9)',
+    backgroundColor: 'rgba(255,255,255,0.7)',
     borderRadius: 50,
     paddingHorizontal: 25,
     paddingVertical: 9,
@@ -285,7 +284,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 50,
     marginHorizontal: 10,
-    marginVertical: 30,
+    marginTop: 50,
     borderRadius: 50,
     alignItems: 'center',
     justifyContent: 'center',

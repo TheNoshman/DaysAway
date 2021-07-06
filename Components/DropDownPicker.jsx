@@ -60,9 +60,7 @@ export default function DropDownPicker() {
         placeholder={{}}
         value={reduxSelectedStation}
         Icon={() => {
-          return (
-            <Icon name="expand-more" size={25} color="rgba(54,249,171,1)" />
-          );
+          return <Icon name="expand-more" size={25} color="white" />;
         }}
         items={reduxStationList}
       />
@@ -92,7 +90,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
   },
   inputAndroid: {
     width: 300,
@@ -113,7 +110,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-
     elevation: 5,
   },
   warningText: {

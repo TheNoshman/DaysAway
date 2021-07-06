@@ -110,7 +110,7 @@ export default function TimePicker() {
         ) : (
           <Text style={styles.textDisabled}>Select travel duration</Text>
         )}
-        <Icon name="schedule" size={25} color="rgba(54,249,171,0.8)" />
+        <Icon name="schedule" size={25} color="white" />
       </TouchableOpacity>
       {openTimePicker ? (
         <DateTimePicker
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 30,
     borderColor: 'white',
     borderRadius: 50,
     color: 'white',
