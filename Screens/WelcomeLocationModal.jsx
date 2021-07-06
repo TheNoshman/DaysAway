@@ -133,12 +133,16 @@ const WelcomeLocationModal = ({ navigation }) => {
               ? 'Location success'
               : 'Locating...'}
           </Text>
-          <TouchableOpacity
-            style={styles.loginButton}
-            onPress={() => console.log(reduxLocationValue)}
+          <LinearGradient
+            colors={['rgba(54,214,249,0.8)', 'rgba(54,249,171,0.7)']}
+            start={{ x: 0.0, y: 1.0 }}
+            end={{ x: 1.0, y: 1.0 }}
+            style={{ ...styles.loginButton }}
           >
-            <Text>LOG IN</Text>
-          </TouchableOpacity>
+            <TouchableOpacity onPress={() => console.log(reduxLocationValue)}>
+              <Text style={styles.loginButtonText}>Log In</Text>
+            </TouchableOpacity>
+          </LinearGradient>
         </View>
         <View style={styles.mainContainer}>
           {/* MAP IMAGE */}
@@ -179,23 +183,13 @@ const WelcomeLocationModal = ({ navigation }) => {
               <TimePicker />
 
               <LinearGradient
-                colors={[
-                  '#00FFFF',
-                  '#17C8FF',
-                  '#329BFF',
-                  '#4C64FF',
-                  '#6536FF',
-                  '#8000FF',
-                ]}
+                colors={['rgba(54,214,249,0.8)', 'rgba(54,249,171,0.7)']}
                 start={{ x: 0.0, y: 1.0 }}
                 end={{ x: 1.0, y: 1.0 }}
                 style={{ ...styles.enterButton }}
               >
                 {/* ENTER APP TOUCHABLE */}
-                <TouchableOpacity
-                  // style={styles.enterButton}
-                  onPress={() => handleSubmit()}
-                >
+                <TouchableOpacity onPress={() => handleSubmit()}>
                   <Text style={styles.enterButtonText}>Search AwayDays</Text>
                 </TouchableOpacity>
               </LinearGradient>
@@ -231,12 +225,25 @@ const styles = StyleSheet.create({
   loginButton: {
     // borderColor: 'red',
     // borderWidth: 2,
-    width: 100,
-    height: 45,
-    borderRadius: 50,
-    backgroundColor: 'rgba(255,255,255,1)',
+    width: 80,
+    height: 37,
     alignItems: 'center',
     justifyContent: 'center',
+    marginHorizontal: 10,
+    marginVertical: 30,
+    borderRadius: 50,
+    elevation: 5,
+  },
+
+  loginButtonText: {
+    width: 75,
+    fontSize: 16,
+    textAlign: 'center',
+    color: 'black',
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    borderRadius: 50,
+    paddingHorizontal: 15,
+    paddingVertical: 7,
   },
   mainContainer: {
     flex: 1,
@@ -271,26 +278,17 @@ const styles = StyleSheet.create({
     color: 'black',
     backgroundColor: 'rgba(255,255,255,0.9)',
     borderRadius: 50,
-    paddingHorizontal: 26,
-    paddingVertical: 10,
+    paddingHorizontal: 25,
+    paddingVertical: 9,
   },
   enterButton: {
     width: 200,
     height: 50,
-    // paddingVertical: 5,
     marginHorizontal: 10,
     marginVertical: 30,
     borderRadius: 50,
-
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
     elevation: 5,
   },
   footerView: {
