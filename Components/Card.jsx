@@ -11,46 +11,34 @@ const Card = ({ card }) => {
   return (
     <View activeOpacity={1}>
       <LinearGradient
-        colors={['rgba(0,0,0,0.2)', 'rgba(255,255,255,1)']}
+        colors={['rgba(0,0,0,0.25)', 'rgba(255,255,255,1)']}
         start={{ x: 1, y: 1 }}
         end={{ x: 0, y: 0.5 }}
         style={styles.card}
       >
         <View style={styles.imageContainer}>
-          <View style={styles.imageRow}>
-            <View style={styles.imageShadow}>
-              <Image
-                style={styles.image}
-                source={{ uri: card.cardPhotosArray[0].results[0].urls.small }}
-                resizeMode="cover"
-              />
-            </View>
-            <View style={styles.imageShadow}>
-              <Image
-                style={styles.image}
-                source={{ uri: card.cardPhotosArray[1].results[0].urls.small }}
-                resizeMode="cover"
-              />
-            </View>
-          </View>
-          <View style={styles.imageRow}>
-            <View style={styles.imageShadow}>
-              <Image
-                style={styles.image}
-                source={{ uri: card.cardPhotosArray[2].results[0].urls.small }}
-                resizeMode="cover"
-              />
-            </View>
-            <View style={styles.imageShadow}>
-              <Image
-                style={styles.image}
-                source={{ uri: card.cardPhotosArray[3].results[0].urls.small }}
-                resizeMode="cover"
-              />
-            </View>
-          </View>
+          <Image
+            style={styles.image}
+            source={{ uri: card.cardPhotosArray[0].results[0].urls.small }}
+            resizeMode="contain"
+          />
+          <Image
+            style={styles.image}
+            source={{ uri: card.cardPhotosArray[1].results[0].urls.small }}
+            resizeMode="contain"
+          />
+          <Image
+            style={styles.image}
+            source={{ uri: card.cardPhotosArray[2].results[0].urls.small }}
+            resizeMode="contain"
+          />
+          <Image
+            style={styles.image}
+            source={{ uri: card.cardPhotosArray[3].results[0].urls.small }}
+            resizeMode="contain"
+          />
         </View>
-        {/* <View style={styles.photoDescriptionContainer}>
+        <View style={styles.photoDescriptionContainer}>
           <Text style={styles.text}>{`Destination: ${card.destination}`}</Text>
           <Text style={styles.text}>
             {`Journey duration: ${
@@ -94,8 +82,8 @@ const Card = ({ card }) => {
               backgroundColor="#00dbdb"
               size={45}
             />
-          </View> */}
-        {/* </View> */}
+          </View>
+        </View>
       </LinearGradient>
     </View>
   );
@@ -107,36 +95,22 @@ const styles = StyleSheet.create({
   card: {
     height: height - 100,
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 20,
     backgroundColor: 'white',
     elevation: 5,
   },
   imageContainer: {
-    height: 450,
-    width: '97%',
-    // borderColor: 'red',
-    // borderWidth: 2,
-    borderRadius: 10,
-    marginVertical: 5,
-  },
-  imageRow: {
+    height: 500,
     width: '100%',
-    height: '50%',
-    // borderColor: 'red',
-    // borderWidth: 2,
-    flexDirection: 'row',
-  },
-  imageShadow: {
-    elevation: 5,
-    borderRadius: 10,
-    flex: 1,
-    margin: 2,
+    borderColor: 'red',
+    borderWidth: 2,
   },
   image: {
-    borderRadius: 10,
+    borderRadius: 5,
     flex: 1,
+    width: '100%',
+    height: 300,
   },
-
   photoDescriptionContainer: {
     justifyContent: 'flex-end',
     alignItems: 'flex-start',
