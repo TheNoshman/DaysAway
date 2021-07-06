@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
+import IconButton from './IconButton';
 
 const { height } = Dimensions.get('window');
 
@@ -8,26 +9,28 @@ const Card = ({ card }) => {
 
   return (
     <View activeOpacity={1} style={styles.card}>
-      <Image
-        style={styles.image}
-        source={{ uri: card.cardPhotosArray[0].results[0].urls.small }}
-        resizeMode="contain"
-      />
-      <Image
-        style={styles.image}
-        source={{ uri: card.cardPhotosArray[1].results[0].urls.small }}
-        resizeMode="contain"
-      />
-      <Image
-        style={styles.image}
-        source={{ uri: card.cardPhotosArray[2].results[0].urls.small }}
-        resizeMode="contain"
-      />
-      <Image
-        style={styles.image}
-        source={{ uri: card.cardPhotosArray[3].results[0].urls.small }}
-        resizeMode="contain"
-      />
+      <View>
+        <Image
+          style={styles.image}
+          source={{ uri: card.cardPhotosArray[0].results[0].urls.small }}
+          resizeMode="contain"
+        />
+        <Image
+          style={styles.image}
+          source={{ uri: card.cardPhotosArray[1].results[0].urls.small }}
+          resizeMode="contain"
+        />
+        <Image
+          style={styles.image}
+          source={{ uri: card.cardPhotosArray[2].results[0].urls.small }}
+          resizeMode="contain"
+        />
+        <Image
+          style={styles.image}
+          source={{ uri: card.cardPhotosArray[3].results[0].urls.small }}
+          resizeMode="contain"
+        />
+      </View>
 
       <View style={styles.photoDescriptionContainer}>
         <Text style={styles.text}>{`Destination: ${card.destination}`}</Text>
@@ -51,6 +54,29 @@ const Card = ({ card }) => {
               : ''
           }`}
         </Text>
+        <View style={styles.buttonsContainer}>
+          <IconButton
+            name="remove"
+            // onPress={() => console.log(`use ref ${useSwiper}`)}
+            color="white"
+            backgroundColor="#ffb01f"
+            size={45}
+          />
+          <IconButton
+            name="undo"
+            // onPress={() => setCardIndex(cardIndex - 1)}
+            color="white"
+            backgroundColor="#d1d1d1"
+            size={20}
+          />
+          <IconButton
+            name="add"
+            // onPress={() => swiperEl.onSwipedRight}
+            color="white"
+            backgroundColor="#00dbdb"
+            size={45}
+          />
+        </View>
       </View>
     </View>
   );
@@ -60,7 +86,7 @@ export default Card;
 
 const styles = StyleSheet.create({
   card: {
-    height: height - 190,
+    height: height - 100,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',

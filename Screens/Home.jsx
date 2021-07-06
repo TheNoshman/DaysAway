@@ -1,18 +1,19 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  ImageBackground,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 // REDUX
 import { useDispatch, useSelector } from 'react-redux';
-import updateTimetableCacheAction from '../actionCreators/updateTimetableCacheAction';
 
 // COMPONENTS
-import Destination from '../Components/Destination';
 
 // SERVICE FUNCTIONS
-import { getStationTimetable } from '../serviceAPI';
-import { getCachedTimetable, calculateLastTrain } from '../serviceFunctions';
-import dayjs from 'dayjs';
 
 import Swiper from 'react-native-deck-swiper';
 
@@ -22,40 +23,41 @@ import addLikedTripAction from '../actionCreators/addLikedTripAction';
 
 // import OverlayLabel from '../Components/OverlayLabel';
 
-const { height } = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
 const Home = ({ navigation }) => {
   // REDUX
   const dispatch = useDispatch();
-  const reduxHomeIsReady = useSelector((state) => state.reduxHomeIsReadyState);
+
   const reduxSeenDestinations = useSelector(
     (state) => state.reduxSeenDestinationCache,
   );
 
-  console.log('HOME IS READY -', reduxHomeIsReady);
+  let useSwiper = useRef(null);
+
+  const handleOnSwipedLeft = () => useSwiper.onSwipedLeft();
+  const handleOnSwipedRight = () => useSwiper.swipeRight();
 
   // SWIPER HANDLERS
 
   return (
-    <View style={styles.container}>
-      {!reduxSeenDestinations ? (
-        <SafeAreaView>
-          <Text>Loading...</Text>
-        </SafeAreaView>
-      ) : (
+    <ImageBackground source={require('../assets/bg.png')} style={styles.bg}>
+      <View style={styles.container}>
         <View style={styles.container}>
           <View style={styles.swiperContainer}>
             <Swiper
+              ref={useSwiper}
               animateCardOpacity
               containerStyle={styles.container}
               cards={reduxSeenDestinations}
               renderCard={(card) => (
                 <Card navigation={navigation} card={card} />
               )}
+              verticalSwipe={false}
               cardIndex={0}
               onTapCard={(event) => navigation.navigate('Details', { event })}
-              backgroundColor="white"
               stackSize={2}
+              backgroundColor={'transparent'}
               infinite
               showSecondCard={true}
               animateOverlayLabelsOpacity
@@ -105,45 +107,28 @@ const Home = ({ navigation }) => {
             />
           </View>
           {/* BUTTONS */}
-          <View style={styles.buttonsContainer}>
-            <IconButton
-              name="remove"
-              // onPress={handleOnSwipedLeft}
-              color="white"
-              backgroundColor="#ffb01f"
-              size={45}
-            />
-            <IconButton
-              name="undo"
-              // onPress={() => setCardIndex(cardIndex - 1)}
-              color="white"
-              backgroundColor="#d1d1d1"
-              size={20}
-            />
-            <IconButton
-              name="add"
-              // onPress={() => setCardIndex(cardIndex + 1)}
-              color="white"
-              backgroundColor="#00dbdb"
-              size={45}
-            />
-          </View>
         </View>
-      )}
-    </View>
+      </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  bg: {
+    flex: 1,
+    resizeMode: 'cover',
+    width: width,
+    height: height,
+  },
   container: {
     flex: 1,
     justifyContent: 'space-between',
   },
   swiperContainer: {
     height: height - 115,
+    backgroundColor: 'transparent',
   },
   buttonsContainer: {
-    backgroundColor: 'white',
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
