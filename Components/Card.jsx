@@ -7,13 +7,15 @@ const { height } = Dimensions.get('window');
 
 const Card = ({ card }) => {
   console.log('card = ', card);
+  const hour = card.travelTime.travelTimeDayjs.hour();
+  const min = card.travelTime.travelTimeDayjs.minute();
 
   return (
     <View activeOpacity={1}>
       <LinearGradient
-        colors={['rgba(0,0,0,0.2)', 'rgba(255,255,255,1)']}
+        colors={['rgba(0,0,0,0.15)', 'rgba(255,255,255,1)']}
         start={{ x: 1, y: 1 }}
-        end={{ x: 0, y: 0.5 }}
+        end={{ x: 0.0, y: 0.8 }}
         style={styles.card}
       >
         <View style={styles.imageContainer}>
@@ -50,52 +52,42 @@ const Card = ({ card }) => {
             </View>
           </View>
         </View>
-        <View style={styles.summaryBox} />
-        {/* <Text style={styles.text}>{`Destination: ${card.destination}`}</Text>
-          <Text style={styles.text}>
-            {`Journey duration: ${
-              card.travelTime.travelTimeDayjs.hour()
-                ? `${card.travelTime.travelTimeDayjs.hour()} ${
-                    card.travelTime.travelTimeDayjs.hour() > 1
-                      ? 'hours '
-                      : 'hour '
-                  }`
-                : ''
-            }
-          ${
-            card.travelTime.travelTimeDayjs.minute() > 0
-              ? `${card.travelTime.travelTimeDayjs.minute()} ${
-                  card.travelTime.travelTimeDayjs.minute() > 1
-                    ? 'minutes'
-                    : 'minute'
-                }`
-              : ''
-          }`}
-          </Text> */}
-        <View style={styles.buttonsContainer}>
-          <IconButton
-            name="remove"
-            // onPress={() => console.log(`use ref ${useSwiper}`)}
-            color="white"
-            backgroundColor="#ffb01f"
-            size={45}
-          />
-          <IconButton
-            name="undo"
-            // onPress={() => setCardIndex(cardIndex - 1)}
-            color="white"
-            backgroundColor="#d1d1d1"
-            size={20}
-          />
-          <IconButton
-            name="add"
-            // onPress={() => swiperEl.onSwipedRight}
-            color="white"
-            backgroundColor="#00dbdb"
-            size={45}
-          />
+        <View style={styles.placeContainer}>
+          <Text style={styles.placeName}>{`${card.destination}`}</Text>
         </View>
-        {/* </View> */}
+        <View style={styles.summaryBoxContainer}>
+          <View style={styles.summaryBox}>
+            <Text style={styles.text}>
+              {`Journey duration: ${
+                hour ? `${hour} ${hour > 1 ? 'hours ' : 'hour '}` : ''
+              }${min > 0 ? `${min} ${min > 1 ? 'minutes' : 'minute'}` : ''}`}
+            </Text>
+
+            <View style={styles.buttonsContainer}>
+              <IconButton
+                name="remove"
+                // onPress={() => console.log(`use ref ${useSwiper}`)}
+                color="white"
+                backgroundColor="#f7888d"
+                size={45}
+              />
+              <IconButton
+                name="undo"
+                // onPress={() => setCardIndex(cardIndex - 1)}
+                color="white"
+                backgroundColor="#d1d1d1"
+                size={20}
+              />
+              <IconButton
+                name="add"
+                // onPress={() => swiperEl.onSwipedRight}
+                color="white"
+                backgroundColor="#88c5f7"
+                size={45}
+              />
+            </View>
+          </View>
+        </View>
       </LinearGradient>
     </View>
   );
@@ -112,7 +104,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   imageContainer: {
-    height: '65%',
+    height: '70%',
     width: '100%',
     // borderColor: 'red',
     // borderWidth: 2,
@@ -128,36 +120,67 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderRadius: 10,
     flex: 1,
-    padding: 4,
+    padding: 1,
+    margin: 5,
   },
   image: {
     borderRadius: 10,
     flex: 1,
   },
 
-  summaryBox: {
+  placeContainer: {
+    borderColor: 'red',
+    borderWidth: 2,
+    position: 'absolute',
+    backgroundColor: 'black',
+    height: 50,
+    width: '70%',
+    top: '65%',
+    zIndex: 2,
+  },
+  placeName: {
+    fontSize: 20,
+    color: 'black',
+  },
+
+  summaryBoxContainer: {
     // borderColor: 'red',
     // borderWidth: 2,
     alignItems: 'flex-start',
-    height: '20%',
+    height: '30%',
     width: '100%',
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+    zIndex: 0,
+  },
+
+  summaryBox: {
+    // borderColor: 'red',
+    // borderWidth: 2,
+    backgroundColor: 'white',
+    height: '100%',
+    width: '100%',
+    justifyContent: 'space-evenly',
+    borderRadius: 10,
+    elevation: 3,
+    padding: 5,
+    zIndex: 1,
   },
 
   buttonsContainer: {
     // borderColor: 'red',
     // borderWidth: 2,
     width: '100%',
-    height: '15%',
     justifyContent: 'space-around',
     alignItems: 'center',
     flexDirection: 'row',
   },
 
-  text: {
-    textAlign: 'center',
-    fontSize: 20,
-    color: 'white',
-    textShadowColor: 'black',
-    textShadowRadius: 10,
-  },
+  // text: {
+  //   textAlign: 'center',
+  //   fontSize: 20,
+  //   color: 'white',
+  //   textShadowColor: 'black',
+  //   textShadowRadius: 10,
+  // },
 });
