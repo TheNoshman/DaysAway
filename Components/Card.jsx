@@ -11,9 +11,9 @@ const Card = ({ card }) => {
   return (
     <View activeOpacity={1}>
       <LinearGradient
-        colors={['rgba(54,214,249,0.3)', 'rgba(54,249,171,0.5)']}
-        start={{ x: 0.5, y: 0.0 }}
-        end={{ x: 0.0, y: 0.5 }}
+        colors={['rgba(249,133,41,0.5)', 'rgba(247,136,142,0.5)']}
+        start={{ x: 0.0, y: 0.5 }}
+        end={{ x: 0.5, y: 0.0 }}
         style={styles.card}
       >
         <View style={styles.imageContainer}>

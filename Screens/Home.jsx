@@ -20,6 +20,7 @@ import Swiper from 'react-native-deck-swiper';
 import Card from '../Components/Card';
 import IconButton from '../Components/IconButton';
 import addLikedTripAction from '../actionCreators/addLikedTripAction';
+import { LinearGradient } from 'expo-linear-gradient';
 
 // import OverlayLabel from '../Components/OverlayLabel';
 
@@ -41,7 +42,13 @@ const Home = ({ navigation }) => {
   // SWIPER HANDLERS
 
   return (
-    <ImageBackground source={require('../assets/bg.png')} style={styles.bg}>
+    // <ImageBackground source={require('../assets/bg.png')} style={styles.bg}>
+    <LinearGradient
+      colors={['rgba(249,133,41,0.5)', 'rgba(247,136,142,0.5)']}
+      start={{ x: 0.0, y: 0.5 }}
+      end={{ x: 0.5, y: 0.0 }}
+      style={styles.card}
+    >
       <View style={styles.container}>
         <View style={styles.container}>
           <View style={styles.swiperContainer}>
@@ -109,7 +116,8 @@ const Home = ({ navigation }) => {
           {/* BUTTONS */}
         </View>
       </View>
-    </ImageBackground>
+      {/* </ImageBackground> */}
+    </LinearGradient>
   );
 };
 
