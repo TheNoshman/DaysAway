@@ -128,14 +128,6 @@ const styles = StyleSheet.create({
     height: height - 115,
     backgroundColor: 'transparent',
   },
-  buttonsContainer: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-    paddingHorizontal: '15%',
-    paddingTop: 10,
-    paddingBottom: 25,
-  },
   overlayWrapper: {
     flexDirection: 'column',
     alignItems: 'flex-end',

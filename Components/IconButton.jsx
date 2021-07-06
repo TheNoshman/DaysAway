@@ -15,17 +15,10 @@ const IconButton = ({ onPress, name, backgroundColor, color, size }) => (
 const styles = StyleSheet.create({
   singleButton: {
     backgroundColor: 'transparent',
-    borderRadius: 10,
+    borderRadius: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: 'black',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowRadius: 6,
-    shadowOpacity: 0.3,
-    elevation: 2,
+    elevation: 3,
     padding: 10,
   },
 });

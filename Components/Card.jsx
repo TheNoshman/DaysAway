@@ -50,8 +50,8 @@ const Card = ({ card }) => {
             </View>
           </View>
         </View>
-        {/* <View style={styles.photoDescriptionContainer}>
-          <Text style={styles.text}>{`Destination: ${card.destination}`}</Text>
+        <View style={styles.summaryBox} />
+        {/* <Text style={styles.text}>{`Destination: ${card.destination}`}</Text>
           <Text style={styles.text}>
             {`Journey duration: ${
               card.travelTime.travelTimeDayjs.hour()
@@ -71,30 +71,30 @@ const Card = ({ card }) => {
                 }`
               : ''
           }`}
-          </Text>
-          <View style={styles.buttonsContainer}>
-            <IconButton
-              name="remove"
-              // onPress={() => console.log(`use ref ${useSwiper}`)}
-              color="white"
-              backgroundColor="#ffb01f"
-              size={45}
-            />
-            <IconButton
-              name="undo"
-              // onPress={() => setCardIndex(cardIndex - 1)}
-              color="white"
-              backgroundColor="#d1d1d1"
-              size={20}
-            />
-            <IconButton
-              name="add"
-              // onPress={() => swiperEl.onSwipedRight}
-              color="white"
-              backgroundColor="#00dbdb"
-              size={45}
-            />
-          </View> */}
+          </Text> */}
+        <View style={styles.buttonsContainer}>
+          <IconButton
+            name="remove"
+            // onPress={() => console.log(`use ref ${useSwiper}`)}
+            color="white"
+            backgroundColor="#ffb01f"
+            size={45}
+          />
+          <IconButton
+            name="undo"
+            // onPress={() => setCardIndex(cardIndex - 1)}
+            color="white"
+            backgroundColor="#d1d1d1"
+            size={20}
+          />
+          <IconButton
+            name="add"
+            // onPress={() => swiperEl.onSwipedRight}
+            color="white"
+            backgroundColor="#00dbdb"
+            size={45}
+          />
+        </View>
         {/* </View> */}
       </LinearGradient>
     </View>
@@ -112,40 +112,47 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   imageContainer: {
-    height: 450,
-    width: '97%',
+    height: '65%',
+    width: '100%',
     // borderColor: 'red',
     // borderWidth: 2,
     borderRadius: 10,
-    marginVertical: 5,
+    padding: 5,
   },
   imageRow: {
     width: '100%',
     height: '50%',
-    // borderColor: 'red',
-    // borderWidth: 2,
     flexDirection: 'row',
   },
   imageShadow: {
     elevation: 5,
     borderRadius: 10,
     flex: 1,
-    margin: 2,
+    padding: 4,
   },
   image: {
     borderRadius: 10,
     flex: 1,
   },
 
-  photoDescriptionContainer: {
-    justifyContent: 'flex-end',
+  summaryBox: {
+    // borderColor: 'red',
+    // borderWidth: 2,
     alignItems: 'flex-start',
-    flexDirection: 'column',
-    height: '100%',
-    position: 'absolute',
-    left: 10,
-    bottom: 10,
+    height: '20%',
+    width: '100%',
   },
+
+  buttonsContainer: {
+    // borderColor: 'red',
+    // borderWidth: 2,
+    width: '100%',
+    height: '15%',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+
   text: {
     textAlign: 'center',
     fontSize: 20,
