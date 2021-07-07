@@ -1,12 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   Dimensions,
   ImageBackground,
+  SafeAreaView,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 // REDUX
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,7 +20,7 @@ import Card from '../Components/Card';
 
 import addLikedTripAction from '../actionCreators/addLikedTripAction';
 
-// import OverlayLabel from '../Components/OverlayLabel';
+import OverlayLabel from '../Components/OverlayLabel';
 
 const { height, width } = Dimensions.get('window');
 
@@ -46,7 +45,7 @@ const Home = ({ navigation }) => {
       style={styles.bg}
       opacity={0.8}
     >
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.container}>
           <View style={styles.swiperContainer}>
             <Swiper
@@ -72,7 +71,7 @@ const Home = ({ navigation }) => {
               }}
               overlayLabels={{
                 left: {
-                  title: 'Not today',
+                  title: 'Nah',
                   style: {
                     label: {
                       backgroundColor: 'black',
@@ -90,7 +89,7 @@ const Home = ({ navigation }) => {
                   },
                 },
                 right: {
-                  title: 'Lets go!',
+                  title: 'Yah!',
                   style: {
                     label: {
                       backgroundColor: 'black',
@@ -112,7 +111,7 @@ const Home = ({ navigation }) => {
           </View>
           {/* BUTTONS */}
         </View>
-      </View>
+      </SafeAreaView>
     </ImageBackground>
   );
 };
@@ -129,7 +128,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   swiperContainer: {
-    height: height - 115,
+    height: height - 100,
     backgroundColor: 'transparent',
   },
   overlayWrapper: {

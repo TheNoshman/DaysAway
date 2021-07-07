@@ -17,7 +17,7 @@ function MainStack({ navigation }) {
           if (route.name === 'Home') {
             iconName = 'home';
           } else if (route.name === 'Trips') {
-            iconName = 'train';
+            iconName = 'commute';
           } else if (route.name === 'Location') {
             iconName = 'my-location';
           }

@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     // borderColor: 'red',
     // borderWidth: 2,
     width: '100%',
-    // padding: 2,
+    padding: 2,
     textAlignVertical: 'center',
   },
 

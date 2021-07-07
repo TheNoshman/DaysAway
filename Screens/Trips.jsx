@@ -13,7 +13,7 @@ const Trips = () => {
         <Text>Trips screen</Text>
         <FlatList
           data={reduxLikedTrips}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item, index) => item.destination + index}
           renderItem={(item) => <TripItem journey={item} />}
         />
       </View>
