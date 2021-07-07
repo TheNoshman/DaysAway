@@ -7,7 +7,6 @@ import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import changeTravelTimeAction from '../actionCreators/changeTravelTimeAction';
 import addSeenDestinationAction from '../actionCreators/addSeenDestinationAction';
-import homeIsReadyAction from '../actionCreators/homeIsReadyAction';
 
 // COMPONENTS
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -89,10 +88,6 @@ export default function TimePicker() {
         );
       },
     );
-    setTimeout(() => {
-      console.log('INSEIDE SET TITME OUT');
-      dispatch(homeIsReadyAction(true));
-    }, 1000);
   };
 
   return (

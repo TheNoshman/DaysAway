@@ -122,8 +122,9 @@ const WelcomeLocationModal = ({ navigation }) => {
     <ImageBackground
       source={require('../assets/modalBackground.png')}
       style={styles.imageBackground}
-      blurRadius={2}
+      blurRadius={3}
       fadeDuration={300}
+      opacity={0.9}
     >
       {/* LOG IN BUTTON */}
       <SafeAreaView style={styles.entireContainer}>
@@ -134,9 +135,9 @@ const WelcomeLocationModal = ({ navigation }) => {
               : 'Locating...'}
           </Text>
           <LinearGradient
-            colors={['rgba(247,136,142,1)', 'rgba(249,133,41,1)']}
-            start={{ x: 0.0, y: 0.5 }}
-            end={{ x: 0.5, y: 0.0 }}
+            colors={['rgba(247,136,142,0.6)', 'rgba(252,113,0,1)']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
             style={{ ...styles.loginButton }}
           >
             <TouchableOpacity onPress={() => console.log(reduxLocationValue)}>
@@ -183,9 +184,9 @@ const WelcomeLocationModal = ({ navigation }) => {
               <TimePicker />
 
               <LinearGradient
-                colors={['rgba(247,136,142,1)', 'rgba(252,113,0,1)']}
-                start={{ x: 0.0, y: 0.5 }}
-                end={{ x: 0.5, y: 0.0 }}
+                colors={['rgba(247,136,142,0.6)', 'rgba(252,113,0,1)']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
                 style={{ ...styles.enterButton }}
               >
                 {/* ENTER APP TOUCHABLE */}

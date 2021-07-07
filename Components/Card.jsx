@@ -2,6 +2,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
 import IconButton from './IconButton';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const { height } = Dimensions.get('window');
 
@@ -9,6 +10,12 @@ const Card = ({ card }) => {
   console.log('card = ', card);
   const hour = card.travelTime.travelTimeDayjs.hour();
   const min = card.travelTime.travelTimeDayjs.minute();
+  const changingAt = [];
+  card.details[0].journeyRoute.filter((el, i) => {
+    if (i > 0) {
+      changingAt.push(` ${el.station_name}`);
+    }
+  });
 
   return (
     <View activeOpacity={1}>
@@ -57,11 +64,30 @@ const Card = ({ card }) => {
         </View>
         <View style={styles.summaryBoxContainer}>
           <View style={styles.summaryBox}>
-            <Text style={styles.text}>
-              {`Journey duration: ${
-                hour ? `${hour} ${hour > 1 ? 'hours ' : 'hour '}` : ''
-              }${min > 0 ? `${min} ${min > 1 ? 'minutes' : 'minute'}` : ''}`}
-            </Text>
+            <View style={styles.textContainer}>
+              <View style={styles.textLine}>
+                <Icon name="timer" size={20} color="black" />
+                <Text style={styles.text}>
+                  {` ${hour ? `${hour} ${hour > 1 ? 'hours ' : 'hour '}` : ''}${
+                    min > 0 ? `${min} ${min > 1 ? 'minutes' : 'minute'}` : ''
+                  }`}
+                </Text>
+              </View>
+              <View style={styles.textLine}>
+                <Icon name="flight-takeoff" size={20} color="black" />
+                <Text style={styles.text}>{` ${card.departureTime}`}</Text>
+              </View>
+              <View style={styles.textLine}>
+                <Icon name="sync-alt" size={20} color="black" />
+                <Text style={styles.text}>
+                  {`${
+                    changingAt.length
+                      ? `${changingAt.toString()}`
+                      : 'No changes'
+                  }`}
+                </Text>
+              </View>
+            </View>
 
             <View style={styles.buttonsContainer}>
               <IconButton
@@ -129,29 +155,33 @@ const styles = StyleSheet.create({
   },
 
   placeContainer: {
-    borderColor: 'red',
-    borderWidth: 2,
+    // borderColor: 'red',
+    // borderWidth: 2,
     position: 'absolute',
-    backgroundColor: 'black',
-    height: 50,
-    width: '70%',
-    top: '65%',
+    backgroundColor: 'rgba(136,197,247, 1)',
+    paddingHorizontal: 20,
+    paddingVertical: 6,
+    top: '66%',
+    alignSelf: 'center',
     zIndex: 2,
+    borderRadius: 50,
+    elevation: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   placeName: {
-    fontSize: 20,
-    color: 'black',
+    fontSize: 25,
+    color: 'white',
   },
 
   summaryBoxContainer: {
     // borderColor: 'red',
     // borderWidth: 2,
-    alignItems: 'flex-start',
+    alignItems: 'center',
     height: '30%',
     width: '100%',
     paddingHorizontal: 10,
     paddingBottom: 10,
-    zIndex: 0,
   },
 
   summaryBox: {
@@ -160,11 +190,33 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     height: '100%',
     width: '100%',
-    justifyContent: 'space-evenly',
     borderRadius: 10,
     elevation: 3,
+    // padding: 5,
+  },
+
+  textContainer: {
+    // borderColor: 'red',
+    // borderWidth: 2,
     padding: 5,
-    zIndex: 1,
+    height: 90,
+    marginTop: 15,
+    alignItems: 'flex-start',
+    justifyContent: 'space-around',
+  },
+  textLine: {
+    // borderColor: 'red',
+    // borderWidth: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 17,
+    // borderColor: 'red',
+    // borderWidth: 2,
+    width: '100%',
+    // padding: 2,
+    textAlignVertical: 'center',
   },
 
   buttonsContainer: {
@@ -175,12 +227,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
   },
-
-  // text: {
-  //   textAlign: 'center',
-  //   fontSize: 20,
-  //   color: 'white',
-  //   textShadowColor: 'black',
-  //   textShadowRadius: 10,
-  // },
 });

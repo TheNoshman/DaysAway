@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swiper from 'react-native-deck-swiper';
 
 import Card from '../Components/Card';
-import IconButton from '../Components/IconButton';
+
 import addLikedTripAction from '../actionCreators/addLikedTripAction';
 
 // import OverlayLabel from '../Components/OverlayLabel';
@@ -41,7 +41,11 @@ const Home = ({ navigation }) => {
   // SWIPER HANDLERS
 
   return (
-    <ImageBackground source={require('../assets/homebg.png')} style={styles.bg}>
+    <ImageBackground
+      source={require('../assets/homebg.png')}
+      style={styles.bg}
+      opacity={0.8}
+    >
       <View style={styles.container}>
         <View style={styles.container}>
           <View style={styles.swiperContainer}>

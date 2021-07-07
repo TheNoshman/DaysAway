@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import HomeScreen from '../Screens/Home';
 import TripsScreen from '../Screens/Trips';
@@ -15,14 +15,14 @@ function MainStack({ navigation }) {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
           if (route.name === 'Home') {
-            iconName = focused ? 'home' : 'home-outline';
+            iconName = 'home';
           } else if (route.name === 'Trips') {
-            iconName = focused ? 'train' : 'train-outline';
+            iconName = 'train';
           } else if (route.name === 'Location') {
-            iconName = focused ? 'pin' : 'pin-outline';
+            iconName = 'my-location';
           }
           return (
-            <Ionicons
+            <Icon
               name={iconName}
               size={size}
               color={color}
@@ -32,7 +32,7 @@ function MainStack({ navigation }) {
         },
       })}
       tabBarOptions={{
-        activeTintColor: '#ffb01f',
+        activeTintColor: 'rgba(252,160,0,1)',
         inactiveTintColor: 'gray',
       }}
       initialRouteName={'Home'}
