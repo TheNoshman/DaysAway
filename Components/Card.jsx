@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: 17,
+    fontSize: 16,
     // borderColor: 'red',
     // borderWidth: 2,
     width: '100%',
