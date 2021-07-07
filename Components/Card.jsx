@@ -169,6 +169,7 @@ const styles = StyleSheet.create({
   placeName: {
     fontSize: 25,
     color: 'white',
+    fontWeight: 'bold',
   },
 
   summaryBoxContainer: {

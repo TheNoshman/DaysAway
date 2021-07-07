@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -10,6 +11,7 @@ export default function TripItem({ journey }) {
   const hour = trip.travelTime.travelTimeDayjs.hour();
   const min = trip.travelTime.travelTimeDayjs.minute();
   const randomIndex = Math.floor(Math.random() * trip.cardPhotosArray.length);
+  const dateAdded = trip.details[0].journeyRoute[0].request_time;
 
   return (
     <LinearGradient
@@ -31,9 +33,9 @@ export default function TripItem({ journey }) {
           </View>
         </View>
         <View style={styles.textContainer}>
-          <Text>{trip.destination}</Text>
+          <Text style={styles.title}>{trip.destination}</Text>
           <View style={styles.textLine}>
-            <Icon name="timer" size={20} color="black" />
+            <Icon name="timer" size={15} color="black" />
             <Text style={styles.text}>
               {` ${hour ? `${hour} ${hour > 1 ? 'hours ' : 'hour '}` : ''}${
                 min > 0 ? `${min} ${min > 1 ? 'minutes' : 'minute'}` : ''
@@ -41,8 +43,14 @@ export default function TripItem({ journey }) {
             </Text>
           </View>
           <View style={styles.textLine}>
-            <Icon name="flight-takeoff" size={20} color="black" />
+            <Icon name="flight-takeoff" size={15} color="black" />
             <Text style={styles.text}>{` ${trip.departureTime}`}</Text>
+          </View>
+          <View style={styles.textLine}>
+            <Icon name="bookmark-border" size={15} color="black" />
+            <Text style={styles.text}>{` ${dayjs(dateAdded).format(
+              'DD/MM/YYYY',
+            )}`}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -97,6 +105,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     width: 200,
   },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
   textLine: {
     // borderColor: 'red',
     // borderWidth: 2,
@@ -104,7 +116,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: 16,
+    fontSize: 14,
     // borderColor: 'red',
     // borderWidth: 2,
     // width: '100%',

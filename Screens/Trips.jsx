@@ -10,6 +10,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
 import TripItem from '../Components/TripItem';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const { height, width } = Dimensions.get('window');
 
@@ -24,7 +25,10 @@ const Trips = () => {
     >
       <SafeAreaView>
         <View>
-          <Text>Trips screen</Text>
+          <View style={styles.header}>
+            <Text style={styles.pageTitle}>Your saved journeys</Text>
+            <Icon name="list" size={30} color="black" />
+          </View>
           <FlatList
             data={reduxLikedTrips}
             keyExtractor={(item, index) => item.destination + index}
@@ -44,5 +48,19 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     width: width,
     height: height,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    // paddingHorizontal: 10,
+    marginLeft: 10,
+    marginVertical: 20,
+    marginRight: 20,
+  },
+
+  pageTitle: {
+    fontSize: 30,
+    color: 'black',
   },
 });

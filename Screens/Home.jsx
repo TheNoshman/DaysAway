@@ -5,6 +5,7 @@ import {
   Dimensions,
   ImageBackground,
   SafeAreaView,
+  Text,
 } from 'react-native';
 
 // REDUX
@@ -45,73 +46,79 @@ const Home = ({ navigation }) => {
       style={styles.bg}
       opacity={0.8}
     >
-      <SafeAreaView style={styles.container}>
-        <View style={styles.container}>
-          <View style={styles.swiperContainer}>
-            <Swiper
-              ref={useSwiper}
-              animateCardOpacity
-              containerStyle={styles.container}
-              cards={reduxSeenDestinations}
-              renderCard={(card) => (
-                <Card navigation={navigation} card={card} />
-              )}
-              verticalSwipe={false}
-              cardIndex={0}
-              onTapCard={(event) => navigation.navigate('Details', { event })}
-              stackSize={2}
-              backgroundColor={'transparent'}
-              infinite
-              showSecondCard={true}
-              animateOverlayLabelsOpacity
-              onSwipedLeft={(e) => console.log('left', e)}
-              onSwipedRight={(cardIndex) => {
-                dispatch(addLikedTripAction(reduxSeenDestinations[cardIndex]));
-                console.log('ADDED TRIP TO LIKED TRIPS');
-              }}
-              overlayLabels={{
-                left: {
-                  title: 'Nah',
-                  style: {
-                    label: {
-                      backgroundColor: 'black',
-                      borderColor: 'black',
-                      color: 'white',
-                      borderWidth: 1,
-                    },
-                    wrapper: {
-                      flexDirection: 'column',
-                      alignItems: 'flex-end',
-                      justifyContent: 'flex-start',
-                      marginTop: 30,
-                      marginLeft: -30,
-                    },
-                  },
-                },
-                right: {
-                  title: 'Yah!',
-                  style: {
-                    label: {
-                      backgroundColor: 'black',
-                      borderColor: 'black',
-                      color: 'white',
-                      borderWidth: 1,
-                    },
-                    wrapper: {
-                      flexDirection: 'column',
-                      alignItems: 'flex-start',
-                      justifyContent: 'flex-start',
-                      marginTop: 30,
-                      marginLeft: 30,
+      {!reduxSeenDestinations ? (
+        <Text>Loading...</Text>
+      ) : (
+        <SafeAreaView style={styles.container}>
+          <View style={styles.container}>
+            <View style={styles.swiperContainer}>
+              <Swiper
+                ref={useSwiper}
+                animateCardOpacity
+                containerStyle={styles.container}
+                cards={reduxSeenDestinations}
+                renderCard={(card) => (
+                  <Card navigation={navigation} card={card} />
+                )}
+                verticalSwipe={false}
+                cardIndex={0}
+                onTapCard={(event) => navigation.navigate('Details', { event })}
+                stackSize={2}
+                backgroundColor={'transparent'}
+                infinite
+                showSecondCard={true}
+                animateOverlayLabelsOpacity
+                onSwipedLeft={(e) => console.log('left', e)}
+                onSwipedRight={(cardIndex) => {
+                  dispatch(
+                    addLikedTripAction(reduxSeenDestinations[cardIndex]),
+                  );
+                  console.log('ADDED TRIP TO LIKED TRIPS');
+                }}
+                overlayLabels={{
+                  left: {
+                    title: 'Nah',
+                    style: {
+                      label: {
+                        backgroundColor: 'black',
+                        borderColor: 'black',
+                        color: 'white',
+                        borderWidth: 1,
+                      },
+                      wrapper: {
+                        flexDirection: 'column',
+                        alignItems: 'flex-end',
+                        justifyContent: 'flex-start',
+                        marginTop: 30,
+                        marginLeft: -30,
+                      },
                     },
                   },
-                },
-              }}
-            />
+                  right: {
+                    title: 'Yah!',
+                    style: {
+                      label: {
+                        backgroundColor: 'black',
+                        borderColor: 'black',
+                        color: 'white',
+                        borderWidth: 1,
+                      },
+                      wrapper: {
+                        flexDirection: 'column',
+                        alignItems: 'flex-start',
+                        justifyContent: 'flex-start',
+                        marginTop: 30,
+                        marginLeft: 30,
+                      },
+                    },
+                  },
+                }}
+              />
+            </View>
+            {/* BUTTONS */}
           </View>
-          {/* BUTTONS */}
-        </View>
-      </SafeAreaView>
+        </SafeAreaView>
+      )}
     </ImageBackground>
   );
 };
