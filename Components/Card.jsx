@@ -132,8 +132,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     height: '70%',
     width: '100%',
-    // borderColor: 'red',
-    // borderWidth: 2,
+
     borderRadius: 10,
     padding: 5,
   },
@@ -155,8 +154,6 @@ const styles = StyleSheet.create({
   },
 
   placeContainer: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     position: 'absolute',
     backgroundColor: 'rgba(136,197,247, 1)',
     paddingHorizontal: 20,
@@ -175,8 +172,6 @@ const styles = StyleSheet.create({
   },
 
   summaryBoxContainer: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     alignItems: 'center',
     height: '30%',
     width: '100%',
@@ -185,19 +180,14 @@ const styles = StyleSheet.create({
   },
 
   summaryBox: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     backgroundColor: 'white',
     height: '100%',
     width: '100%',
     borderRadius: 10,
     elevation: 3,
-    // padding: 5,
   },
 
   textContainer: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     padding: 5,
     height: 90,
     marginTop: 15,
@@ -205,23 +195,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   textLine: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     flexDirection: 'row',
     alignItems: 'center',
   },
   text: {
     fontSize: 16,
-    // borderColor: 'red',
-    // borderWidth: 2,
     width: '100%',
     padding: 2,
     textAlignVertical: 'center',
   },
 
   buttonsContainer: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     width: '100%',
     justifyContent: 'space-around',
     alignItems: 'center',

@@ -20,7 +20,7 @@ import Card from '../Components/Card';
 
 import addLikedTripAction from '../actionCreators/addLikedTripAction';
 
-import OverlayLabel from '../Components/OverlayLabel';
+// import OverlayLabel from '../Components/OverlayLabel';
 
 const { height, width } = Dimensions.get('window');
 
@@ -34,8 +34,8 @@ const Home = ({ navigation }) => {
 
   let useSwiper = useRef(null);
 
-  const handleOnSwipedLeft = () => useSwiper.onSwipedLeft();
-  const handleOnSwipedRight = () => useSwiper.swipeRight();
+  // const handleOnSwipedLeft = () => useSwiper.onSwipedLeft();
+  // const handleOnSwipedRight = () => useSwiper.swipeRight();
 
   // SWIPER HANDLERS
 
