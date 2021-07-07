@@ -1,5 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  ImageBackground,
+  SafeAreaView,
+} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // REDUX
@@ -8,6 +15,8 @@ import { useSelector } from 'react-redux';
 // STATION PICKER SELECT
 import DropDownPicker from '../Components/DropDownPicker';
 import TimePicker from '../Components/TimePicker';
+
+const { height, width } = Dimensions.get('window');
 
 const LocationComponent = ({ navigation }) => {
   // Redux values from store
@@ -23,65 +32,39 @@ const LocationComponent = ({ navigation }) => {
   );
 
   return (
-    <View style={styles.container}>
-      <Text>
-        Latitude ={' '}
-        {reduxLocationValue ? reduxLocationValue.coords.latitude : 'pending'}
-      </Text>
-      <Text>
-        Longitude ={' '}
-        {reduxLocationValue ? reduxLocationValue.coords.longitude : 'pending'}
-      </Text>
+    <ImageBackground
+      source={require('../assets/homebg.png')}
+      style={styles.bg}
+      opacity={0.8}
+    >
+      <SafeAreaView style={styles.container}>
+        <Text>
+          Latitude ={' '}
+          {reduxLocationValue ? reduxLocationValue.coords.latitude : 'pending'}
+        </Text>
+        <Text>
+          Longitude ={' '}
+          {reduxLocationValue ? reduxLocationValue.coords.longitude : 'pending'}
+        </Text>
 
-      {/* STATION PICKER */}
-      <DropDownPicker />
+        {/* STATION PICKER */}
+        <DropDownPicker />
 
-      {/* TIME PICKER */}
-      <TimePicker />
-
-      {/* ############ TESTING ############# */}
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log(reduxLocationValue)}
-      >
-        <Text>get redux location</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log(reduxStationList)}
-      >
-        <Text>get redux station list</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log(reduxSelectedStation)}
-      >
-        <Text>get redux selected station</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log(reduxTimetableCache)}
-      >
-        <Text>get redux timetable</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log(reduxUserTravelTime)}
-      >
-        <Text>get user time</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log(reduxSeenDestinations)}
-      >
-        <Text>get seen destinations redux</Text>
-      </TouchableOpacity>
-    </View>
+        {/* TIME PICKER */}
+        <TimePicker />
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 
 // ################## STYLES ##################
 const styles = StyleSheet.create({
+  bg: {
+    flex: 1,
+    resizeMode: 'cover',
+    width: width,
+    height: height,
+  },
   container: {
     flex: 1,
     alignItems: 'center',
