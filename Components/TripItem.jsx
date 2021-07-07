@@ -10,6 +10,7 @@ export default function TripItem({ journey }) {
       colors={['rgba(0,0,0,0.15)', 'rgba(255,255,255,1)']}
       start={{ x: 1, y: 1 }}
       end={{ x: 0.0, y: 0.8 }}
+      style={styles.container}
     >
       <Text>{trip.destination}</Text>
     </LinearGradient>
@@ -17,5 +18,9 @@ export default function TripItem({ journey }) {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    height: 100,
+    marginVertical: 10,
+    borderRadius: 20,
+  },
 });
