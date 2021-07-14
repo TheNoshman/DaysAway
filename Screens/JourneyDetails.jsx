@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
     height: 200,
   },
   lowerContainer: {
-    borderColor: 'red',
-    borderWidth: 2,
+    // borderColor: 'red',
+    // borderWidth: 2,
     height: height - 100,
     marginVertical: 10,
     width: '95%',
