@@ -14,77 +14,48 @@ export default function DetailsLower() {
       style={styles.mainContainer}
     >
       <View style={styles.upperMenu}>
-        {activitiesSelected ? (
-          <Text
-            style={{ ...styles.upperText, ...styles.selectedUpperText }}
-            onPress={() => {
-              setActivitesSelected(true);
-              setStatusSelected(false);
-              setWeatherSelected(false);
-            }}
-          >
-            Activities
-          </Text>
-        ) : (
-          <Text
-            style={styles.upperText}
-            onPress={() => {
-              setActivitesSelected(true);
-              setStatusSelected(false);
-              setWeatherSelected(false);
-            }}
-          >
-            Activities
-          </Text>
-        )}
-
-        {statusSelected ? (
-          <Text
-            style={{ ...styles.upperText, ...styles.selectedUpperText }}
-            onPress={() => {
-              setActivitesSelected(false);
-              setStatusSelected(true);
-              setWeatherSelected(false);
-            }}
-          >
-            Train Status
-          </Text>
-        ) : (
-          <Text
-            style={styles.upperText}
-            onPress={() => {
-              setActivitesSelected(false);
-              setStatusSelected(true);
-              setWeatherSelected(false);
-            }}
-          >
-            Train Status
-          </Text>
-        )}
-
-        {weatherSelected ? (
-          <Text
-            style={{ ...styles.upperText, ...styles.selectedUpperText }}
-            onPress={() => {
-              setActivitesSelected(false);
-              setStatusSelected(false);
-              setWeatherSelected(true);
-            }}
-          >
-            Weather
-          </Text>
-        ) : (
-          <Text
-            style={styles.upperText}
-            onPress={() => {
-              setActivitesSelected(false);
-              setStatusSelected(false);
-              setWeatherSelected(true);
-            }}
-          >
-            Weather
-          </Text>
-        )}
+        <Text
+          style={
+            activitiesSelected
+              ? { ...styles.upperText, ...styles.selectedUpperText }
+              : styles.upperText
+          }
+          onPress={() => {
+            setActivitesSelected(true);
+            setStatusSelected(false);
+            setWeatherSelected(false);
+          }}
+        >
+          Activities
+        </Text>
+        <Text
+          style={
+            statusSelected
+              ? { ...styles.upperText, ...styles.selectedUpperText }
+              : styles.upperText
+          }
+          onPress={() => {
+            setActivitesSelected(false);
+            setStatusSelected(true);
+            setWeatherSelected(false);
+          }}
+        >
+          Train Status
+        </Text>
+        <Text
+          style={
+            weatherSelected
+              ? { ...styles.upperText, ...styles.selectedUpperText }
+              : styles.upperText
+          }
+          onPress={() => {
+            setActivitesSelected(false);
+            setStatusSelected(false);
+            setWeatherSelected(true);
+          }}
+        >
+          Weather
+        </Text>
       </View>
     </LinearGradient>
   );
