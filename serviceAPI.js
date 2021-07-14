@@ -133,7 +133,6 @@ export const getListOfPlaces = async (location) => {
 };
 // https://api.unsplash.com/photos/?client_id=kj-0LfJ8y2owoiMWHzP14JZXWN1nIXWwOcfnrKqgXHE&page=1&query=church
 export const getCardImages = async (searchTerm) => {
-  // uk-church
   console.log('API CALL - GET UNSPLASH CARD IMAGES', searchTerm);
   return fetch(
     `${unsplashAPI}${PHOTOS_API_KEY}&query=${searchTerm}&per_page=10&orientation=portrait`,
@@ -189,6 +188,7 @@ export const getCardData = async (
   cardPhotosPromises.push(getCardImages('uk street'));
   cardPhotosPromises.push(getCardImages('uk pub'));
   cardPhotosPromises.push(getCardImages('uk food'));
+  cardPhotosPromises.push(getCardImages('old england'));
 
   const cardPhotosArray = await Promise.all(cardPhotosPromises);
 

@@ -26,6 +26,13 @@ const Card = ({ card }) => {
         style={styles.card}
       >
         <View style={styles.imageContainer}>
+          <View style={styles.centerImageShadow}>
+            <Image
+              style={styles.centerImage}
+              source={{ uri: card.cardPhotosArray[4].results[0].urls.small }}
+              resizeMode="cover"
+            />
+          </View>
           <View style={styles.imageRow}>
             <View style={styles.imageShadow}>
               <Image
@@ -132,7 +139,6 @@ const styles = StyleSheet.create({
   imageContainer: {
     height: '70%',
     width: '100%',
-
     borderRadius: 10,
     padding: 5,
   },
@@ -140,6 +146,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '50%',
     flexDirection: 'row',
+    zIndex: 1,
   },
   imageShadow: {
     elevation: 5,
@@ -152,7 +159,23 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flex: 1,
   },
-
+  centerImage: {
+    position: 'absolute',
+    flex: 1,
+    borderRadius: 100,
+    height: 150,
+    width: 150,
+    zIndex: 2,
+  },
+  centerImageShadow: {
+    position: 'absolute',
+    left: 85,
+    top: 155,
+    height: 150,
+    width: 150,
+    elevation: 5,
+    borderRadius: 100,
+  },
   placeContainer: {
     position: 'absolute',
     backgroundColor: 'rgba(136,197,247, 1)',
@@ -169,7 +192,6 @@ const styles = StyleSheet.create({
   placeName: {
     fontSize: 25,
     color: 'white',
-    fontWeight: 'bold',
   },
 
   summaryBoxContainer: {
