@@ -19,7 +19,11 @@ function MainStack({ navigation }) {
           } else if (route.name === 'Trips') {
             iconName = 'commute';
           } else if (route.name === 'Location') {
-            iconName = 'my-location';
+            iconName = 'place';
+          } else if (route.name === 'User') {
+            iconName = 'account-circle';
+          } else if (route.name === 'Settings') {
+            iconName = 'settings';
           }
           return (
             <Icon
@@ -37,9 +41,11 @@ function MainStack({ navigation }) {
       }}
       initialRouteName={'Home'}
     >
+      <Tab.Screen name="User" component={TripsScreen} />
       <Tab.Screen name="Location" component={LocationComponent} />
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Trips" component={TripsScreen} />
+      <Tab.Screen name="Settings" component={TripsScreen} />
     </Tab.Navigator>
   );
 }
