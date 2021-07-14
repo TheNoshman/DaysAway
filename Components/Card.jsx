@@ -166,6 +166,8 @@ const styles = StyleSheet.create({
     height: 150,
     width: 150,
     zIndex: 2,
+    borderColor: 'white',
+    borderWidth: 1,
   },
   centerImageShadow: {
     position: 'absolute',

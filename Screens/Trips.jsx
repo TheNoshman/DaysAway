@@ -14,7 +14,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const { height, width } = Dimensions.get('window');
 
-const Trips = () => {
+const Trips = ({ navigation }) => {
   const reduxLikedTrips = useSelector((state) => state.reduxLikedTrips);
 
   return (
@@ -26,13 +26,15 @@ const Trips = () => {
       <SafeAreaView>
         <View>
           <View style={styles.header}>
-            <Text style={styles.pageTitle}>Your saved journeys</Text>
-            <Icon name="list" size={30} color="black" />
+            <Text style={styles.pageTitle}>Your Journeys</Text>
+            <Icon name="list" size={30} color="white" />
           </View>
           <FlatList
             data={reduxLikedTrips}
             keyExtractor={(item, index) => item.destination + index}
-            renderItem={(item) => <TripItem journey={item} />}
+            renderItem={(item, index) => (
+              <TripItem journey={item} navigation={navigation} />
+            )}
           />
         </View>
       </SafeAreaView>
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
   },
 
   pageTitle: {
-    fontSize: 30,
-    color: 'black',
+    fontSize: 45,
+    color: 'white',
   },
 });

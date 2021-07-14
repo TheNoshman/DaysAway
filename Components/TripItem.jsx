@@ -4,9 +4,8 @@ import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-export default function TripItem({ journey }) {
-  console.log('JOURNEY = ', journey);
-
+export default function TripItem({ journey, navigation }) {
+  const event = journey;
   const trip = journey.item;
   const hour = trip.travelTime.travelTimeDayjs.hour();
   const min = trip.travelTime.travelTimeDayjs.minute();
@@ -20,7 +19,10 @@ export default function TripItem({ journey }) {
       end={{ x: 0.0, y: 0.8 }}
       style={styles.container}
     >
-      <TouchableOpacity style={styles.touchContainer}>
+      <TouchableOpacity
+        style={styles.touchContainer}
+        onPress={() => navigation.navigate('Details', { event })}
+      >
         <View style={styles.imageContainer}>
           <View style={styles.innerImageCont}>
             <Image
