@@ -5,6 +5,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -37,6 +38,11 @@ const JourneyDetails = (event) => {
         <View style={styles.upperContainer}></View>
         <View style={styles.lowerContainer}>
           <DetailsLower />
+        </View>
+        <View>
+          <TouchableOpacity style={styles.ticketsContainer}>
+            <Text>Search For Tickets</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </ImageBackground>
@@ -74,6 +80,19 @@ const styles = StyleSheet.create({
     width: '95%',
     backgroundColor: 'rgba(255,255,255,1)',
     borderRadius: 20,
+  },
+  ticketsContainer: {
+    // borderColor: 'red',
+    // borderWidth: 2,
+    height: 50,
+    width: 300,
+    borderRadius: 50,
+    margin: 20,
+    marginBottom: 30,
+    backgroundColor: '#88c5f7',
+    elevation: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
