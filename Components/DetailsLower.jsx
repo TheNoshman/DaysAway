@@ -1,11 +1,13 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import DetailsLowerActivities from './DetailsLowerActivities';
+import DetailsLowerStatus from './DetailsLowerStatus';
+import DetailsLowerWeather from './DetailsLowerWeather';
 
 export default function DetailsLower() {
-  const [activitiesSelected, setActivitesSelected] = useState(true);
-  const [weatherSelected, setWeatherSelected] = useState(false);
-  const [statusSelected, setStatusSelected] = useState(false);
+  const [selectedPage, setSelectedPage] = useState('act');
+
   return (
     <LinearGradient
       colors={['rgba(0,0,0,0.15)', 'rgba(255,255,255,1)']}
@@ -16,46 +18,46 @@ export default function DetailsLower() {
       <View style={styles.upperMenu}>
         <Text
           style={
-            activitiesSelected
+            selectedPage === 'act'
               ? { ...styles.upperText, ...styles.selectedUpperText }
               : styles.upperText
           }
-          onPress={() => {
-            setActivitesSelected(true);
-            setStatusSelected(false);
-            setWeatherSelected(false);
-          }}
+          onPress={() => setSelectedPage('act')}
         >
           Activities
         </Text>
         <Text
           style={
-            statusSelected
+            selectedPage === 'sta'
               ? { ...styles.upperText, ...styles.selectedUpperText }
               : styles.upperText
           }
-          onPress={() => {
-            setActivitesSelected(false);
-            setStatusSelected(true);
-            setWeatherSelected(false);
-          }}
+          onPress={() => setSelectedPage('sta')}
         >
           Train Status
         </Text>
         <Text
           style={
-            weatherSelected
+            selectedPage === 'wea'
               ? { ...styles.upperText, ...styles.selectedUpperText }
               : styles.upperText
           }
-          onPress={() => {
-            setActivitesSelected(false);
-            setStatusSelected(false);
-            setWeatherSelected(true);
-          }}
+          onPress={() => setSelectedPage('wea')}
         >
           Weather
         </Text>
+      </View>
+      <View>
+        {(() => {
+          switch (selectedPage) {
+            case 'act':
+              return <DetailsLowerActivities />;
+            case 'sta':
+              return <DetailsLowerStatus />;
+            default:
+              return <DetailsLowerWeather />;
+          }
+        })()}
       </View>
     </LinearGradient>
   );
@@ -80,7 +82,7 @@ const styles = StyleSheet.create({
   upperText: {
     borderColor: 'red',
     borderWidth: 2,
-    fontSize: 16,
+    fontSize: 18,
     textAlign: 'center',
     textAlignVertical: 'center',
   },
