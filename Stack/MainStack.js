@@ -5,6 +5,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import HomeScreen from '../Screens/Home';
 import TripsScreen from '../Screens/Trips';
 import LocationComponent from '../Screens/Location';
+import UserScreen from '../Screens/User';
+import SettingsScreen from '../Screens/Settings';
 
 const Tab = createBottomTabNavigator();
 
@@ -41,11 +43,11 @@ function MainStack({ navigation }) {
       }}
       initialRouteName={'Home'}
     >
-      <Tab.Screen name="User" component={TripsScreen} />
+      <Tab.Screen name="User" component={UserScreen} />
       <Tab.Screen name="Location" component={LocationComponent} />
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Trips" component={TripsScreen} />
-      <Tab.Screen name="Settings" component={TripsScreen} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
 }
