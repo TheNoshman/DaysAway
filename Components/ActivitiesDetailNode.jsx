@@ -1,6 +1,12 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default function ActivitiesDetailNode({ activity }) {
@@ -20,6 +26,9 @@ export default function ActivitiesDetailNode({ activity }) {
     >
       <View style={styles.topBox}>
         <Text style={styles.name}>{activity.item.properties.name}</Text>
+        <TouchableOpacity style={styles.icon}>
+          <Icon name="near-me" size={20} color="white" />
+        </TouchableOpacity>
         <View style={styles.textLine}>
           <Icon name="star-border" size={15} color="black" />
           <Text> User rating: {activity.item.properties.rate}</Text>
@@ -59,7 +68,16 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 20,
-    paddingLeft: 16,
+    paddingLeft: 10,
+  },
+  icon: {
+    position: 'absolute',
+    left: 255,
+    top: 5,
+    backgroundColor: 'rgba(252,213,140,1)',
+    padding: 13,
+    borderRadius: 50,
+    elevation: 3,
   },
   textLine: {
     // borderColor: 'red',
@@ -86,5 +104,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 1,
     paddingVertical: 2,
     paddingHorizontal: 5,
+    elevation: 2,
   },
 });
