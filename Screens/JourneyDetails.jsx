@@ -32,6 +32,7 @@ const JourneyDetails = (event) => {
       opacity={0.8}
     >
       <ScrollView
+        keyboardShouldPersistTaps="handled"
         style={styles.mainContainer}
         contentContainerStyle={styles.scrollView}
       >
@@ -42,7 +43,7 @@ const JourneyDetails = (event) => {
           </Text>
         </View>
         <View style={styles.lowerContainer}>
-          <DetailsLower />
+          <DetailsLower journey={journey} />
         </View>
         <View>
           <TouchableOpacity style={styles.ticketsContainer}>
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
   lowerContainer: {
     // borderColor: 'red',
     // borderWidth: 2,
-    height: height - 100,
+    // height: height - 100,
     marginVertical: 10,
     width: '95%',
     backgroundColor: 'rgba(255,255,255,1)',

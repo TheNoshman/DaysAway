@@ -5,7 +5,7 @@ import DetailsLowerActivities from './DetailsLowerActivities';
 import DetailsLowerStatus from './DetailsLowerStatus';
 import DetailsLowerWeather from './DetailsLowerWeather';
 
-export default function DetailsLower() {
+export default function DetailsLower({ journey }) {
   const [selectedPage, setSelectedPage] = useState('act');
 
   return (
@@ -51,7 +51,7 @@ export default function DetailsLower() {
         {(() => {
           switch (selectedPage) {
             case 'act':
-              return <DetailsLowerActivities />;
+              return <DetailsLowerActivities journey={journey} />;
             case 'sta':
               return <DetailsLowerStatus />;
             default:
