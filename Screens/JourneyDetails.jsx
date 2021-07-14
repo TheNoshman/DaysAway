@@ -15,20 +15,15 @@ import DetailsLower from '../Components/DetailsLower';
 const { height, width } = Dimensions.get('window');
 
 const JourneyDetails = (event) => {
-  console.log('EVENT = ', { event });
-
   const reduxSeenDestinations = useSelector(
     (state) => state.reduxSeenDestinationCache,
   );
 
   // INDEX OF SELECTED CARD
   let journey = reduxSeenDestinations[event.route.params.event];
-
   if (!journey) {
     journey = reduxSeenDestinations[event.route.params.event.index];
   }
-
-  console.log('JOURNEY IN DETAILS = ', journey);
 
   return (
     <ImageBackground
