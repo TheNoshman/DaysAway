@@ -101,9 +101,9 @@ const styles = StyleSheet.create({
     // height: height - 100,
     marginVertical: 10,
     width: '95%',
-    backgroundColor: 'rgba(255,255,255,1)',
+    backgroundColor: 'rgba(255,255,255,0.4)',
     borderRadius: 20,
-    elevation: 4,
+    // elevation: 4,
   },
   ticketsContainer: {
     // borderColor: 'red',

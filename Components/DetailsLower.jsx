@@ -10,7 +10,7 @@ export default function DetailsLower({ journey }) {
 
   return (
     <LinearGradient
-      colors={['rgba(0,0,0,0.15)', 'rgba(255,255,255,1)']}
+      colors={['rgba(0,0,0,0.15)', 'rgba(255,255,255,0.15)']}
       start={{ x: 1, y: 1 }}
       end={{ x: 0, y: 0 }}
       style={styles.mainContainer}
@@ -78,6 +78,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
+    backgroundColor: 'rgba(255,255,255,0.7)',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   upperText: {
     // borderColor: 'red',

@@ -17,8 +17,8 @@ export default function DetailsLowerActivities({ journey }) {
 
 const styles = StyleSheet.create({
   listContainer: {
-    borderColor: 'red',
-    borderWidth: 2,
+    // borderColor: 'red',
+    // borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'center',
     flexWrap: 'wrap',
