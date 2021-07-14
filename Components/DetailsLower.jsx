@@ -34,7 +34,7 @@ export default function DetailsLower() {
           }
           onPress={() => setSelectedPage('sta')}
         >
-          Train Status
+          Journey Details
         </Text>
         <Text
           style={
@@ -68,20 +68,20 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'cover',
     borderRadius: 20,
-    borderColor: 'red',
-    borderWidth: 2,
+    // borderColor: 'red',
+    // borderWidth: 2,
   },
   upperMenu: {
-    borderColor: 'red',
-    borderWidth: 2,
+    // borderColor: 'red',
+    // borderWidth: 2,
     height: 50,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
   },
   upperText: {
-    borderColor: 'red',
-    borderWidth: 2,
+    // borderColor: 'red',
+    // borderWidth: 2,
     fontSize: 18,
     textAlign: 'center',
     textAlignVertical: 'center',

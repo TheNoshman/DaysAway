@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Dimensions,
   ImageBackground,
@@ -8,10 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
-import { getPlaceLocation, getListOfPlaces } from '../serviceAPI';
-import updateJourneyWithLocation from '../actionCreators/updateJourneyWithLocation';
+
 import DetailsLower from '../Components/DetailsLower';
 
 const { height, width } = Dimensions.get('window');
@@ -35,13 +33,18 @@ const JourneyDetails = (event) => {
         style={styles.mainContainer}
         contentContainerStyle={styles.scrollView}
       >
-        <View style={styles.upperContainer}></View>
+        <View style={styles.upperContainer}>
+          <Text style={styles.mainTitle}>{journey.destination}</Text>
+          <Text style={styles.subTitle}>
+            Please select a tab below for detailed information:
+          </Text>
+        </View>
         <View style={styles.lowerContainer}>
           <DetailsLower />
         </View>
         <View>
           <TouchableOpacity style={styles.ticketsContainer}>
-            <Text>Search For Tickets</Text>
+            <Text style={styles.buyTicketText}>Search For Tickets</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -70,7 +73,24 @@ const styles = StyleSheet.create({
   upperContainer: {
     // borderColor: 'red',
     // borderWidth: 2,
-    height: 200,
+  },
+  mainTitle: {
+    // borderColor: 'red',
+    // borderWidth: 2,
+    fontSize: 60,
+    color: 'white',
+    textAlign: 'left',
+    width: width,
+    paddingHorizontal: 10,
+  },
+  subTitle: {
+    // borderColor: 'red',
+    // borderWidth: 2,
+    fontSize: 16,
+    color: 'white',
+    textAlign: 'left',
+    width: width,
+    padding: 10,
   },
   lowerContainer: {
     // borderColor: 'red',
@@ -80,6 +100,7 @@ const styles = StyleSheet.create({
     width: '95%',
     backgroundColor: 'rgba(255,255,255,1)',
     borderRadius: 20,
+    elevation: 4,
   },
   ticketsContainer: {
     // borderColor: 'red',
@@ -93,6 +114,12 @@ const styles = StyleSheet.create({
     elevation: 4,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  buyTicketText: {
+    color: 'white',
+    fontSize: 22,
+    // fontWeight: 'bold',
+    textAlignVertical: 'center',
   },
 });
 
