@@ -112,12 +112,11 @@ export default function DetailsLowerStatus({ journey }) {
             colors={['rgba(220,220,220, 1)', 'rgba(255,255,255,1)']}
             start={{ x: 1, y: 1 }}
             end={{ x: 0, y: 0 }}
-            style={styles.boxThree}
+            style={styles.statusBox}
           >
-            <Text style={styles.boxThreeSmallText}>Train status:</Text>
+            <Text style={styles.boxOneSmallText}>Train status:</Text>
 
             <Text style={styles.boxThreeLargeText}>
-              {' '}
               {
                 journey.details[0].journeyRoute[0].departures
                   .calculatedJourneys[0].callingAt[0].status
@@ -150,35 +149,66 @@ export default function DetailsLowerStatus({ journey }) {
       {/* #################### THRID ROW ###################### */}
       {/* #################### THRID ROW ###################### */}
       {/* #################### THRID ROW ###################### */}
+      <View style={styles.bottomContainer}>
+        <LinearGradient
+          colors={['rgba(220,220,220, 1)', 'rgba(255,255,255,1)']}
+          start={{ x: 1, y: 1 }}
+          end={{ x: 0, y: 0 }}
+          style={styles.bottomBoxes}
+        >
+          <View>
+            <Text style={styles.text}>
+              Changing at:
+              {`${
+                changingAt.length ? `${changingAt.toString()}` : 'No changes'
+              }`}
+            </Text>
+          </View>
+        </LinearGradient>
+        <LinearGradient
+          colors={['rgba(220,220,220, 1)', 'rgba(255,255,255,1)']}
+          start={{ x: 1, y: 1 }}
+          end={{ x: 0, y: 0 }}
+          style={styles.bottomBoxes}
+        >
+          <Text style={styles.boxTwoSmallText}>Scheduled arrival time: </Text>
 
-      <View style={styles.box}>
-        <Text style={styles.text}>
-          Changing at:
-          {`${changingAt.length ? `${changingAt.toString()}` : 'No changes'}`}
-        </Text>
-      </View>
-      <View style={styles.box}>
-        <Text style={styles.text}>
-          Scheduled arrival time:
-          {journey.details[3].destination.aimed_arrival_time}
-        </Text>
-        <Text style={styles.text}>
-          Expected arrival time:
-          {journey.details[3].destination.expected_arrival_time}
-        </Text>
-      </View>
-
-      <View style={styles.box}>
-        <Text style={styles.text}>
-          Arriving into destination on platform:
-          {journey.details[3].destination.platform}
-        </Text>
-      </View>
-      <View style={styles.box}>
-        <Text style={styles.text}>
-          Station code:
-          {journey.details[3].destination.station_code}
-        </Text>
+          <Text style={styles.boxSevenLargeText}>
+            <Icon name="departure-board" size={25} color="#f7888d" />{' '}
+            {journey.details[3].destination.aimed_arrival_time}
+          </Text>
+          <Text style={styles.boxTwoSmallText}>Expected arrival time:</Text>
+          <Text style={styles.boxSevenLargeText}>
+            <Icon name="pending-actions" size={25} color="#fc943f" />{' '}
+            {journey.details[3].destination.expected_arrival_time}
+          </Text>
+        </LinearGradient>
+        <LinearGradient
+          colors={['rgba(220,220,220, 1)', 'rgba(255,255,255,1)']}
+          start={{ x: 1, y: 1 }}
+          end={{ x: 0, y: 0 }}
+          style={styles.bottomBoxes}
+        >
+          <View>
+            <Text style={styles.text}>
+              Arriving into destination on platform:
+              {journey.details[3].destination.platform}
+            </Text>
+          </View>
+        </LinearGradient>
+        <LinearGradient
+          colors={['rgba(220,220,220, 1)', 'rgba(255,255,255,1)']}
+          start={{ x: 1, y: 1 }}
+          end={{ x: 0, y: 0 }}
+          style={styles.bottomBoxes}
+        >
+          <View>
+            <Text style={styles.text}>
+              Station code:
+              {journey.details[3].destination.station_code}
+            </Text>
+          </View>
+        </LinearGradient>
       </View>
     </View>
   );
@@ -233,6 +263,7 @@ const styles = StyleSheet.create({
     elevation: 10,
     fontSize: 16,
     justifyContent: 'space-around',
+    alignItems: 'center',
     padding: 10,
   },
   boxTwoLargeText: {
@@ -250,14 +281,23 @@ const styles = StyleSheet.create({
     elevation: 10,
     paddingVertical: 10,
     justifyContent: 'space-around',
+    alignItems: 'center',
   },
-  boxThreeSmallText: { paddingLeft: 8 },
+  statusBox: {
+    height: 94,
+    width: 110,
+    margin: 5,
+    borderRadius: 10,
+    elevation: 10,
+    paddingVertical: 10,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
   boxThreeLargeText: {
     // borderColor: 'red',
     // borderWidth: 2,
     fontSize: 25,
     color: 'green',
-    paddingLeft: 3,
   },
   boxFour: {
     height: 200,
@@ -295,10 +335,31 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
   },
-  box: {
+  bottomContainer: {
     // borderColor: 'red',
     // borderWidth: 2,
-    height: 100,
-    width: 100,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
+  bottomBoxes: {
+    // borderColor: 'red',
+    // borderWidth: 2,
+    height: 140,
+    width: 155,
+    marginVertical: 5,
+    borderRadius: 10,
+    elevation: 10,
+    fontSize: 16,
+    justifyContent: 'space-evenly',
+
+    padding: 10,
+  },
+  boxSevenLargeText: {
+    color: 'black',
+    fontSize: 35,
+    justifyContent: 'space-around',
   },
 });
