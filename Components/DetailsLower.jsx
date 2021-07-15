@@ -53,9 +53,9 @@ export default function DetailsLower({ journey }) {
             case 'act':
               return <DetailsLowerActivities journey={journey} />;
             case 'sta':
-              return <DetailsLowerStatus />;
+              return <DetailsLowerStatus journey={journey} />;
             default:
-              return <DetailsLowerWeather />;
+              return <DetailsLowerWeather journey={journey} />;
           }
         })()}
       </View>

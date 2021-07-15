@@ -10,8 +10,6 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default function ActivitiesDetailNode({ activity }) {
-  console.log('ACTIVITY = ', activity);
-
   const tags = activity.item.properties.kinds.split(',').map((element) => {
     return element.replace(/_/g, ' ');
   });

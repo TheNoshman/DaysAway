@@ -3,6 +3,8 @@ import { StyleSheet, FlatList, View } from 'react-native';
 import ActivitiesDetailNode from './ActivitiesDetailNode';
 
 export default function DetailsLowerActivities({ journey }) {
+  console.log('journey = ', journey);
+
   return (
     <View>
       <FlatList
