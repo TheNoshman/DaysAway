@@ -12,7 +12,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 
 // COMPONENTS
-
+import Spinner from 'react-native-loading-spinner-overlay';
 // SERVICE FUNCTIONS
 
 import Swiper from 'react-native-deck-swiper';
@@ -20,12 +20,21 @@ import Swiper from 'react-native-deck-swiper';
 import Card from '../Components/Card';
 
 import addLikedTripAction from '../actionCreators/addLikedTripAction';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 // import OverlayLabel from '../Components/OverlayLabel';
 
 const { height, width } = Dimensions.get('window');
 
 const Home = ({ navigation }) => {
+  const [spinner, setSpinner] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSpinner(false);
+    }, 5000);
+  }, [spinner]);
   // REDUX
   const dispatch = useDispatch();
 
@@ -46,8 +55,12 @@ const Home = ({ navigation }) => {
       style={styles.bg}
       opacity={0.8}
     >
-      {!reduxSeenDestinations ? (
-        <Text>Loading...</Text>
+      {spinner ? (
+        <Spinner
+          visible={true}
+          textContent={'Loading...'}
+          textStyle={styles.spinnerTextStyle}
+        />
       ) : (
         <SafeAreaView style={styles.container}>
           <View style={styles.container}>
@@ -124,6 +137,9 @@ const Home = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  spinnerTextStyle: {
+    color: '#FFF',
+  },
   bg: {
     flex: 1,
     resizeMode: 'cover',

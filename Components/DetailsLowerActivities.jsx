@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, FlatList, Text, View } from 'react-native';
+import { StyleSheet, FlatList, View } from 'react-native';
 import ActivitiesDetailNode from './ActivitiesDetailNode';
 
 export default function DetailsLowerActivities({ journey }) {
