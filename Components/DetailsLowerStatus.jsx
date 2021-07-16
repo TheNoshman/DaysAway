@@ -194,11 +194,14 @@ export default function DetailsLowerStatus({ journey }) {
           colors={['rgba(220,220,220, 1)', 'rgba(255,255,255,1)']}
           start={{ x: 1, y: 1 }}
           end={{ x: 0, y: 0 }}
-          style={styles.bottomBoxes}
+          style={{ ...styles.bottomBoxes, ...styles.bottomRight }}
         >
-          <View>
-            <Text style={styles.text}>
-              Departing on platform: {journey.details[3].destination.platform}
+          <View style={styles.bottom}>
+            <Icon name="format-list-numbered" size={35} color="#f7888d" />
+
+            <Text style={styles.boxFiveTitle}>Departing platform:</Text>
+            <Text style={styles.boxTwoLargeText}>
+              {journey.details[3].destination.platform}
             </Text>
           </View>
         </LinearGradient>
@@ -206,14 +209,14 @@ export default function DetailsLowerStatus({ journey }) {
           colors={['rgba(220,220,220, 1)', 'rgba(255,255,255,1)']}
           start={{ x: 1, y: 1 }}
           end={{ x: 0, y: 0 }}
-          style={styles.bottomBoxes}
+          style={{ ...styles.bottomBoxes, ...styles.bottomRight }}
         >
-          <Text style={styles.boxThreeSmallText}>Station distance:</Text>
+          <Text style={styles.boxFiveTitle}>Station distance:</Text>
           <View style={styles.changesBoxThree}>
             <Icon name="directions-walk" size={35} color="#fc943f" />
             <Text style={styles.boxTwoLargeText}>{dist[1]}</Text>
           </View>
-          <Text style={styles.boxThreeSmallText}>
+          <Text>
             {dist[2]} {dist[3]}
           </Text>
         </LinearGradient>
@@ -379,9 +382,18 @@ const styles = StyleSheet.create({
 
     padding: 10,
   },
+  bottomRight: {
+    alignItems: 'center',
+  },
   boxSevenLargeText: {
     color: 'black',
     fontSize: 35,
     justifyContent: 'space-around',
+  },
+  bottom: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: '100%',
+    width: '100%',
   },
 });
