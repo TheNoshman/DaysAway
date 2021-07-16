@@ -72,6 +72,7 @@ export default function TimePicker() {
         cardPhotosArray,
         travelTimeMins,
         travelTimeDayjs,
+        weatherData,
       }) => {
         dispatch(
           addSeenDestinationAction({
@@ -84,6 +85,7 @@ export default function TimePicker() {
             localPlaces: placeList,
             cardPhotosArray,
             details: result,
+            weatherData: weatherData,
           }),
         );
       },

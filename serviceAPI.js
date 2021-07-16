@@ -7,13 +7,14 @@ import { calculateLastStop } from './serviceFunctions';
 const { TRANSPORT_API_KEY } = process.env;
 const { TRANSPORT_API_ID } = process.env;
 const { PHOTOS_API_KEY } = process.env;
-// const { PHOTOS_SECRET_KEY } = process.env;
 const { OPENTRIPMAP_API_KEY } = process.env;
+const { WEATHER_API_KEY } = process.env;
 
 const getStationsListAPI = 'http://transportapi.com/v3/uk/places.json?';
 const getTimetableAPI = 'https://transportapi.com/v3/uk/train/station/';
 const opentripAPI = 'https://api.opentripmap.com/0.1/en/places/';
 const unsplashAPI = 'https://api.unsplash.com/search/photos/?client_id=';
+const weatherAPI = 'http://api.weatherapi.com/v1/current.json?key=';
 
 // GET USER LOCATION API
 export const getLocationAPI = async () => {
@@ -131,7 +132,7 @@ export const getListOfPlaces = async (location) => {
       );
     });
 };
-// https://api.unsplash.com/photos/?client_id=kj-0LfJ8y2owoiMWHzP14JZXWN1nIXWwOcfnrKqgXHE&page=1&query=church
+
 export const getCardImages = async (searchTerm) => {
   console.log('API CALL - GET UNSPLASH CARD IMAGES', searchTerm);
   return fetch(
@@ -146,19 +147,25 @@ export const getCardImages = async (searchTerm) => {
     });
 };
 
-// export const getPlaceDetail = async (id) => {
-//   console.log('API CALL - GET PLACE DETAIL', id);
+// GET WEATHER DATA
+export const getWeatherData = async (destination) => {
+  console.log('API CALL - getWeatherData', destination);
+  if (destination === 'University') {
+    destination = 'Birmingham';
+  } else if (destination === 'Bache') {
+    destination = 'Chester';
+  }
+  const firstWord = destination.split(' ');
 
-//   return fetch(`${opentripAPI}xid/${id}?apikey=${OPENTRIPMAP_API_KEY}`)
-//     .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
-//     .then((result) => result.json())
-
-//     .catch((err) => {
-//       console.log(
-//         `getPlaceDetail API CALL ERROR - ${err.message}, input = ${id}`,
-//       );
-//     });
-// };
+  return fetch(`${weatherAPI}${WEATHER_API_KEY}&q=${firstWord[0]}&aqi=no`)
+    .then((result) => (result.status <= 400 ? result : Promise.reject(result)))
+    .then((result) => result.json())
+    .catch((err) => {
+      console.log(
+        `getWeatherData API CALL ERROR - ${err.message}, input = ${destination}`,
+      );
+    });
+};
 
 export const getCardData = async (
   reduxTimetables,
@@ -207,6 +214,8 @@ export const getCardData = async (
     result[1].remainingTime,
     'minute',
   );
+
+  const weatherData = await getWeatherData(result[3].destination.station_name);
   // MAYBE DESTINATION API CALL FOR PLACE DATA FOR API?
   return {
     result,
@@ -214,5 +223,6 @@ export const getCardData = async (
     cardPhotosArray,
     travelTimeMins,
     travelTimeDayjs,
+    weatherData,
   };
 };

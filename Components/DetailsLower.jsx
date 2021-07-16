@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'cover',
     borderRadius: 20,
+    paddingBottom: 10,
     // borderColor: 'red',
     // borderWidth: 2,
   },
