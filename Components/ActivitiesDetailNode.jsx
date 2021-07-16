@@ -48,14 +48,15 @@ export default function ActivitiesDetailNode({ activity }) {
 const styles = StyleSheet.create({
   container: {
     width: 320,
-    height: 150,
+    height: 170,
     // borderColor: 'red',
     // borderWidth: 2,
     marginHorizontal: 5,
     marginVertical: 10,
     borderRadius: 20,
-    padding: 6,
+    padding: 10,
     elevation: 5,
+    justifyContent: 'space-between',
   },
   topBox: {
     // borderColor: 'red',
@@ -63,6 +64,7 @@ const styles = StyleSheet.create({
     height: 75,
     width: 320,
     justifyContent: 'space-around',
+    flex: 1,
   },
   name: {
     fontSize: 20,
@@ -87,7 +89,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     // borderColor: 'red',
     // borderWidth: 2,
-    height: 75,
     width: 320,
     flexDirection: 'row',
     flexWrap: 'wrap',
