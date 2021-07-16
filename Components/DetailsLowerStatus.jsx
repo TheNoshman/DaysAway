@@ -3,8 +3,17 @@ import React from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 export default function DetailsLowerStatus({ journey }) {
+  const [time, setTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setTimeout(() => setTime(new Date()), 1000);
+    return () => clearTimeout(timer);
+  }, [time, setTime]);
+
   const reduxStationList = useSelector((state) => state.reduxTrainStationList);
   const reduxSelectedStation = useSelector(
     (state) => state.reduxSelectedTrainStation,
@@ -14,7 +23,6 @@ export default function DetailsLowerStatus({ journey }) {
   });
   const stationDistance = station[0].label.split(',');
   const dist = stationDistance[1].split(' ');
-  console.log('DIST = ', dist);
 
   const hour = journey.travelTime.travelTimeDayjs.hour();
   const min = journey.travelTime.travelTimeDayjs.minute();
@@ -78,13 +86,13 @@ export default function DetailsLowerStatus({ journey }) {
             end={{ x: 0, y: 0 }}
             style={styles.boxThree}
           >
-            <Text style={styles.boxThreeSmallText}>Station distance:</Text>
-            <View style={styles.changesBoxThree}>
-              <Icon name="directions-walk" size={35} color="#fc943f" />
-              <Text style={styles.boxTwoLargeText}>{dist[1]}</Text>
+            <View style={styles.boxThreeSmallText}>
+              <Icon name="schedule" size={25} color="#fc943f" />
+              <Text>Time now:</Text>
             </View>
-            <Text style={styles.boxThreeSmallText}>
-              {dist[2]} {dist[3]}
+            <Text style={styles.boxFourLargeText}>
+              {' '}
+              {time.toLocaleTimeString()}
             </Text>
           </LinearGradient>
         </View>
@@ -156,14 +164,13 @@ export default function DetailsLowerStatus({ journey }) {
           end={{ x: 0, y: 0 }}
           style={styles.bottomBoxes}
         >
-          <View>
-            <Text style={styles.text}>
-              Changing at:
-              {`${
-                changingAt.length ? `${changingAt.toString()}` : 'No changes'
-              }`}
-            </Text>
+          <View style={styles.callingAtTitleBox}>
+            <Text style={styles.boxFiveTitle}>Changing at:</Text>
+            <Icon name="published-with-changes" size={25} color="#f7888d" />
           </View>
+          <Text style={styles.boxFourLargeText}>
+            {`${changingAt.length ? `${changingAt.toString()}` : 'No changes'}`}
+          </Text>
         </LinearGradient>
         <LinearGradient
           colors={['rgba(220,220,220, 1)', 'rgba(255,255,255,1)']}
@@ -191,8 +198,7 @@ export default function DetailsLowerStatus({ journey }) {
         >
           <View>
             <Text style={styles.text}>
-              Arriving into destination on platform:
-              {journey.details[3].destination.platform}
+              Departing on platform: {journey.details[3].destination.platform}
             </Text>
           </View>
         </LinearGradient>
@@ -202,12 +208,14 @@ export default function DetailsLowerStatus({ journey }) {
           end={{ x: 0, y: 0 }}
           style={styles.bottomBoxes}
         >
-          <View>
-            <Text style={styles.text}>
-              Station code:
-              {journey.details[3].destination.station_code}
-            </Text>
+          <Text style={styles.boxThreeSmallText}>Station distance:</Text>
+          <View style={styles.changesBoxThree}>
+            <Icon name="directions-walk" size={35} color="#fc943f" />
+            <Text style={styles.boxTwoLargeText}>{dist[1]}</Text>
           </View>
+          <Text style={styles.boxThreeSmallText}>
+            {dist[2]} {dist[3]}
+          </Text>
         </LinearGradient>
       </View>
     </View>
@@ -299,6 +307,14 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: 'green',
   },
+  boxThreeSmallText: {
+    // borderColor: 'red',
+    // borderWidth: 2,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    // flexDirection: 'row',
+  },
   boxFour: {
     height: 200,
     width: 200,
@@ -323,6 +339,11 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 25,
     justifyContent: 'space-around',
+    textAlign: 'center',
+  },
+  boxFiveTitle: {
+    color: 'black',
+    fontSize: 16,
   },
   changesBox: {
     marginTop: 10,
@@ -354,6 +375,7 @@ const styles = StyleSheet.create({
     elevation: 10,
     fontSize: 16,
     justifyContent: 'space-evenly',
+    // alignItems: 'center',
 
     padding: 10,
   },
