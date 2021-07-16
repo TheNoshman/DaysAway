@@ -73,6 +73,7 @@ export default function DetailsLowerStatus({ journey }) {
             <Text style={styles.boxFourLargeText}>
               {` ${hour ? `${hour}:${min}` : `${min}`}`}
             </Text>
+            <Text>{` ${hour ? '' : 'minutes'}`}</Text>
           </LinearGradient>
 
           <LinearGradient
