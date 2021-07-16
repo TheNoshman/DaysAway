@@ -43,7 +43,24 @@ export default function DetailsLowerWeather({ journey }) {
             </Text>
           </View>
         </View>
-        <View style={styles.bottomContainer}></View>
+        <View style={styles.bottomContainer}>
+          <Text style={styles.tag}>
+            Cloud cover: {weatherData.current.cloud}/8
+          </Text>
+          <Text style={styles.tag}>
+            Humidity: {weatherData.current.humidity}%
+          </Text>
+          <Text style={styles.tag}>
+            Rain: {weatherData.current.precip_mm}mm
+          </Text>
+          <Text style={styles.tag}>UV index: {weatherData.current.uv}/ 8</Text>
+          <Text style={styles.tag}>
+            Visability: {weatherData.current.vis_miles} miles
+          </Text>
+          <Text style={styles.tag}>
+            Wind speed: {weatherData.current.wind_mph}
+          </Text>
+        </View>
       </LinearGradient>
     </View>
   );
@@ -55,7 +72,6 @@ const styles = StyleSheet.create({
     // borderWidth: 2,
     borderRadius: 10,
     alignItems: 'center',
-    height: 300,
     margin: 10,
   },
   topContainer: {
@@ -72,6 +88,10 @@ const styles = StyleSheet.create({
     // borderColor: 'red',
     // borderWidth: 2,
     flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    padding: 10,
   },
   iconBox: {
     // borderColor: 'red',
@@ -98,9 +118,21 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   weatherTitle: {
-    fontSize: 45,
+    fontSize: 35,
   },
   temp: {
     fontSize: 16,
+  },
+  tag: {
+    // borderColor: 'red',
+    // borderWidth: 2,
+    backgroundColor: 'rgba(252,213,140,1)',
+    color: 'white',
+    borderRadius: 20,
+    marginVertical: 6,
+    marginHorizontal: 4,
+    paddingVertical: 2,
+    paddingHorizontal: 5,
+    elevation: 2,
   },
 });
