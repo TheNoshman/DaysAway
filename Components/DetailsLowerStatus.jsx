@@ -66,17 +66,12 @@ export default function DetailsLowerStatus({ journey }) {
             end={{ x: 0, y: 0 }}
             style={styles.boxTwo}
           >
-            <Text style={styles.boxTwoSmallText}>Duration:</Text>
-
-            <Text style={styles.boxTwoLargeText}>
-              <Icon name="hourglass-empty" size={35} color="#f7888d" />
-
-              {` ${hour ? `${hour}` : `${min}`}`}
-            </Text>
-            <Text style={styles.boxTwoSmallText}>
-              {` ${hour ? `${hour > 1 ? 'hours ' : 'hour '}` : ''}${
-                min > 0 ? `${min > 1 ? 'minutes' : 'minute'}` : ''
-              }`}
+            <View style={styles.boxThreeSmallText}>
+              <Icon name="hourglass-empty" size={25} color="#f7888d" />
+              <Text>Duration:</Text>
+            </View>
+            <Text style={styles.boxFourLargeText}>
+              {` ${hour ? `${hour}:${min}` : `${min}`}`}
             </Text>
           </LinearGradient>
 
