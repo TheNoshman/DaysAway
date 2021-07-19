@@ -191,7 +191,7 @@ const WelcomeLocationModal = ({ navigation }) => {
               >
                 {/* ENTER APP TOUCHABLE */}
                 <TouchableOpacity onPress={() => handleSubmit()}>
-                  <Text style={styles.enterButtonText}>Search AwayDays</Text>
+                  <Text style={styles.enterButtonText}>Search DaysAway</Text>
                 </TouchableOpacity>
               </LinearGradient>
             </View>

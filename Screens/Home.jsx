@@ -58,7 +58,7 @@ const Home = ({ navigation }) => {
       {spinner ? (
         <Spinner
           visible={true}
-          textContent={'Loading...'}
+          textContent={'Searching DaysAway...'}
           textStyle={styles.spinnerTextStyle}
         />
       ) : (
