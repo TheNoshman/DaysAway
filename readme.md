@@ -51,12 +51,11 @@ Welcome to AwayDays, a brand new native application to help you select a day out
 | <img src="https://img.icons8.com/nolan/64/react-native.png"/> | <img src="https://img.icons8.com/ios-glyphs/50/000000/chevron-up.png"/> | <img src="https://img.icons8.com/color/48/000000/redux.png"/> | <img src="https://user-images.githubusercontent.com/17680888/39081119-3057bbe2-456e-11e8-862c-646133ad4b43.png"  width="100" height=""> | <img src="https://seeklogo.com/images/E/eslint-logo-4B5C528034-seeklogo.com.png" alt="aws-s3" width="60" > | <img src="https://seeklogo.com/images/P/prettier-logo-D5C5197E37-seeklogo.com.png" alt="aws-s3" width="55" > |
 
 #### API's
-
-<center>
+<div align="center">
 |                        Transport API                         |                         OpenTripMap                          |                           Unsplash                           |                          weatherAPi                          |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://img.icons8.com/fluent/48/000000/up.png" width="50" > | <img src="https://opentripmap.io/img/small_logo.svg" alt="aws-s3" width="50"> | <img src="https://unsplash-assets.imgix.net/marketing/press-symbol.svg?auto=format&fit=crop&q=60" alt="aws-s3" width="50"> | <img src="https://cdn.weatherapi.com/v4/images/weatherapi_logo.png" alt="aws-s3" height="50" > |
-</center>
+</div>
 
 ## 🛠️ Setup
 
