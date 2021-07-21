@@ -1,0 +1,11 @@
+# Transport API key, grab it free from https://www.transportapi.com/
+TRANSPORT_API_KEY='your_api_key'
+
+# API key for Unsplash photo search https://unsplash.com/developers
+PHOTOS_API_KEY='your_api_key'
+
+# API key for the local area activities, free to sign up at https://opentripmap.io/register
+OPENTRIPMAP_API_KEY='your_api_key'
+
+# Key for the free weather API https://www.weatherapi.com/
+WEATHER_API_KEY='your_api_key'
