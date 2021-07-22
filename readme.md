@@ -28,10 +28,6 @@ Welcome to AwayDays, a brand new native application to help you select a day out
 
 ## 📸 Images
 
-
-
-
-
 <img src="https://github.com/TheNoshman/DaysAway/blob/main/assets/app-photos/firstthree.png?raw=true" height="550" align="center"/>
 
 <img src="https://github.com/TheNoshman/DaysAway/blob/main/assets/app-photos/secondthree.png?raw=true" height="550" align="center"/>
@@ -42,21 +38,49 @@ Welcome to AwayDays, a brand new native application to help you select a day out
 
 
 ## 📽️ Video
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
 
 ## 🤖 Technologies
 
 #### Tech stack
 
 <div align="center">
-|                         React Native                         |                             Expo                             |                            Redux                             |                            Day.js                            |                            ESLint                            |                           Prettier                           |
-| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <img src="https://img.icons8.com/nolan/64/react-native.png"/> | <img src="https://img.icons8.com/ios-glyphs/50/000000/chevron-up.png"/> | <img src="https://img.icons8.com/color/48/000000/redux.png"/> | <img src="https://user-images.githubusercontent.com/17680888/39081119-3057bbe2-456e-11e8-862c-646133ad4b43.png"  width="100" height=""> | <img src="https://seeklogo.com/images/E/eslint-logo-4B5C528034-seeklogo.com.png" alt="aws-s3" width="60" > | <img src="https://seeklogo.com/images/P/prettier-logo-D5C5197E37-seeklogo.com.png" alt="aws-s3" width="55" > |
+   <table style="width:100%">
+  <tr>
+    <th style="text-align:center">React Native</th>
+    <th style="text-align:center">Expo</th>
+    <th style="text-align:center">Redux</th>
+    <th style="text-align:center">Day.js</th>
+    <th style="text-align:center">ESLint</th>
+    <th style="text-align:center">Prettier</th>
+  </tr>
+  <tr>
+    <td style="text-align:center"><img src="https://img.icons8.com/nolan/64/react-native.png" style="align-items:center"/> </td>
+    <td style="text-align:center"><img src="https://img.icons8.com/ios-glyphs/50/000000/chevron-up.png"/></td>
+    <td style="text-align:center"><img src="https://img.icons8.com/color/48/000000/redux.png"/></td>
+    <td style="text-align:center"><img src="https://user-images.githubusercontent.com/17680888/39081119-3057bbe2-456e-11e8-862c-646133ad4b43.png"  width="100"></td>
+    <td style="text-align:center"><img src="https://seeklogo.com/images/E/eslint-logo-4B5C528034-seeklogo.com.png" alt="aws-s3" width="60" ></td>
+    <td style="text-align:center"> <img src="https://seeklogo.com/images/P/prettier-logo-D5C5197E37-seeklogo.com.png" alt="aws-s3" width="55" ></td>
+  </tr>
+</table> 
 </div>
+
 #### API's
 <div align="center">
-|                        Transport API                         |                         OpenTripMap                          |                           Unsplash                           |                          weatherAPi                          |
-| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <img src="https://img.icons8.com/fluent/48/000000/up.png" width="50" > | <img src="https://opentripmap.io/img/small_logo.svg" alt="aws-s3" width="50"> | <img src="https://unsplash-assets.imgix.net/marketing/press-symbol.svg?auto=format&fit=crop&q=60" alt="aws-s3" width="50"> | <img src="https://cdn.weatherapi.com/v4/images/weatherapi_logo.png" alt="aws-s3" height="50" > |
+   <table style="width:100%">
+  <tr>
+    <th style="text-align:center">Transport API</th>
+    <th style="text-align:center">OpenTripMap</th>
+    <th style="text-align:center">Unsplash</th>
+    <th style="text-align:center">weatherAPI</th>
+  </tr>
+  <tr>
+    <td style="text-align:center"><img src="https://img.icons8.com/fluent/48/000000/up.png" width="50" > </td>
+    <td style="text-align:center"><img src="https://opentripmap.io/img/small_logo.svg" alt="aws-s3" width="50"></td>
+    <td style="text-align:center"><img src="https://unsplash-assets.imgix.net/marketing/press-symbol.svg?auto=format&fit=crop&q=60" alt="aws-s3" width="50"></td>
+    <td style="text-align:center"><img src="https://cdn.weatherapi.com/v4/images/weatherapi_logo.png" alt="aws-s3" height="50" ></td>
+  </tr>
+</table> 
 </div>
 
 
