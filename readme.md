@@ -45,10 +45,9 @@ Welcome to AwayDays, a brand new native application to help you select a day out
 #### Tech stack
 
 <div align="center">
-  #### Tech stack
    <table>
   <tr>
-    <th style="text-align:center">React Native</th>
+    <th style="text-align:center, width:400px">React Native</th>
     <th style="text-align:center">Expo</th>
     <th style="text-align:center">Redux</th>
     <th style="text-align:center">Day.js</th>
@@ -66,9 +65,8 @@ Welcome to AwayDays, a brand new native application to help you select a day out
 </table> 
 </div>
 
-
-<div align="center">
   #### API's
+<div align="center">
    <table style="width:100%">
   <tr>
     <th style="text-align:center">Transport API</th>
