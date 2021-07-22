@@ -33,9 +33,6 @@ Welcome to AwayDays, a brand new native application to help you select a day out
 <img src="https://github.com/TheNoshman/DaysAway/blob/main/assets/app-photos/secondthree.png?raw=true" height="550" />
 </div>
 
----
-
-
 
 ## 📽️ Video
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
@@ -49,9 +46,9 @@ Welcome to AwayDays, a brand new native application to help you select a day out
     <th style="text-align:center">Expo</th>
     <th style="text-align:center">Redux</th>
     <th style="text-align:center">Day.js</th>
-    <th style="text-align:center">Transport API</th>
-    <th style="text-align:center">OpenTripMap</th>
-    <th style="text-align:center">Unsplash</th>
+    <th style="text-align:center">TransportAPI</th>
+    <th style="text-align:center">OpenTripMap API</th>
+    <th style="text-align:center">Unsplash API</th>
     <th style="text-align:center">weatherAPI</th>
   </tr>
   <tr>
