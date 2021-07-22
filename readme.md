@@ -27,11 +27,11 @@ Welcome to AwayDays, a brand new native application to help you select a day out
 
 
 ## 📸 Images
+<div align="center">
+<img src="https://github.com/TheNoshman/DaysAway/blob/main/assets/app-photos/firstthree.png?raw=true" height="550" />
 
-<img src="https://github.com/TheNoshman/DaysAway/blob/main/assets/app-photos/firstthree.png?raw=true" height="550" align="center"/>
-
-<img src="https://github.com/TheNoshman/DaysAway/blob/main/assets/app-photos/secondthree.png?raw=true" height="550" align="center"/>
-
+<img src="https://github.com/TheNoshman/DaysAway/blob/main/assets/app-photos/secondthree.png?raw=true" height="550" />
+</div>
 
 ---
 
@@ -45,7 +45,7 @@ Welcome to AwayDays, a brand new native application to help you select a day out
 #### Tech stack
 
 <div align="center">
-   <table style="width:100%">
+   <table style="width:1000px">
   <tr>
     <th style="text-align:center">React Native</th>
     <th style="text-align:center">Expo</th>
