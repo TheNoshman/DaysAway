@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="#">
-    DayAway
+    DaysAway
   </a>
 </h1>
 <div align="center"> <i>For when you just feel like going <del>somewhere</del> anywhere</i></div>
