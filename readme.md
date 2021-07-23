@@ -23,7 +23,7 @@
 
 ## 🔭 Overview
 
-Welcome to AwayDays, a new native mobile application to help you select a day out using public transport. Simply choose your preferred departing station from a list based on your location, your maximum travel time and the algorithm will take care of the rest for you. 
+Welcome to DaysAway, a new native mobile application to help you select a day out using public transport. Simply choose your preferred departing station from a list based on your location, your maximum travel time and the algorithm will take care of the rest for you. 
 
 **Current features include:**
 
