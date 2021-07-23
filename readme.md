@@ -55,7 +55,7 @@ Welcome to DaysAway, a new native mobile application to help you select a day ou
 
 
 ## 📽️ Video
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
+[![DaysAway Thumbnail](/Users/chrisnorish/Desktop/Screenshot 2021-07-23 at 15.38.34.png)](https://youtu.be/mUuUEtV6Nt8)
 
 ## 🤖 Technologies
 
