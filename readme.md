@@ -27,13 +27,13 @@ Welcome to AwayDays, a new native mobile application to help you select a day ou
 
 **Current features include:**
 
-- Real-time user location data via Expo's location package is fed into TransportAPI to return a list of local train stations, sorted by distance from current location. 
-- Days out are displayed on a swipable card deck, allowing the user to either swiper right/ tap the '+' button to add the trip to their saved journeys or swiper left to discard.
+- Real-time user location data via Expo's location package is fed into TransportAPI to return a list of local train stations, sorted by distance from the current location.
+- Days out are displayed on a swipeable card deck, allowing the user to either swipe right/ tap the '+' button to add the trip to their saved journeys or swipe left to discard.
 - Tapping on a journey card reveals the details screen:
-  - Activities - a list of ten local points of interest from OpenTripMap API based on the destination location, includes a user rating, distance from station and a navigation button which links to the users default mapping application. 
+  - Activities - a list of ten local points of interest from OpenTripMap API based on the destination location, includes a user rating, distance from the station and a navigation button that links to the users default mapping application. 
   - Journey Details - live journey information which updates in real-time, includes:
-    - Scheduled/ expected departure & arrival time
-    - Train changes, platform number and stations calling at en route. 
+    - Scheduled/ expected departure & arrival time.
+    - Train changes, platform number and stations calling en route.
     - Live specific train status and time now, departing station distance from user and journey time.
   - Weather - data requested from WeatherAPI displays the conditions at the destination. 
 - Links to open the National Rail website to book tickets for the selected day out.
