@@ -11,7 +11,7 @@
 
 * [Images](#-images)
 
-* [Video](#video)
+* [Video](#-video)
 
 * [Technologies](#-technologies)
 
