@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { string } from 'prop-types';
 
+// OVERLAY COMPONENT, STAMPS THE CARD WHEN SWIPING LEFT/ RIGHT
 const OverlayLabel = ({ label, color }) => (
   <View style={[styles.overlayLabel, { borderColor: color }]}>
     <Text style={[styles.overlayLabelText, { color }]}>{label}</Text>

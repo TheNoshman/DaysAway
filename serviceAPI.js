@@ -98,6 +98,7 @@ export const getStops = async (timetable, index) => {
   return timetable;
 };
 
+// API CALL TO GET DESTINATION INFO/ COORDS
 export const getPlaceLocation = async (destination) => {
   if (destination === 'University') {
     destination = 'Birmingham';
@@ -118,6 +119,7 @@ export const getPlaceLocation = async (destination) => {
     });
 };
 
+// API CALL TO GET DESTINATION INFO/ COORDS
 export const getListOfPlaces = async (location) => {
   console.log('API CALL - GET LOCAL PLACES', location);
   return fetch(
@@ -133,6 +135,7 @@ export const getListOfPlaces = async (location) => {
     });
 };
 
+// API CALL TO GET CARD IMAGES FROM UNSPLASH
 export const getCardImages = async (searchTerm) => {
   console.log('API CALL - GET UNSPLASH CARD IMAGES', searchTerm);
   return fetch(
@@ -147,7 +150,7 @@ export const getCardImages = async (searchTerm) => {
     });
 };
 
-// GET WEATHER DATA
+// API CALL TO GET WEATHER DATA
 export const getWeatherData = async (destination) => {
   console.log('API CALL - getWeatherData', destination);
   if (destination === 'University') {
@@ -167,6 +170,7 @@ export const getWeatherData = async (destination) => {
     });
 };
 
+// FUNCTION TO CALL ALL API FUNCTIONS AND RETURN THE RESULT AS ONE OBJECT
 export const getCardData = async (
   reduxTimetables,
   timetableIndex,
@@ -179,16 +183,11 @@ export const getCardData = async (
     userJourneyTime,
     index,
   );
-  console.log('RESULT IN GET CARDS = ', result);
 
   const placeLocation = await getPlaceLocation(
     result[3].destination.station_name,
   );
-  console.log('PLACE LOCATION IN GET CARDS =', placeLocation);
-
   const placeList = await getListOfPlaces(placeLocation);
-
-  console.log('PLACELIST IN GET CARDS = ', placeList);
 
   const cardPhotosPromises = [];
   cardPhotosPromises.push(getCardImages('uk park'));
@@ -203,8 +202,6 @@ export const getCardData = async (
     console.log('arr = ', arr);
     arr.results = arr.results.filter((image, i) => i === index);
   });
-
-  console.log('CARD IMAGES ARRAY = ', cardPhotosArray);
 
   const travelTimeMins = time.payload.dayjsTime
     .subtract(result[1].remainingTime, 'minute')

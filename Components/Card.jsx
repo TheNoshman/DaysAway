@@ -6,10 +6,13 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const { height } = Dimensions.get('window');
 
+// CARD TEMPLATE W/ IMAGES, DESTINATION AND +/ -
 const Card = ({ card }) => {
   console.log('card = ', card);
   const hour = card.travelTime.travelTimeDayjs.hour();
   const min = card.travelTime.travelTimeDayjs.minute();
+
+  // LIST TRAIN CHANGES
   const changingAt = [];
   card.details[0].journeyRoute.filter((el, i) => {
     if (i > 0) {
@@ -25,6 +28,7 @@ const Card = ({ card }) => {
         end={{ x: 0.0, y: 0.8 }}
         style={styles.card}
       >
+        {/* IMAGES */}
         <View style={styles.imageContainer}>
           <View style={styles.centerImageShadow}>
             <Image
@@ -69,6 +73,7 @@ const Card = ({ card }) => {
         <View style={styles.placeContainer}>
           <Text style={styles.placeName}>{`${card.destination}`}</Text>
         </View>
+        {/* LOWER DETAILS BOX */}
         <View style={styles.summaryBoxContainer}>
           <View style={styles.summaryBox}>
             <View style={styles.textContainer}>
@@ -96,24 +101,22 @@ const Card = ({ card }) => {
               </View>
             </View>
 
+            {/* +/ - BUTTONS */}
             <View style={styles.buttonsContainer}>
               <IconButton
                 name="remove"
-                // onPress={() => console.log(`use ref ${useSwiper}`)}
                 color="white"
                 backgroundColor="#f7888d"
                 size={45}
               />
               <IconButton
                 name="undo"
-                // onPress={() => setCardIndex(cardIndex - 1)}
                 color="white"
                 backgroundColor="#d1d1d1"
                 size={20}
               />
               <IconButton
                 name="add"
-                // onPress={() => swiperEl.onSwipedRight}
                 color="white"
                 backgroundColor="#88c5f7"
                 size={45}

@@ -4,6 +4,7 @@ import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+// TRIP ITEM COMPONENT USED IN LIST FOR THE YOUR JOURNEYS TAB
 export default function TripItem({ journey, navigation }) {
   const event = journey;
   const trip = journey.item;
@@ -70,8 +71,6 @@ export default function TripItem({ journey, navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     height: 100,
     width: 350,
     margin: 5,
@@ -83,8 +82,6 @@ const styles = StyleSheet.create({
   imageContainer: {
     height: 100,
     width: 100,
-    // borderColor: 'red',
-    // borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -101,8 +98,6 @@ const styles = StyleSheet.create({
   },
 
   textContainer: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     alignItems: 'flex-start',
     justifyContent: 'space-around',
     width: 200,
@@ -112,22 +107,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   textLine: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     flexDirection: 'row',
     alignItems: 'center',
   },
   text: {
     fontSize: 14,
-    // borderColor: 'red',
-    // borderWidth: 2,
-    // width: '100%',
     padding: 2,
     textAlignVertical: 'center',
   },
   ticketButton: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     backgroundColor: '#88c5f7',
     height: 50,
     width: 50,
@@ -136,8 +124,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   deleteButton: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     backgroundColor: '#f7888d',
     height: 50,
     width: 50,

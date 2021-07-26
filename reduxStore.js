@@ -8,9 +8,3 @@ const store = createStore(
 );
 
 export default store;
-
-// Mock redux store
-// {
-//   location: 'Seattle, WA',   <-- handled by combineReducers
-//   animal: 'dog'
-// }

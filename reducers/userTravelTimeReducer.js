@@ -17,9 +17,3 @@ export default function userTravelTimeReducer(
       return state;
   }
 }
-
-// Mock action variable
-// {
-//   type: "CHANGE_DATA,
-//   payload: {location json}
-// }

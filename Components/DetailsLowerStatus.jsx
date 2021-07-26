@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
+// DETAILS COMPONENT CONTAINING JOURNEY INFO
 export default function DetailsLowerStatus({ journey }) {
   const [time, setTime] = useState(new Date());
 
@@ -37,6 +38,7 @@ export default function DetailsLowerStatus({ journey }) {
       .callingAt;
   return (
     <View style={styles.container}>
+      {/* #################### FIRST BLOCK ###################### */}
       <View style={{ ...styles.topInnerContainer, paddingLeft: 4 }}>
         <LinearGradient
           colors={['rgba(220,220,220, 1)', 'rgba(255,255,255,1)']}
@@ -94,9 +96,7 @@ export default function DetailsLowerStatus({ journey }) {
         </View>
       </View>
 
-      {/* #################### SECOND ROW ###################### */}
-      {/* #################### SECOND ROW ###################### */}
-      {/* #################### SECOND ROW ###################### */}
+      {/* #################### SECOND BLOCK ###################### */}
       <View style={{ ...styles.topInnerContainer, paddingRight: 4 }}>
         <View style={styles.topInnerContainerRight}>
           <LinearGradient
@@ -150,9 +150,7 @@ export default function DetailsLowerStatus({ journey }) {
         </LinearGradient>
       </View>
 
-      {/* #################### THRID ROW ###################### */}
-      {/* #################### THRID ROW ###################### */}
-      {/* #################### THRID ROW ###################### */}
+      {/* #################### THRID BLOCK ###################### */}
       <View style={styles.bottomContainer}>
         <LinearGradient
           colors={['rgba(220,220,220, 1)', 'rgba(255,255,255,1)']}
@@ -223,26 +221,19 @@ export default function DetailsLowerStatus({ journey }) {
 
 const styles = StyleSheet.create({
   container: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'space-around',
     flexWrap: 'wrap',
     flexDirection: 'row',
   },
   topInnerContainer: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     paddingVertical: 5,
-    // paddingLeft: 4,
   },
   topInnerContainerRight: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     flexGrow: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -274,13 +265,9 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   boxTwoLargeText: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     fontSize: 40,
   },
   boxThree: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     height: 94,
     width: 110,
     margin: 5,
@@ -301,14 +288,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   boxThreeLargeText: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     fontSize: 25,
     color: 'green',
   },
   boxThreeSmallText: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -329,8 +312,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   listText: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     fontSize: 16,
     margin: 2,
   },
@@ -356,8 +337,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bottomContainer: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -365,8 +344,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   bottomBoxes: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     height: 140,
     width: 155,
     marginVertical: 5,
@@ -374,8 +351,6 @@ const styles = StyleSheet.create({
     elevation: 10,
     fontSize: 16,
     justifyContent: 'space-evenly',
-    // alignItems: 'center',
-
     padding: 10,
   },
   bottomRight: {

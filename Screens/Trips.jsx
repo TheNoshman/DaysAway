@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const { height, width } = Dimensions.get('window');
 
+// 'LIKED' TRIPS SCREEN CONTAINING TRIP ITEM COMPONENTS IN LIST
 const Trips = ({ navigation }) => {
   const reduxLikedTrips = useSelector((state) => state.reduxLikedTrips);
 
@@ -55,7 +56,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // paddingHorizontal: 10,
     marginLeft: 10,
     marginVertical: 20,
     marginRight: 20,

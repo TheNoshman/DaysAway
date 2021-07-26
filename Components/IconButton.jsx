@@ -2,6 +2,7 @@ import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+// +/ -/ UNDO BUTTON COMPONENT FOR CARD
 const IconButton = ({ onPress, name, backgroundColor, color, size }) => (
   <TouchableOpacity
     style={[styles.singleButton, { backgroundColor }]}

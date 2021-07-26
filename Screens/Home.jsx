@@ -1,53 +1,41 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
   Dimensions,
   ImageBackground,
   SafeAreaView,
-  Text,
 } from 'react-native';
 
 // REDUX
 import { useDispatch, useSelector } from 'react-redux';
+import addLikedTripAction from '../actionCreators/addLikedTripAction';
 
 // COMPONENTS
 import Spinner from 'react-native-loading-spinner-overlay';
-// SERVICE FUNCTIONS
-
 import Swiper from 'react-native-deck-swiper';
-
 import Card from '../Components/Card';
-
-import addLikedTripAction from '../actionCreators/addLikedTripAction';
-import { useEffect } from 'react';
-import { useState } from 'react';
 
 // import OverlayLabel from '../Components/OverlayLabel';
 
 const { height, width } = Dimensions.get('window');
 
+// MAIN HOME SCREEN CONTAINING CARD
 const Home = ({ navigation }) => {
   const [spinner, setSpinner] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
       setSpinner(false);
-    }, 5000);
+    }, 12000);
   }, [spinner]);
+
   // REDUX
   const dispatch = useDispatch();
-
   const reduxSeenDestinations = useSelector(
     (state) => state.reduxSeenDestinationCache,
   );
-
   let useSwiper = useRef(null);
-
-  // const handleOnSwipedLeft = () => useSwiper.onSwipedLeft();
-  // const handleOnSwipedRight = () => useSwiper.swipeRight();
-
-  // SWIPER HANDLERS
 
   return (
     <ImageBackground
@@ -55,6 +43,7 @@ const Home = ({ navigation }) => {
       style={styles.bg}
       opacity={0.8}
     >
+      {/* SPINNER LOADING SCREEN */}
       {spinner ? (
         <Spinner
           visible={true}
@@ -65,6 +54,7 @@ const Home = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
           <View style={styles.container}>
             <View style={styles.swiperContainer}>
+              {/* SWIPER DECK COMPONENT */}
               <Swiper
                 ref={useSwiper}
                 animateCardOpacity
@@ -128,7 +118,6 @@ const Home = ({ navigation }) => {
                 }}
               />
             </View>
-            {/* BUTTONS */}
           </View>
         </SafeAreaView>
       )}

@@ -15,6 +15,7 @@ import { getCachedTimetable } from '../serviceFunctions';
 // STATION PICKER SELECT
 import RNPickerSelect from 'react-native-picker-select';
 
+// DROP DOWN COMPONENT ON WELCOME MODAL/ LOCATION FOR PICKING LOCAL STATION
 export default function DropDownPicker() {
   const [noDepartures, setNoDepartures] = useState(false);
   const reduxStationList = useSelector((state) => state.reduxTrainStationList);
@@ -24,6 +25,7 @@ export default function DropDownPicker() {
   );
   const dispatch = useDispatch();
 
+  // FUNCTION TO HANDLE STATION CHANGE
   const handleValueChange = async (value) => {
     if (value === null || value.code === reduxSelectedStation.code) {
       return;

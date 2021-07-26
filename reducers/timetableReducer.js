@@ -23,9 +23,3 @@ export default function timetableReducer(
       return state;
   }
 }
-
-// Mock action variable
-// {
-//   type: "CHANGE_DATA,
-//   payload: {location json}
-// }

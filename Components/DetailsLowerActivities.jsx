@@ -2,9 +2,8 @@ import React from 'react';
 import { StyleSheet, FlatList, View } from 'react-native';
 import ActivitiesDetailNode from './ActivitiesDetailNode';
 
+// DETAILS COMPONENT CONTAINING ACTIVITIES
 export default function DetailsLowerActivities({ journey }) {
-  console.log('journey = ', journey);
-
   return (
     <View>
       <FlatList
@@ -19,8 +18,6 @@ export default function DetailsLowerActivities({ journey }) {
 
 const styles = StyleSheet.create({
   listContainer: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'center',
     flexWrap: 'wrap',

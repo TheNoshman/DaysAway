@@ -29,9 +29,3 @@ export default function userLocationReducer(
       return state;
   }
 }
-
-// Mock action variable
-// {
-//   type: "CHANGE_DATA,
-//   payload: {location json}
-// }

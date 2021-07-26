@@ -2,15 +2,14 @@ import React from 'react';
 import {
   Dimensions,
   ImageBackground,
-  ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 
 const { height, width } = Dimensions.get('window');
 
+// USER PROFILE SCREEN, TO BE DEVELOPED
 export default function User() {
   return (
     <ImageBackground

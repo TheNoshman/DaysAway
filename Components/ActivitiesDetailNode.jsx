@@ -1,14 +1,9 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+// INDIVIDUAL ACTIVITY NODE FOR ACTIVITIES DETAILS LOWER SCREEN
 export default function ActivitiesDetailNode({ activity }) {
   const tags = activity.item.properties.kinds.split(',').map((element) => {
     return element.replace(/_/g, ' ');
@@ -49,8 +44,6 @@ const styles = StyleSheet.create({
   container: {
     width: 320,
     height: 170,
-    // borderColor: 'red',
-    // borderWidth: 2,
     marginHorizontal: 5,
     marginVertical: 10,
     borderRadius: 20,
@@ -59,8 +52,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   topBox: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     height: 75,
     width: 320,
     justifyContent: 'space-around',
@@ -80,22 +71,16 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   textLine: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     flexDirection: 'row',
     alignItems: 'center',
   },
   tagBox: {
     justifyContent: 'flex-start',
-    // borderColor: 'red',
-    // borderWidth: 2,
     width: 320,
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
   tag: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     backgroundColor: '#88c5f7',
     color: 'white',
     borderRadius: 20,

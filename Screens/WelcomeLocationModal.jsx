@@ -30,6 +30,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 const { width } = Dimensions.get('window');
 
+// WELCOME MODAL SCREEN
 const WelcomeLocationModal = ({ navigation }) => {
   // ################## VARIABLES ##################
   // Redux values from store
@@ -87,11 +88,10 @@ const WelcomeLocationModal = ({ navigation }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // ANIMATION INITIALISERS
   const welcomeAnim = useRef(new Animated.Value(0)).current;
   const mapAndWordsAnim = useRef(new Animated.Value(0)).current;
-  // const
 
-  // NAVIGATION HANDLER -> ENTERS THE MAIN STACK
   const handleSubmit = useCallback(async () => {
     if (reduxSelectedStation.code === null) {
       Alert.alert(
@@ -106,17 +106,12 @@ const WelcomeLocationModal = ({ navigation }) => {
         [{ text: 'Lets go!' }],
       );
     } else {
+      // NAVIGATION HANDLER -> ENTERS THE MAIN STACK
       navigation.navigate('Main');
     }
-    // Added dependency, might cause issues later
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduxSelectedStation, reduxUserTravelTime.dayjsTime]);
 
-  // ################## RENDER COMPONENT ##################
-  // ################## RENDER COMPONENT ##################
-  // ################## RENDER COMPONENT ##################
-  // ################## RENDER COMPONENT ##################
-  // ################## RENDER COMPONENT ##################
   // ################## RENDER COMPONENT ##################
   return (
     <ImageBackground
@@ -126,7 +121,7 @@ const WelcomeLocationModal = ({ navigation }) => {
       fadeDuration={300}
       opacity={0.9}
     >
-      {/* LOG IN BUTTON */}
+      {/* LOG IN BUTTON, TO BE DEVELOPED */}
       <SafeAreaView style={styles.entireContainer}>
         <View style={styles.loginView}>
           <Text>
@@ -215,8 +210,6 @@ const styles = StyleSheet.create({
   },
   loginView: {
     width: width,
-    // borderColor: 'red',
-    // borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'space-between',
     height: 70,
@@ -224,8 +217,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   loginButton: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     width: 80,
     height: 37,
     alignItems: 'center',
@@ -249,8 +240,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     width: width,
-    // borderColor: 'red',
-    // borderWidth: 2,
     justifyContent: 'center',
   },
   logo: {
@@ -261,17 +250,12 @@ const styles = StyleSheet.create({
     fontSize: 50,
     color: 'white',
     marginVertical: 30,
-    // borderColor: 'red',
-    // borderWidth: 2,
   },
-
   text: {
     width: 300,
     paddingHorizontal: 15,
     fontSize: 15,
     color: 'white',
-    // borderColor: 'red',
-    // borderWidth: 2,
   },
   enterButtonText: {
     fontSize: 20,
@@ -293,8 +277,6 @@ const styles = StyleSheet.create({
   },
   footerView: {
     height: 100,
-    // borderColor: 'red',
-    // borderWidth: 2,
   },
 });
 

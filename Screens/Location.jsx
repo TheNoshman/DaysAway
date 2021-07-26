@@ -1,13 +1,11 @@
 import React from 'react';
 import {
-  View,
   Text,
   StyleSheet,
   Dimensions,
   ImageBackground,
   SafeAreaView,
 } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // REDUX
 import { useSelector } from 'react-redux';
@@ -18,18 +16,10 @@ import TimePicker from '../Components/TimePicker';
 
 const { height, width } = Dimensions.get('window');
 
+// LOCATION SCREEN USED FOR CHANGING THE USERS STATION AND JOURNEY TIME ONCE PAST THE MODAL
 const LocationComponent = ({ navigation }) => {
   // Redux values from store
   const reduxLocationValue = useSelector((state) => state.reduxUserLocation);
-  const reduxStationList = useSelector((state) => state.reduxTrainStationList);
-  const reduxSelectedStation = useSelector(
-    (state) => state.reduxSelectedTrainStation,
-  );
-  const reduxTimetableCache = useSelector((state) => state.reduxTimetableCache);
-  const reduxUserTravelTime = useSelector((state) => state.reduxUserTravelTime);
-  const reduxSeenDestinations = useSelector(
-    (state) => state.reduxSeenDestinationCache,
-  );
 
   return (
     <ImageBackground

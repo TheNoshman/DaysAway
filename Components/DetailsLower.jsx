@@ -5,6 +5,7 @@ import DetailsLowerActivities from './DetailsLowerActivities';
 import DetailsLowerStatus from './DetailsLowerStatus';
 import DetailsLowerWeather from './DetailsLowerWeather';
 
+// DETAILS LOWER WINDOW CONTAINING ACTIVITIES, JOURNEY AND WEATHER
 export default function DetailsLower({ journey }) {
   const [selectedPage, setSelectedPage] = useState('act');
 
@@ -69,12 +70,8 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     borderRadius: 20,
     paddingBottom: 10,
-    // borderColor: 'red',
-    // borderWidth: 2,
   },
   upperMenu: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     height: 50,
     flexDirection: 'row',
     alignItems: 'center',
@@ -84,8 +81,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
   },
   upperText: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     fontSize: 18,
     textAlign: 'center',
     textAlignVertical: 'center',
@@ -95,14 +90,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-/* <Text> journey details</Text>
-  <Text>From</Text>
-  <Text>To</Text>
-  <Text>Departing</Text>
-  <Text>Arriving</Text>
-  <Text>Changing at</Text>
-  <Text>Travel time</Text>
-  <Text>Train status</Text>
-  <Text>Weather</Text>
-  <Text>Things to see</Text> */

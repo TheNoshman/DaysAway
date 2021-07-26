@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useSelector } from 'react-redux';
 
+// DETAILS MODAL SCREEN
 import DetailsLower from '../Components/DetailsLower';
 
 const { height, width } = Dimensions.get('window');
@@ -18,7 +19,6 @@ const JourneyDetails = (event) => {
   const reduxSeenDestinations = useSelector(
     (state) => state.reduxSeenDestinationCache,
   );
-
   // INDEX OF SELECTED CARD
   let journey = reduxSeenDestinations[event.route.params.event];
   if (!journey) {
@@ -66,20 +66,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   mainContainer: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     flex: 1,
   },
   scrollView: {
     alignItems: 'center',
   },
-  upperContainer: {
-    // borderColor: 'red',
-    // borderWidth: 2,
-  },
+  upperContainer: {},
   mainTitle: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     fontSize: 60,
     color: 'white',
     textAlign: 'left',
@@ -87,8 +80,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   subTitle: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     fontSize: 16,
     color: 'white',
     textAlign: 'left',
@@ -96,18 +87,12 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   lowerContainer: {
-    // borderColor: 'red',
-    // borderWidth: 2,
-    // height: height - 100,
     marginVertical: 10,
     width: '95%',
     backgroundColor: 'rgba(255,255,255,0.4)',
     borderRadius: 20,
-    // elevation: 4,
   },
   ticketsContainer: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     height: 50,
     width: 300,
     borderRadius: 50,
@@ -121,18 +106,6 @@ const styles = StyleSheet.create({
   buyTicketText: {
     color: 'white',
     fontSize: 22,
-    // fontWeight: 'bold',
     textAlignVertical: 'center',
   },
 });
-
-/* <Text> journey details</Text>
-  <Text>From</Text>
-  <Text>To</Text>
-  <Text>Departing</Text>
-  <Text>Arriving</Text>
-  <Text>Changing at</Text>
-  <Text>Travel time</Text>
-  <Text>Train status</Text>
-  <Text>Weather</Text>
-  <Text>Things to see</Text> */

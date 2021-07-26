@@ -3,15 +3,14 @@ import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+// DETAILS COMPONENT CONTAINING WEATHER INFO
 export default function DetailsLowerWeather({ journey }) {
   const weatherData = journey.weatherData;
-
-  console.log('weather data = ', weatherData);
+  // WEATHER ICON, INCREASE THE SIZE TO 128PX
   const weatherIcon = `https:${weatherData.current.condition.icon}`.replace(
     /64/g,
     '128',
   );
-  console.log('icon =', weatherIcon);
 
   return (
     <View>
@@ -68,15 +67,11 @@ export default function DetailsLowerWeather({ journey }) {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     borderRadius: 10,
     alignItems: 'center',
     margin: 10,
   },
   topContainer: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     borderRadius: 10,
     alignItems: 'center',
     height: 120,
@@ -85,8 +80,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   bottomContainer: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -94,8 +87,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   iconBox: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     height: 90,
     width: 90,
     backgroundColor: 'white',
@@ -108,8 +99,7 @@ const styles = StyleSheet.create({
   },
   rightBox: {
     flexGrow: 1,
-    // borderColor: 'red',
-    // borderWidth: 2,
+
     marginLeft: 5,
     borderRadius: 10,
     padding: 5,
@@ -124,8 +114,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   tag: {
-    // borderColor: 'red',
-    // borderWidth: 2,
     backgroundColor: 'rgba(252,213,140,1)',
     color: 'white',
     borderRadius: 20,

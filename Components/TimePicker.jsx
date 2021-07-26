@@ -14,6 +14,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 // SERVICE FUNCTIONS
 import { getCardData } from '../serviceAPI';
 
+// TIME PICKER COMPONENT FOR WELCOME MODAL
 export default function TimePicker() {
   // OPEN TIMEPICKER STATE
   const [openTimePicker, setOpenTimePicker] = useState(false);
@@ -27,6 +28,9 @@ export default function TimePicker() {
   );
 
   // ON TIME CHANGE HANDLER
+  // ###########################################
+  // RUNS API CALLS & ALGORITHM AUTOMATICALLY ON TIME CHANGE FOR DEMO PURPOSES, FOR PRODUCTION CHANGE THIS TO ON ENTER BUTTON PRESS
+  // ###########################################
   const handleTimeChange = async (event) => {
     setOpenTimePicker(false);
     if (
@@ -43,28 +47,21 @@ export default function TimePicker() {
         dayjsTime: dayjs(event.nativeEvent.timestamp),
       }),
     );
-    console.log('redux tts = ', reduxTimetables);
-
     // GET CURRENT SELECTED TIMETABLE FROM CACHE
     const timetableIndex = reduxTimetables.findIndex(
       (timetable) => timetable.station_code === reduxSelectedStation.code,
     );
-
     const userJourneyTime = time.payload.dayjsTime.diff(
       dayjs().hour(0).minute(0).second(0),
       'minutes',
     );
-
     const cardPromisesArray = [];
-
     for (let i = 0; i < 3; i++) {
       cardPromisesArray.push(
         getCardData(reduxTimetables, timetableIndex, userJourneyTime, time, i),
       );
     }
-
     const resolvedCardPromises = await Promise.all(cardPromisesArray);
-    console.log('FINAL RESULT = ', resolvedCardPromises);
     resolvedCardPromises.forEach(
       ({
         result,
