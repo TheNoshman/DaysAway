@@ -9,9 +9,7 @@
 
 * [Overview](#-overview)
 
-* [Images](#-images)
-
-* [Video](#-video)
+* [Media](#-media)
 
 * [Technologies](#-technologies)
 
@@ -47,14 +45,14 @@ Welcome to DaysAway, a new native mobile application to help you select a day ou
 - Back end implementation
 
 
-## 📸 Images
+## 📸 Media
 <div align="center">
 <img src="https://github.com/TheNoshman/DaysAway/blob/main/assets/app-photos/firstthree.png?raw=true" height="550" />
 <img src="https://github.com/TheNoshman/DaysAway/blob/main/assets/app-photos/secondthree.png?raw=true" height="550" />
 </div>
 
 
-## 📽️ Video
+### 📽️ Video
 [![DaysAway-thumbnail](https://github.com/TheNoshman/DaysAway/blob/main/assets/app-photos/vid-thumb.png)](https://youtu.be/mUuUEtV6Nt8)
 
 ## 🤖 Technologies
